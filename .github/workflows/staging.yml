@@ -21,3 +21,18 @@ jobs:
         workdir: base-image
 #        cache: ${{ github.event_name != 'schedule' }}
 #        tags: "latest,another"
+
+# Image pulls pangeodev/base-image:latest, so run sequentially 
+  pangeo-image:
+    needs: base-image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Publish to DockerHub
+      uses: elgohr/Publish-Docker-Github-Action@2.12
+      with:
+        name: pangeodev/pangeo-image
+        username: ${{ secrets.DOCKERHUB_USER }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        snapshot: true
+        workdir: pangeo-image

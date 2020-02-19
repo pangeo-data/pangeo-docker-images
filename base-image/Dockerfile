@@ -1,36 +1,36 @@
-FROM continuumio/miniconda3:4.7.12
+FROM ubuntu:18.04
 
 # RUN this section as root
 # -----
-
-# Let's try emulate the environment vars to repo2docker as much as we can
-# CONDA_DIR is ${APP_BASE}/conda in repo2docker, but we already have it in /opt/conda here
-ENV CONDA_DIR=/opt/conda
-ENV APP_BASE=/srv
-
-# We use the base existing conda env as our notebook env
-# NOTE: I think we can only use NB_PYTHON_PREFIX?
-ENV KERNEL_PYTHON_PREFIX=${CONDA_DIR}
-ENV NB_PYTHON_PREFIX=${CONDA_DIR}
-# Set up PATH
-ENV PATH=${NB_PYTHON_PREFIX}/bin:${PATH}
-# Set up shell to be bash
-ENV SHELL=/bin/bash
-
-# Set up user
+ARG CONDA_VERSION=4.7.12
 ARG NB_USER=jovyan
 ARG NB_UID=1000
+
+# Environment variables
+ENV SHELL /bin/bash
+ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
+ENV APP_BASE /srv
+ENV CONDA_DIR ${APP_BASE}/conda
+ENV KERNEL_PYTHON_PREFIX ${CONDA_DIR}
+ENV NB_PYTHON_PREFIX ${CONDA_DIR}
+ENV PATH ${CONDA_DIR}/bin:$PATH
 ENV USER ${NB_USER}
-ENV HOME /home/${NB_USER}
+ENV HOME /home/${USER}
+ENV REPO_DIR ${HOME}
 
-EXPOSE 8888
+# Do everything in /srv since /home/jovyan can be mounted by nfs
+WORKDIR ${APP_BASE}
 
-# Allow target path repo is cloned to be configurable
-ARG REPO_DIR=${HOME}
-ENV REPO_DIR ${REPO_DIR}
-WORKDIR ${REPO_DIR}
+# Copy auxiliary files
+COPY . ${APP_BASE}
 
-# Create group + user, and set proper permissions on home directory
+# Apt.txt Packages
+RUN apt-get update --fix-missing \
+    && xargs -a apt.txt apt-get install -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create group + user, and set proper permissions on home & conda directories
 RUN groupadd \
         --gid ${NB_UID} \
         ${NB_USER}  \
@@ -41,46 +41,45 @@ RUN groupadd \
         --no-log-init \
         --shell /bin/bash \
         --uid ${NB_UID} \
-        ${NB_USER}
+        ${NB_USER} \
+    && mkdir ${CONDA_DIR} \
+    && ln -s ${CONDA_DIR}/etc/profile.d/conda.sh /etc/profile.d/conda.sh \
+    && cp repo2docker-entrypoint /usr/local/bin/repo2docker-entrypoint
 
-# NOTE: build cache is not re-used here for some reason...
-# Unfortunately, we have to chown the entire $CONDA_PREFIX to our user
-# otherwise it is owned by root, and we can't install stuff into it. ;_;
-# This increases the size of the image by a *lot*
 RUN chown -R ${NB_USER}:${NB_USER} ${CONDA_DIR} \
     && chown -R ${NB_USER}:${NB_USER} ${HOME}
-# If scripts required during build are present, copy them
-COPY . ${REPO_DIR}
-# NOTE: might need to ensure auxilary files are executable
-#RUN chmod +x postBuild \
-#     && chmod +x postBuild
 
-# Apt.txt TODO
 
 # RUN this section as NB_USER
 # -----
-
-# Conda environment
 USER ${NB_USER}
+
+# Install miniconda
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -O ~/miniconda.sh \
+    && /bin/bash ~/miniconda.sh -u -b -p ${CONDA_DIR} \
+    && rm ~/miniconda.sh \
+    && ${CONDA_DIR}/bin/conda clean -afy \
+    && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
+    && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete
+
+# Conda "notebook" environment and cleanup
 RUN conda env create -f environment.yml \
-    && conda clean -afy
+    && conda clean -afy \
+    && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
+    && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete \
+    && find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete \
+    && find ${CONDA_DIR}/envs/notebook/lib/python*/site-packages/bokeh/server/static -follow -type f -name '*.js' ! -name '*.min.js' -delete
 
-#COPY --chown=${NB_UID} src/ ${REPO_DIR}
-# ERROR: COPY failed: stat /var/lib/docker/tmp/docker-builder947064228/src: no such file or directory
-
-# Not sure how activating non-base conda environment works!
-#RUN ./activate_conda.sh
-# NOTE: for now, this is required to run postBuild and adding conda activate to start
-ENV PATH ${CONDA_DIR}/envs/notebook/bin:$PATH
 # PostBuild
-RUN ./postBuild
+ENV PATH ${CONDA_DIR}/envs/notebook/bin:$PATH
+RUN ./postBuild \
+    && rm -rf ${HOME}/.cache ${HOME}/.npm ${HOME}/.yarn \
+    && rm -rf ${KERNEL_PYTHON_PREFIX}/share/jupyter/lab/staging \
+    && find ${KERNEL_PYTHON_PREFIX} -follow -type f -name '*.js.map' -delete
 
-# Add start script if present
-# Error: /usr/local/bin/repo2docker-entrypoint: line 6: exec: start: not foun
-#ENV R2D_ENTRYPOINT start
+EXPOSE 8888
+WORKDIR ${HOME}
 
-# Add entrypoint
-COPY repo2docker-entrypoint /usr/local/bin/repo2docker-entrypoint
+# run `conda activate notebook` in entrypoint
 ENTRYPOINT ["/usr/local/bin/repo2docker-entrypoint"]
-# Specify the default command to run
 CMD ["jupyter", "notebook", "--ip", "0.0.0.0"]

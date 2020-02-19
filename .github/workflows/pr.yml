@@ -28,3 +28,42 @@ jobs:
 #      run: |
 #        docker run ${IMAGE_SPEC} binder/verify
 #        docker run ${ONBUILD_IMAGE_SPEC} binder/verify
+    - name: Save Docker Image
+      run: |
+        docker save pangeodev/base-image:PR | gzip > base-image.tar.gz
+        docker run pangeodev/base-image:PR conda list > conda-packages.txt
+    - name: Archive Conda Package List
+      uses: actions/upload-artifact@v1
+      with:
+        name: base-image-packages
+        path: conda-packages.txt
+    - name: Upload Base-Notebook Image
+      uses: actions/upload-artifact@v1
+      with:
+        name: base-image
+        path: base-image.tar.gz
+
+  pangeo-image:
+    env:
+      IMAGE: pangeo-image
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+    - name: Download Base-Notebook Docker Image
+      uses: actions/download-artifact@v1
+      with:
+        name: base-image
+        path: ./artifact
+    - name: Load Docker Image
+      run: |
+        docker load < ./artifact/base-image.tar.gz
+        docker images
+    - name: Build Image
+      run: |
+        cd base-image
+        docker build --rm --cache-from pangeodev/pangeo-image:latest -t pangeodev/pangeo-image:PR .
+#    - name: Test Image
+#      run: |
+#        docker run ${IMAGE_SPEC} binder/verify
+#        docker run ${ONBUILD_IMAGE_SPEC} binder/verify
