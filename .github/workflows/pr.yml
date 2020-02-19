@@ -1,0 +1,30 @@
+# Only test building image
+name: PullRequestBuild
+
+on:
+  pull_request:
+    branches:
+      - staging
+
+env:
+  GITHUB_REF: ${{ github.ref }}
+  GITHUB_SHA: ${{ github.sha }}
+  IMAGE_PREFIX: pangeodev/
+
+jobs:
+  base-image:
+    env:
+      IMAGE: base-image
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Build Image
+      run: |
+        cd base-image
+        docker build --rm --cache-from pangeodev/base-image:latest -t pangeodev/base-image:PR .
+#    - name: Test Image
+#      run: |
+#        docker run ${IMAGE_SPEC} binder/verify
+#        docker run ${ONBUILD_IMAGE_SPEC} binder/verify

@@ -1,0 +1,62 @@
+# TODO: It would be better if this was a common file for all images in the repo
+# It doesn't seem like symbolic links work.
+# xref: pangeo-stacks#1 and repo2docker#565
+distributed:
+  version: 2
+
+  dashboard:
+    link: /user/{JUPYTERHUB_USER}/proxy/{port}/status
+
+  scheduler:
+    idle-timeout: 3600s
+
+# uncomment to force new worker pods after 2 hrs
+#  worker:
+#    lifetime:
+#      duration: "2 hours"
+#      stagger: "10 s"
+#      restart: true
+
+  admin:
+    tick:
+      limit: 5s
+
+logging:
+  distributed: warning
+  bokeh: critical
+  # http://stackoverflow.com/questions/21234772/python-tornado-disable-logging-to-stderr
+  tornado: critical
+  tornado.application: error
+
+kubernetes:
+  name: dask-{JUPYTERHUB_USER}-{uuid}
+  worker-template:
+    spec:
+      serviceAccount: daskkubernetes
+      restartPolicy: Never
+      containers:
+        - name: dask-${JUPYTERHUB_USER}
+          image: ${JUPYTER_IMAGE_SPEC}
+          args:
+            - dask-worker
+            - --nthreads
+            - '2'
+            - --no-dashboard
+            - --memory-limit
+            - 7GB
+            - --death-timeout
+            - '60'
+          resources:
+            limits:
+              cpu: "1.75"
+              memory: 7G
+            requests:
+              cpu: 1
+              memory: 7G
+
+labextension:
+  factory:
+    module: dask_kubernetes
+    class: KubeCluster
+    args: []
+    kwargs: {}

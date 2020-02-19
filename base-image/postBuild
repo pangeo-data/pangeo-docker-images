@@ -1,0 +1,16 @@
+#!/bin/bash
+set -euo pipefail
+
+# labextensions
+jupyter labextension install --clean dask-labextension \
+                             @jupyter-widgets/jupyterlab-manager
+# --clean is not getting everything.
+rm -rf ${HOME}/.cache ${HOME}/.npm ${HOME}/.yarn
+rm -rf ${KERNEL_PYTHON_PREFIX}/share/jupyter/lab/staging
+find ${KERNEL_PYTHON_PREFIX} -follow -type f -name '*.js.map' -delete
+
+# dask config
+# ${KERNEL_PYTHON_PREFIX} is set by repo2docker to sys.prefix
+# of the python that the kernel is run in.
+mkdir -p ${KERNEL_PYTHON_PREFIX}/etc/dask
+cp dask_config.yaml ${KERNEL_PYTHON_PREFIX}/etc/dask/dask.yaml

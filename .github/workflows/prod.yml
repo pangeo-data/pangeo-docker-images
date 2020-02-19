@@ -1,0 +1,11 @@
+# Just re-tag latest staging image
+name: Publish Prod
+on:
+  push:
+    branches:
+      - prod
+jobs:
+  base-image:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
