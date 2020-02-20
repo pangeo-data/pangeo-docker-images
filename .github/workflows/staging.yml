@@ -1,38 +1,34 @@
-name: Publish Staging
+name: StagingBuild
 on:
   push:
     branches:
       - staging
 # https://github.com/elgohr/Publish-Docker-Github-Action#cache
-#  schedule:
-#    - cron: '0 2 * * 0' # Weekly on Sundays at 02:00
-jobs:
-  base-image:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - name: Publish to DockerHub
-      uses: elgohr/Publish-Docker-Github-Action@2.12
-      with:
-        name: pangeodev/base-image
-        username: ${{ secrets.DOCKERHUB_USER }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-        snapshot: true
-        workdir: base-image
-#        cache: ${{ github.event_name != 'schedule' }}
-#        tags: "latest,another"
+  schedule:
+    - cron: '0 2 * * 0' # Weekly on Sundays at 02:00
 
-# Image pulls pangeodev/base-image:latest, so run sequentially 
-  pangeo-image:
-    needs: base-image
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - name: Publish to DockerHub
-      uses: elgohr/Publish-Docker-Github-Action@2.12
-      with:
-        name: pangeodev/pangeo-image
-        username: ${{ secrets.DOCKERHUB_USER }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-        snapshot: true
-        workdir: pangeo-image
+jobs:
+  strategy:
+    fail-fast: false
+    matrix:
+      IMAGE: [base-image, pangeo-image]
+  name: ${{ matrix.IMAGE }}
+  runs-on: ubuntu-latest
+  steps:
+  - name: Checkout Repository
+    uses: actions/checkout@master
+
+  - name: Sync common config files
+    run: |
+      cp common-config/* ${{ matrix.IMAGE }}/
+
+  - name: Publish to DockerHub
+    uses: elgohr/Publish-Docker-Github-Action@2.12
+    with:
+      name: pangeodev/${{ matrix.IMAGE }}
+      username: ${{ secrets.DOCKERHUB_USER }}
+      password: ${{ secrets.DOCKERHUB_TOKEN }}
+      snapshot: true
+      workdir: ${{ matrix.IMAGE }}
+      tags: "latest"
+      cache: ${{ github.event_name != 'schedule' }}
