@@ -54,11 +54,15 @@ RUN chown -R ${NB_USER}:${NB_USER} ${CONDA_DIR} \
 # -----
 USER ${NB_USER}
 
-# Install miniconda
+# Install miniconda and configure conda
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -O ~/miniconda.sh \
     && /bin/bash ~/miniconda.sh -u -b -p ${CONDA_DIR} \
     && rm ~/miniconda.sh \
     && ${CONDA_DIR}/bin/conda clean -afy \
+    && ${CONDA_DIR}/bin/conda config --add channels conda-forge \
+    && ${CONDA_DIR}/bin/conda config --set channel_priority strict \
+    && ${CONDA_DIR}/bin/conda config --system --set show_channel_urls true \
+    && echo "conda activate notebook" >> ${CONDA_DIR}/etc/profile.d/conda.sh \
     && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
     && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete
 
@@ -73,6 +77,8 @@ RUN conda env create -f environment.yml \
 # PostBuild
 ENV PATH ${CONDA_DIR}/envs/notebook/bin:$PATH
 RUN ./postBuild \
+    && mkdir -p ${KERNEL_PYTHON_PREFIX}/etc/dask \
+    && cp dask_config.yaml ${KERNEL_PYTHON_PREFIX}/etc/dask/dask.yaml \
     && rm -rf ${HOME}/.cache ${HOME}/.npm ${HOME}/.yarn \
     && rm -rf ${KERNEL_PYTHON_PREFIX}/share/jupyter/lab/staging \
     && find ${KERNEL_PYTHON_PREFIX} -follow -type f -name '*.js.map' -delete
@@ -80,6 +86,5 @@ RUN ./postBuild \
 EXPOSE 8888
 WORKDIR ${HOME}
 
-# run `conda activate notebook` in entrypoint
 ENTRYPOINT ["/usr/local/bin/repo2docker-entrypoint"]
 CMD ["jupyter", "notebook", "--ip", "0.0.0.0"]

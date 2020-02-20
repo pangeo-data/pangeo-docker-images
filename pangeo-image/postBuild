@@ -1,4 +1,6 @@
 #!/bin/bash
-jupyter labextension install @pyviz/jupyterlab_pyviz \
+jupyter labextension install --clean dask-labextension \
+                             @jupyter-widgets/jupyterlab-manager \
+                             @pyviz/jupyterlab_pyviz \
                              jupyter-leaflet
 #EOF
