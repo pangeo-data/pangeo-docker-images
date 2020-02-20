@@ -8,27 +8,28 @@ on:
     - cron: '0 2 * * 0' # Weekly on Sundays at 02:00
 
 jobs:
-  strategy:
-    fail-fast: false
-    matrix:
-      IMAGE: [base-image, pangeo-image]
-  name: ${{ matrix.IMAGE }}
-  runs-on: ubuntu-latest
-  steps:
-  - name: Checkout Repository
-    uses: actions/checkout@master
+  matrix-build:
+    strategy:
+      fail-fast: false
+      matrix:
+        IMAGE: [base-image, pangeo-image]
+    name: ${{ matrix.IMAGE }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@master
 
-  - name: Sync common config files
-    run: |
-      cp common-config/* ${{ matrix.IMAGE }}/
+    - name: Sync common config files
+      run: |
+        cp common-config/* ${{ matrix.IMAGE }}/
 
-  - name: Publish to DockerHub
-    uses: elgohr/Publish-Docker-Github-Action@2.12
-    with:
-      name: pangeodev/${{ matrix.IMAGE }}
-      username: ${{ secrets.DOCKERHUB_USER }}
-      password: ${{ secrets.DOCKERHUB_TOKEN }}
-      snapshot: true
-      workdir: ${{ matrix.IMAGE }}
-      tags: "latest"
-      cache: ${{ github.event_name != 'schedule' }}
+    - name: Publish to DockerHub
+      uses: elgohr/Publish-Docker-Github-Action@2.12
+      with:
+        name: pangeodev/${{ matrix.IMAGE }}
+        username: ${{ secrets.DOCKERHUB_USER }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        snapshot: true
+        workdir: ${{ matrix.IMAGE }}
+        tags: "latest"
+        cache: ${{ github.event_name != 'schedule' }}
