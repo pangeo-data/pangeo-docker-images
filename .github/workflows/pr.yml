@@ -23,9 +23,9 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@master
 
-    - name: Sync common config files
+    - name: Sync base-config files without overwriting
       run: |
-        cp common-config/* ${{ matrix.IMAGE }}
+        rsync -a -v --ignore-existing base-image/* ${{ matrix.IMAGE }}/
 
     - name: Build Image
       run: |
