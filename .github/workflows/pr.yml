@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Sync base-config files without overwriting
       run: |
@@ -35,16 +35,6 @@ jobs:
   #      run: |
   #        docker run ${IMAGE_SPEC} binder/verify
   #        docker run ${ONBUILD_IMAGE_SPEC} binder/verify
-    - name: Save Conda Package List
+    - name: Display All Conda Packages
       run: |
-        docker run pangeodev/${{ matrix.IMAGE }}:PR conda list > conda-packages.txt
-    - name: Archive Conda Package List
-      uses: actions/upload-artifact@v1
-      with:
-        name: ${{ matrix.IMAGE }}-packages
-        path: conda-packages.txt
-    - name: Upload Base-Notebook Image
-      uses: actions/upload-artifact@v1
-      with:
-        name: ${{ matrix.IMAGE }}
-        path: ${{ matrix.IMAGE }}.tar.gz
+        docker run pangeodev/${{ matrix.IMAGE }}:PR conda list
