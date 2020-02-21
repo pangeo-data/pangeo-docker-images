@@ -17,11 +17,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
-    - name: Sync common config files
+    - name: Sync base-config files without overwriting
       run: |
-        cp common-config/* ${{ matrix.IMAGE }}/
+        rsync -a -v --ignore-existing base-image/* ${{ matrix.IMAGE }}/
 
     - name: Publish to DockerHub
       uses: elgohr/Publish-Docker-Github-Action@2.12
@@ -31,5 +31,5 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
         snapshot: true
         workdir: ${{ matrix.IMAGE }}
-        tags: "latest"
+        tags: "latest,staging"
         cache: ${{ github.event_name != 'schedule' }}

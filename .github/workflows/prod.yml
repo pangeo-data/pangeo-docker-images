@@ -5,9 +5,40 @@ on:
   push:
     branches:
       - prod
+
 jobs:
-  base-image:
+  matrix-build:
+    strategy:
+      fail-fast: false
+      matrix:
+        IMAGE: [base-image, pangeo-image]
+    name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
+
+    - name: Set Job Environment Variables
+      run: |
+        CALVER="$( date -u '+%Y.%m.%d' )"
+        SHA="$( git rev-parse --short ${GITHUB_SHA} )"
+        DOCKER_TAG="${CALVER}-${SHA}"
+        IMAGE_SPEC="pangeodev/${{ matrix.IMAGE }}:${DOCKER_TAG}"
+        echo "::set-env name=DOCKER_TAG::${DOCKER_TAG}"
+        echo "::set-env name=IMAGE_SPEC::${IMAGE_SPEC}"
+
+    - name: Pull Latest Staging Image
+      run: |
+        docker pull pangeodev/${{ matrix.IMAGE }}:staging
+
+    - name: Authenticate with DockerHub
+      run: |
+        echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin
+
+    - name: Retag and push as latest production Image
+      run: |
+        IMAGE_LATEST=pangeodev/${{ matrix.IMAGE }}:latest
+        docker tag pangeodev/${{ matrix.IMAGE }}:staging $IMAGE_SPEC
+        docker tag pangeodev/${{ matrix.IMAGE }}:staging $IMAGE_LATEST
+        docker push $IMAGE_LATEST
+        docker push $IMAGE_SPEC
