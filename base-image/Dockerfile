@@ -41,7 +41,7 @@ RUN groupadd \
 
 # Move things around filesystem and change ownership
 RUN [ -d binder ] && cd binder \
-    ; cp repo2docker-entrypoint /usr/local/bin/repo2docker-entrypoint \
+    ; cp start /usr/local/bin/start \
     && mkdir ${CONDA_DIR} \
     && ln -s ${CONDA_DIR}/etc/profile.d/conda.sh /etc/profile.d/conda.sh \
     && chown -R ${NB_USER}:${NB_USER} ${CONDA_DIR} \
@@ -89,5 +89,5 @@ RUN [ -d binder ] && cd binder \
 
 EXPOSE 8888
 
-ENTRYPOINT ["/usr/local/bin/repo2docker-entrypoint"]
+ENTRYPOINT ["/usr/local/bin/start"]
 CMD ["jupyter", "notebook", "--ip", "0.0.0.0"]
