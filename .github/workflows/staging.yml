@@ -40,4 +40,4 @@ jobs:
 
     - name: Test Image
       run: |
-        docker run -u root -v $PWD:/home/jovyan pangeodev/${{ matrix.IMAGE }}:PR ./run_tests.sh
+        docker run -u root -v $PWD:/home/jovyan pangeodev/${{ matrix.IMAGE }}:staging ./run_tests.sh
