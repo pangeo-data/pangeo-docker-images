@@ -2,11 +2,23 @@
 
 ![Action Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/StagingBuild/badge.svg) ![Action Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/ProductionBuild/badge.svg)
 
+| base-image | pangeo-image | ml-image |
+|------------|--------------|----------|
+| [![](https://images.microbadger.com/badges/image/pangeodev/base-image.svg)](https://microbadger.com/images/pangeodev/base-image "Get your own image badge on microbadger.com") |  [![](https://images.microbadger.com/badges/image/pangeodev/pangeo-image.svg)](https://microbadger.com/images/pangeodev/pangeo-image "Get your own image badge on microbadger.com") | [![](https://images.microbadger.com/badges/image/pangeodev/ml-image.svg)](https://microbadger.com/images/pangeodev/ml-image "Get your own image badge on microbadger.com") |
+
 An experiment to simplify pangeo docker images
 See: https://github.com/pangeo-data/pangeo-stacks/issues/125
 
-Images pushed to
+### Image tagging
 https://hub.docker.com/orgs/pangeodev
+
+* `pangeodev/base-image:latest` is always most recent production image. Also tagged with date and github SHA from prod branch pangeodev/base-image/2020.02.21-2639bd3`. 
+
+* `pangeodev/base-image:staging` corresponds to current staging image. Also tagged with a snapshot of date and github SHA from staging branch `pangeodev/base-image/202002210409454957bb` - {YEAR}{MONTH}{DAY}{HOUR}{MINUTE}{SECOND}{first 6 digits of the git sha}.
+
+
+### Test these images on binderhub
+https://github.com/scottyhq/pangeodev-binder
 
 ### To run locally
 ```
@@ -16,4 +28,12 @@ docker stop repo2docker
 docker rm repo2docker
 ```
 
-### Test binderhub configuration
+### To build locally
+(pangeo-image)
+```
+git clone https://github.com/pangeo-data/pangeo-stacks-dev
+cd pangeo-stacks-dev
+rsync -a -v --ignore-existing base-image/* pangeo-image/
+cd pangeo-image 
+docker build -t pangeodev/pangeo-image:staging .
+```

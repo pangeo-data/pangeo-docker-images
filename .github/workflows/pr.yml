@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        IMAGE: [base-image, pangeo-image]
+        IMAGE: [base-image, pangeo-image, ml-image]
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     steps:
@@ -30,11 +30,12 @@ jobs:
     - name: Build Image
       run: |
         cd ${{ matrix.IMAGE }}
-        docker build --rm --cache-from pangeodev/${{ matrix.IMAGE }}:latest -t pangeodev/${{ matrix.IMAGE }}:PR .
-  #    - name: Test Image
-  #      run: |
-  #        docker run ${IMAGE_SPEC} binder/verify
-  #        docker run ${ONBUILD_IMAGE_SPEC} binder/verify
-    - name: Display All Conda Packages
+        docker build -t pangeodev/${{ matrix.IMAGE }}:PR .
+
+    - name: Export Full Conda Environment
       run: |
-        docker run pangeodev/${{ matrix.IMAGE }}:PR conda list
+        docker run pangeodev/${{ matrix.IMAGE }}:PR conda env export
+
+    - name: Test Image
+      run: |
+        docker run -u root -v $PWD:/home/jovyan pangeodev/${{ matrix.IMAGE }}:PR ./run_tests.sh

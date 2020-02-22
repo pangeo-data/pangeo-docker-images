@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        IMAGE: [base-image, pangeo-image]
+        IMAGE: [base-image, pangeo-image, ml-image]
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     steps:
@@ -35,7 +35,7 @@ jobs:
       run: |
         echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin
 
-    - name: Retag and push as latest production Image
+    - name: Retag and Push Image
       run: |
         IMAGE_LATEST=pangeodev/${{ matrix.IMAGE }}:latest
         docker tag pangeodev/${{ matrix.IMAGE }}:staging $IMAGE_SPEC
