@@ -33,7 +33,7 @@ jobs:
         workdir: ${{ matrix.IMAGE }}
         tags: "staging"
 #        cache: ${{ github.event_name != 'schedule' }}
-    
+# NOTE: could save this as a build artifact or put on website    
     - name: Export Full Conda Environment
       run: |
         docker run pangeodev/${{ matrix.IMAGE }}:staging conda env export
