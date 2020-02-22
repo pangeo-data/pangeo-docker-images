@@ -3,7 +3,7 @@
 ![Action Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/StagingBuild/badge.svg) ![Action Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/ProductionBuild/badge.svg)
 
 | base-image | pangeo-image | ml-image |
-|------------| |------------| |--------|
+|------------|--------------|----------|
 | [![](https://images.microbadger.com/badges/image/pangeodev/base-image.svg)](https://microbadger.com/images/pangeodev/base-image "Get your own image badge on microbadger.com") |  [![](https://images.microbadger.com/badges/image/pangeodev/pangeo-image.svg)](https://microbadger.com/images/pangeodev/pangeo-image "Get your own image badge on microbadger.com") | [![](https://images.microbadger.com/badges/image/pangeodev/ml-image.svg)](https://microbadger.com/images/pangeodev/ml-image "Get your own image badge on microbadger.com") |
 
 An experiment to simplify pangeo docker images
