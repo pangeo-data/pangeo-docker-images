@@ -4,8 +4,8 @@ on:
     branches:
       - staging
 # https://github.com/elgohr/Publish-Docker-Github-Action#cache
-  schedule:
-    - cron: '0 2 * * 0' # Weekly on Sundays at 02:00
+#  schedule:
+#    - cron: '0 2 * * 0' # Weekly on Sundays at 02:00
 
 jobs:
   matrix-build:
@@ -19,7 +19,7 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Sync base-config files without overwriting
+    - name: Sync Base-config Files
       run: |
         rsync -a -v --ignore-existing base-image/* ${{ matrix.IMAGE }}/
 
@@ -32,8 +32,12 @@ jobs:
         snapshot: true
         workdir: ${{ matrix.IMAGE }}
         tags: "staging"
-        cache: ${{ github.event_name != 'schedule' }}
+#        cache: ${{ github.event_name != 'schedule' }}
     
+    - name: Export Full Conda Environment
+      run: |
+        docker run pangeodev/${{ matrix.IMAGE }}:staging conda env export
+
     - name: Test Image
       run: |
         docker run -v $PWD:/home/jovyan pangeodev/${{ matrix.IMAGE }}:PR ./run_tests.sh

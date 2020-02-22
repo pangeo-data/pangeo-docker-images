@@ -30,11 +30,12 @@ jobs:
     - name: Build Image
       run: |
         cd ${{ matrix.IMAGE }}
-        docker pull pangeodev/${{ matrix.IMAGE }}:latest
-        docker build --rm --cache-from pangeodev/${{ matrix.IMAGE }}:latest -t pangeodev/${{ matrix.IMAGE }}:PR .
-    - name: List Installed Conda Packages
+        docker build pangeodev/${{ matrix.IMAGE }}:latest -t pangeodev/${{ matrix.IMAGE }}:PR .
+
+    - name: Export Full Conda Environment
       run: |
-        docker run pangeodev/${{ matrix.IMAGE }}:PR conda list
+        docker run pangeodev/${{ matrix.IMAGE }}:PR conda env export
+    
     - name: Test Image
       run: |
         docker run -v $PWD:/home/jovyan pangeodev/${{ matrix.IMAGE }}:PR ./run_tests.sh

@@ -22,11 +22,11 @@ def test_conda_environment():
 
 
 # would be better to automatically get these from environment.yml
-def test_pinned_versions():
-    import tornado
-    import dask_kubernetes
-    import dask_labextension
-
-    assert LooseVersion(tornado.version) >= LooseVersion('6.0.0')
-    assert LooseVersion(dask_kubernetes.__version__) >= LooseVersion('0.9.0')
-    assert LooseVersion(dask_labextension.__version__) >= LooseVersion('1.0.0')
+#def test_pinned_versions():
+#    import tornado
+#    import dask_kubernetes
+#    import dask_labextension
+#
+#    assert LooseVersion(tornado.version) >= LooseVersion('6.0.0')
+#    assert LooseVersion(dask_kubernetes.__version__) >= LooseVersion('0.9.0')
+#    assert LooseVersion(dask_labextension.__version__) >= LooseVersion('1.0.0')
