@@ -4,8 +4,8 @@ on:
     branches:
       - master
 # https://github.com/elgohr/Publish-Docker-Github-Action#cache
-#  schedule:
-#    - cron: '0 2 * * 0' # Weekly on Sundays at 02:00
+  schedule:
+    - cron: '0 2 * * 0' # Weekly on Sundays at 02:00
 
 env:
   DOCKER_ORG: pangeodev
@@ -45,7 +45,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
         workdir: ${{ matrix.IMAGE }}
         tags: "master, ${{env.DOCKER_TAG}}"
-#        cache: ${{ github.event_name != 'schedule' }}
+        cache: ${{ github.event_name != 'schedule' }}
     # NOTE: could save this as a build artifact or put on website
     - name: Export Full Conda Environment
       run: |
