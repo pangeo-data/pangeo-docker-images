@@ -24,6 +24,15 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
+    - name: Set Job Environment Variables
+      run: |
+        CALVER="$( date -u '+%Y.%m.%d' )"
+        SHA7="${GITHUB_SHA::7}"
+        DOCKER_TAG=$SHA7
+        IMAGE_SPEC="${DOCKER_ORG}/${{ matrix.IMAGE }}:${DOCKER_TAG}"
+        echo "::set-env name=DOCKER_TAG::${DOCKER_TAG}"
+        echo "::set-env name=IMAGE_SPEC::${IMAGE_SPEC}"
+
     - name: Sync Base-config Files
       run: |
         rsync -a -v --ignore-existing base-image/* ${{ matrix.IMAGE }}/
@@ -31,11 +40,11 @@ jobs:
     - name: Build and Publish to DockerHub
       uses: elgohr/Publish-Docker-Github-Action@2.12
       with:
-        name: ${DOCKER_ORG}/${{ matrix.IMAGE }}
+        name: ${{env.DOCKER_ORG}}/${{ matrix.IMAGE }}
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
         workdir: ${{ matrix.IMAGE }}
-        tags: "master, ${GITHUB_SHA::7}"
+        tags: "master, ${{env.DOCKER_TAG}}"
 #        cache: ${{ github.event_name != 'schedule' }}
     # NOTE: could save this as a build artifact or put on website
     - name: Export Full Conda Environment
