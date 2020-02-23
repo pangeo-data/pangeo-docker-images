@@ -1,11 +1,16 @@
-name: StagingBuild
+name: Staging
 on:
   push:
     branches:
-      - staging
+      - master
 # https://github.com/elgohr/Publish-Docker-Github-Action#cache
 #  schedule:
 #    - cron: '0 2 * * 0' # Weekly on Sundays at 02:00
+
+env:
+  DOCKER_ORG: ${DOCKER_ORG}
+  GITHUB_SHA: ${{ github.sha }}
+  GITHUB_REF: ${{ github.ref }}
 
 jobs:
   matrix-build:
@@ -26,18 +31,17 @@ jobs:
     - name: Build and Publish to DockerHub
       uses: elgohr/Publish-Docker-Github-Action@2.12
       with:
-        name: pangeodev/${{ matrix.IMAGE }}
+        name: ${DOCKER_ORG}/${{ matrix.IMAGE }}
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-        snapshot: true
         workdir: ${{ matrix.IMAGE }}
-        tags: "staging"
+        tags: "master, ${GITHUB_SHA::7}"
 #        cache: ${{ github.event_name != 'schedule' }}
-# NOTE: could save this as a build artifact or put on website    
+    # NOTE: could save this as a build artifact or put on website
     - name: Export Full Conda Environment
       run: |
-        docker run pangeodev/${{ matrix.IMAGE }}:staging conda env export
+        docker run ${DOCKER_ORG}/${{ matrix.IMAGE }}:master conda env export
 
     - name: Test Image
       run: |
-        docker run -u root -v $PWD:/home/jovyan pangeodev/${{ matrix.IMAGE }}:staging ./run_tests.sh
+        docker run -u root -v $PWD:/home/jovyan ${DOCKER_ORG}/${{ matrix.IMAGE }}:master ./run_tests.sh

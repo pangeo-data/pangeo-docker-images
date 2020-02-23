@@ -1,15 +1,15 @@
 # Only test building image
-name: PullRequestBuild
+name: PullRequest
 
 on:
   pull_request:
     branches:
-      - staging
+      - master
 
 env:
-  GITHUB_REF: ${{ github.ref }}
+  DOCKER_ORG: ${DOCKER_ORG}
   GITHUB_SHA: ${{ github.sha }}
-  IMAGE_PREFIX: pangeodev/
+  GITHUB_REF: ${{ github.ref }}
 
 jobs:
   matrix-build:
@@ -30,12 +30,12 @@ jobs:
     - name: Build Image
       run: |
         cd ${{ matrix.IMAGE }}
-        docker build -t pangeodev/${{ matrix.IMAGE }}:PR .
+        docker build -t ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR .
 
     - name: Export Full Conda Environment
       run: |
-        docker run pangeodev/${{ matrix.IMAGE }}:PR conda env export
+        docker run ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR conda env export
 
     - name: Test Image
       run: |
-        docker run -u root -v $PWD:/home/jovyan pangeodev/${{ matrix.IMAGE }}:PR ./run_tests.sh
+        docker run -u root -v $PWD:/home/jovyan ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR ./run_tests.sh

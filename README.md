@@ -1,6 +1,6 @@
 # pangeo-stacks-dev
 
-![Action Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/StagingBuild/badge.svg) ![Action Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/ProductionBuild/badge.svg)
+![Action Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/Staging/badge.svg) ![Action Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/Production/badge.svg)
 
 | base-image | pangeo-image | ml-image |
 |------------|--------------|----------|
@@ -9,12 +9,14 @@
 An experiment to simplify pangeo docker images
 See: https://github.com/pangeo-data/pangeo-stacks/issues/125
 
-### Image tagging
+### Image tagging and "continuous building"
 https://hub.docker.com/orgs/pangeodev
 
-* `pangeodev/base-image:latest` is always most recent production image. Also tagged with date and github SHA from prod branch pangeodev/base-image/2020.02.21-2639bd3`. 
+* `pangeodev/base-image:latest` is always most recent production image. Tags pushed to GitHub also correspond to tags on dockerhub `pangeodev/base-image:0.0.1`
 
-* `pangeodev/base-image:staging` corresponds to current staging image. Also tagged with a snapshot of date and github SHA from staging branch `pangeodev/base-image/202002210409454957bb` - {YEAR}{MONTH}{DAY}{HOUR}{MINUTE}{SECOND}{first 6 digits of the git sha}.
+* `pangeodev/base-image:master` corresponds to current staging image in sync with master branch. Built with every commit to master. Also tagged with short github SHA `pangeodev/base-image:2639bd3`
+
+* Pull requests automatically trigger building image but can't push to dockerhub b/c they don't have access to repo secrets for authentication
 
 
 ### Test these images on binderhub
@@ -34,6 +36,6 @@ docker rm repo2docker
 git clone https://github.com/pangeo-data/pangeo-stacks-dev
 cd pangeo-stacks-dev
 rsync -a -v --ignore-existing base-image/* pangeo-image/
-cd pangeo-image 
-docker build -t pangeodev/pangeo-image:staging .
+cd pangeo-image
+docker build -t pangeodev/pangeo-image:test .
 ```

@@ -1,10 +1,14 @@
-# Just re-tag latest staging image
-# NOTE: not implemented yet...
-name: ProductionBuild
+# Re-tag most recent staging image with github tag and latest
+name: Production
 on:
   push:
-    branches:
-      - prod
+    tags:
+    - '*'
+
+env:
+  DOCKER_ORG: ${DOCKER_ORG}
+  GITHUB_SHA: ${{ github.sha }}
+  GITHUB_REF: ${{ github.ref }}
 
 jobs:
   matrix-build:
@@ -21,15 +25,16 @@ jobs:
     - name: Set Job Environment Variables
       run: |
         CALVER="$( date -u '+%Y.%m.%d' )"
-        SHA="$( git rev-parse --short ${GITHUB_SHA} )"
-        DOCKER_TAG="${CALVER}-${SHA}"
-        IMAGE_SPEC="pangeodev/${{ matrix.IMAGE }}:${DOCKER_TAG}"
+        SHA7="${GITHUB_SHA::7}"
+        TAG="${GITHUB_REF##*/}"
+        DOCKER_TAG=$TAG
+        IMAGE_SPEC="${DOCKER_ORG}/${{ matrix.IMAGE }}:${DOCKER_TAG}"
         echo "::set-env name=DOCKER_TAG::${DOCKER_TAG}"
         echo "::set-env name=IMAGE_SPEC::${IMAGE_SPEC}"
 
     - name: Pull Latest Staging Image
       run: |
-        docker pull pangeodev/${{ matrix.IMAGE }}:staging
+        docker pull ${DOCKER_ORG}/${{ matrix.IMAGE }}:staging
 
     - name: Authenticate with DockerHub
       run: |
@@ -37,8 +42,8 @@ jobs:
 
     - name: Retag and Push Image
       run: |
-        IMAGE_LATEST=pangeodev/${{ matrix.IMAGE }}:latest
-        docker tag pangeodev/${{ matrix.IMAGE }}:staging $IMAGE_SPEC
-        docker tag pangeodev/${{ matrix.IMAGE }}:staging $IMAGE_LATEST
+        IMAGE_LATEST=${DOCKER_ORG}/${{ matrix.IMAGE }}:latest
+        docker tag ${DOCKER_ORG}/${{ matrix.IMAGE }}:staging $IMAGE_SPEC
+        docker tag ${DOCKER_ORG}/${{ matrix.IMAGE }}:staging $IMAGE_LATEST
         docker push $IMAGE_LATEST
         docker push $IMAGE_SPEC
