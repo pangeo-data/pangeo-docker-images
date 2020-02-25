@@ -1,0 +1,39 @@
+# Add date to weekly-build.log, triggering staging build once a week
+name: WeeklyBuild
+on:
+# https://github.com/elgohr/Publish-Docker-Github-Action#cache
+  schedule:
+#    - cron: '0 2 * * 0' # Weekly on Sundays at 02:00
+    - cron:  '*/15 * * * *' # Every 15 minutes for testing
+
+env:
+  DOCKER_ORG: pangeodev
+  GITHUB_SHA: ${{ github.sha }}
+  GITHUB_REF: ${{ github.ref }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set Job Environment Variables
+      run: |
+        CALVER="$( date -u '+%Y.%m.%d' )"
+        echo "::set-env name=CALVER::${CALVER}"
+
+    - name: Update Weekly Build Log
+      run: |
+        echo $CALVER >> weekly-build.log
+
+    - name: Commit files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "Trigger weekly build: $CALVER" -a
+
+    - name: Push changes
+      uses: ad-m/github-push-action@v0.5.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
