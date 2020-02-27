@@ -1,2 +1,2 @@
-FROM pangeodev/base-image:2020.02.27
+FROM pangeodev/base-image:master
 # Dockerfile for building derivative images
