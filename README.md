@@ -2,27 +2,34 @@
 
 ![Action Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/Staging/badge.svg) ![Action Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/Production/badge.svg)
 
-| base-image | pangeo-image | ml-image |
-|------------|--------------|----------|
-| [![](https://images.microbadger.com/badges/image/pangeodev/base-image.svg)](https://microbadger.com/images/pangeodev/base-image "Get your own image badge on microbadger.com") |  [![](https://images.microbadger.com/badges/image/pangeodev/pangeo-image.svg)](https://microbadger.com/images/pangeodev/pangeo-image "Get your own image badge on microbadger.com") | [![](https://images.microbadger.com/badges/image/pangeodev/ml-image.svg)](https://microbadger.com/images/pangeodev/ml-image "Get your own image badge on microbadger.com") |
-
-An experiment to simplify pangeo docker images
+An experiment to simplify Pangeo docker images
 See: https://github.com/pangeo-data/pangeo-stacks/issues/125
+
+Goals:
+1) compatibilty with Pangeo BinderHubs and JupyterHubs
+2) small size, fast build
+3) easy to customize
+4) compatibilty with Repo2Docker sidecar files (apt.txt, environment.yml, postBuild, start)
+
+Design:
+Everything stems from the `Dockerfile` defining the base-image. Once build, all other images use a simple Dockerfile in the repository root to run ONBUILD commands on the base-image (`FROM pangeodev/base-image:2020.02.27` is all you need!). We then create `base-worker` images that do not have JupyterLab UI packages installed but do have dask packages pinned by a `pangeo-dask` conda metapackage https://github.com/pangeo-data/conda-metapackages. `base-notebook` has JupyerLab UI packages and extensions installed and is consequently much larger in size:
+```
+pangeodev/base-notebook     2020.02.27          418a793a9970        21 minutes ago      894MB
+pangeodev/base-worker       2020.02.27          e80915786570        25 minutes ago      329MB
+pangeodev/base-image        2020.02.27          5b36a380a27c        26 minutes ago      204MB
+```
+
 
 ### Image tagging and "continuous building"
 https://hub.docker.com/orgs/pangeodev
 
-* `pangeodev/base-image:latest` is always most recent production image. Tags pushed to GitHub also correspond to tags on dockerhub `pangeodev/base-image:0.0.1`
+* `pangeodev/base-notebook:latest` is always most recent production image. Tags pushed to GitHub also correspond to tags on dockerhub `pangeodev/base-image:0.0.1`
 
-* `pangeodev/base-image:master` corresponds to current staging image in sync with master branch. Built with every commit to master. Also tagged with short github SHA `pangeodev/base-image:2639bd3`
+* `pangeodev/base-notebook:master` corresponds to current staging image in sync with master branch. Built with every commit to master. Also tagged with short github SHA `pangeodev/base-notebook:2639bd3`
 
 * Pull requests automatically trigger building image but can't push to dockerhub b/c they don't have access to repo secrets for authentication
 
-### Base images use conda metapackages for dask and jupyter requirements
-https://github.com/pangeo-data/conda-metapackages
-
-
-### Test these images on binderhub
+### Test BinderHub configuration
 https://github.com/scottyhq/pangeodev-binder
 
 ### To run locally
@@ -38,16 +45,19 @@ docker rm repo2docker
 ```
 git clone https://github.com/pangeo-data/pangeo-stacks-dev
 cd base-image
-docker build -t pangeodev/pangeo-image:2020.02.27 .
-# Change Dockerfile tag in repository root to match new image before building other images:
+docker build -t pangeodev/base-image:2020.02.27 .
+cd ../
+echo "FROM pangeodev/base-image:2020.02.27" > Dockerfile
 cd base-notebook
-docker build -t pangeodev/pangeo-image:test -f ../Dockerfile .
+docker build -t pangeodev/pangeo-image:2020.02.27 -f ../Dockerfile .
 ```
 
 
 ### Image descriptions
 ```
-base-image/      master Dockerfile for building images, also for basic dask workers
+base-image/      master Dockerfile for building images, conda and filesystem configured
+
+base-worker/     minimal dask worker config, no jupyterlab packages
 base-notebook/   minimally functional image for pangeo jupyterhub notebooks
 
 pangeo-worker/   dask worker config with analysis packages, no jupyterlab packages

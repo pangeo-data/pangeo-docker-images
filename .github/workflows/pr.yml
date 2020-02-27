@@ -23,14 +23,6 @@ jobs:
         cd base-image
         docker build -t ${DOCKER_ORG}/base-image:PR .
 
-    - name: Export Full Conda Environment
-      run: |
-        docker run ${DOCKER_ORG}/base-image:PR conda env export
-
-    - name: Test Image
-      run: |
-        docker run -u root -v $PWD:/home/jovyan ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR ./run_tests.sh
-
     - name: Save Docker Image
       run: |
         docker save ${DOCKER_ORG}/base-image:PR | gzip > base-image.tar.gz
@@ -46,7 +38,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        IMAGE: [base-notebook, pangeo-worker, pangeo-notebook]
+        IMAGE: [base-worker, base-notebook, pangeo-worker, pangeo-notebook]
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     steps:
