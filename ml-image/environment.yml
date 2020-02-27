@@ -1,22 +1,11 @@
-name: notebook
+name: pangeo
 channels:
   - conda-forge
+  - pangeo
 dependencies:
-  # TODO: turn into conda metapackage
-  - dask
-  - dask-gateway
-  - dask-kubernetes
-  - dask-labextension
-  - distributed
-  - jupyterhub
-  - jupyterlab
-  - jupyter-server-proxy
-  - nbgitpuller
-  - nomkl
-  - python-graphviz
-  - pip
-  # Additional Packages (alphabetical)
   - python=3.7
+  - pangeo-notebook=0.0.2
+# Additional libraries
   - cartopy
   - cupy
   - dask-ml

@@ -1,4 +1,4 @@
-# Only test building image
+# Only test building images
 name: PullRequest
 
 on:
@@ -12,25 +12,63 @@ env:
   GITHUB_REF: ${{ github.ref }}
 
 jobs:
+  base-image:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Build Base Image
+      run: |
+        cd base-image
+        docker build -t ${DOCKER_ORG}/base-image:PR .
+
+    - name: Export Full Conda Environment
+      run: |
+        docker run ${DOCKER_ORG}/base-image:PR conda env export
+
+    - name: Test Image
+      run: |
+        docker run -u root -v $PWD:/home/jovyan ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR ./run_tests.sh
+
+    - name: Save Docker Image
+      run: |
+        docker save ${DOCKER_ORG}/base-image:PR | gzip > base-image.tar.gz
+
+    - name: Upload Base Image
+      uses: actions/upload-artifact@v1
+      with:
+        name: base-image
+        path: base-image.tar.gz
+
   matrix-build:
+    needs: base-image
     strategy:
       fail-fast: false
       matrix:
-        IMAGE: [base-image, pangeo-image, ml-image]
+        IMAGE: [base-notebook, pangeo-worker, pangeo-notebook]
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Sync base-config files without overwriting
+    - name: Download Base Docker Image
+      uses: actions/download-artifact@v1
+      with:
+        name: base-image
+        path: ./artifact
+    - name: Load Docker Image
       run: |
-        rsync -a -v --ignore-existing base-image/* ${{ matrix.IMAGE }}/
+        docker load < ./artifact/base-image.tar.gz
+        docker images
+        # Create temporary Dockerfile
+        echo "FROM ${DOCKER_ORG}/base-image:PR" > Dockerfile
 
     - name: Build Image
       run: |
         cd ${{ matrix.IMAGE }}
-        docker build -t ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR .
+        docker build -t ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR -f ../Dockerfile .
 
     - name: Export Full Conda Environment
       run: |
