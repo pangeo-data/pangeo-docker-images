@@ -18,14 +18,17 @@ https://hub.docker.com/orgs/pangeodev
 
 * Pull requests automatically trigger building image but can't push to dockerhub b/c they don't have access to repo secrets for authentication
 
+### Base images use conda metapackages for dask and jupyter requirements
+https://github.com/pangeo-data/conda-metapackages
+
 
 ### Test these images on binderhub
 https://github.com/scottyhq/pangeodev-binder
 
 ### To run locally
 ```
-docker pull pangeodev/base-image:latest
-docker run -it --name repo2docker -p 8888:8888 pangeodev/base-image:latest jupyter lab --ip 0.0.0.0
+docker pull pangeodev/base-notebook:latest
+docker run -it --name repo2docker -p 8888:8888 pangeodev/base-notebook:latest jupyter lab --ip 0.0.0.0
 docker stop repo2docker
 docker rm repo2docker
 ```
@@ -34,8 +37,21 @@ docker rm repo2docker
 (pangeo-image)
 ```
 git clone https://github.com/pangeo-data/pangeo-stacks-dev
-cd pangeo-stacks-dev
-rsync -a -v --ignore-existing base-image/* pangeo-image/
-cd pangeo-image
-docker build -t pangeodev/pangeo-image:test .
+cd base-image
+docker build -t pangeodev/pangeo-image:2020.02.27 .
+# Change Dockerfile tag in repository root to match new image before building other images:
+cd base-notebook
+docker build -t pangeodev/pangeo-image:test -f ../Dockerfile .
+```
+
+
+### Image descriptions
+```
+base-image/      master Dockerfile for building images, also for basic dask workers
+base-notebook/   minimally functional image for pangeo jupyterhub notebooks
+
+pangeo-worker/   dask worker config with analysis packages, no jupyterlab packages
+pangeo-notebook/ image for jupyterlab with consistent dask and analysis packages
+
+pangeo-ml/ on hold...
 ```
