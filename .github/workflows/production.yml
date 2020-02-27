@@ -32,9 +32,9 @@ jobs:
         echo "::set-env name=DOCKER_TAG::${DOCKER_TAG}"
         echo "::set-env name=IMAGE_SPEC::${IMAGE_SPEC}"
 
-    - name: Pull Latest Staging Image
+    - name: Pull Latest Master Image
       run: |
-        docker pull ${DOCKER_ORG}/${{ matrix.IMAGE }}:staging
+        docker pull ${DOCKER_ORG}/${{ matrix.IMAGE }}:master
 
     - name: Authenticate with DockerHub
       run: |
@@ -43,7 +43,7 @@ jobs:
     - name: Retag and Push Image
       run: |
         IMAGE_LATEST=${DOCKER_ORG}/${{ matrix.IMAGE }}:latest
-        docker tag ${DOCKER_ORG}/${{ matrix.IMAGE }}:staging $IMAGE_SPEC
-        docker tag ${DOCKER_ORG}/${{ matrix.IMAGE }}:staging $IMAGE_LATEST
+        docker tag ${DOCKER_ORG}/${{ matrix.IMAGE }}:master $IMAGE_SPEC
+        docker tag ${DOCKER_ORG}/${{ matrix.IMAGE }}:master $IMAGE_LATEST
         docker push $IMAGE_LATEST
         docker push $IMAGE_SPEC

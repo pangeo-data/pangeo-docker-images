@@ -15,7 +15,7 @@ Design:
 Everything stems from the `Dockerfile` defining the base-image. Once built, all other images use a simple Dockerfile in the repository root to run ONBUILD commands on the base-image (`FROM pangeodev/base-image:2020.02.27` is all you need!). We then create `base-worker` images that do not have JupyterLab UI packages installed but do have dask packages pinned by a `pangeo-dask` conda metapackage https://github.com/pangeo-data/conda-metapackages. `base-notebook` has JupyerLab UI packages and extensions installed and is consequently much larger in size:
 ```
 pangeodev/base-notebook     2020.02.27          418a793a9970        21 minutes ago      894MB
-pangeodev/base-worker       2020.02.27          e80915786570        25 minutes ago      329MB
+pangeodev/base-worker       2020.02.27          f4a634c69cdf        26 seconds ago      581MB
 pangeodev/base-image        2020.02.27          5b36a380a27c        26 minutes ago      204MB
 ```
 
