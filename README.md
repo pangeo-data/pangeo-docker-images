@@ -6,13 +6,13 @@ An experiment to simplify Pangeo docker images
 See: https://github.com/pangeo-data/pangeo-stacks/issues/125
 
 Goals:
-1) compatibilty with Pangeo BinderHubs and JupyterHubs
+1) compatibility with Pangeo BinderHubs and JupyterHubs
 2) small size, fast build
 3) easy to customize
-4) compatibilty with Repo2Docker sidecar files (apt.txt, environment.yml, postBuild, start)
+4) compatibility with Repo2Docker sidecar files (apt.txt, environment.yml, postBuild, start)
 
 Design:
-Everything stems from the `Dockerfile` defining the base-image. Once build, all other images use a simple Dockerfile in the repository root to run ONBUILD commands on the base-image (`FROM pangeodev/base-image:2020.02.27` is all you need!). We then create `base-worker` images that do not have JupyterLab UI packages installed but do have dask packages pinned by a `pangeo-dask` conda metapackage https://github.com/pangeo-data/conda-metapackages. `base-notebook` has JupyerLab UI packages and extensions installed and is consequently much larger in size:
+Everything stems from the `Dockerfile` defining the base-image. Once built, all other images use a simple Dockerfile in the repository root to run ONBUILD commands on the base-image (`FROM pangeodev/base-image:2020.02.27` is all you need!). We then create `base-worker` images that do not have JupyterLab UI packages installed but do have dask packages pinned by a `pangeo-dask` conda metapackage https://github.com/pangeo-data/conda-metapackages. `base-notebook` has JupyerLab UI packages and extensions installed and is consequently much larger in size:
 ```
 pangeodev/base-notebook     2020.02.27          418a793a9970        21 minutes ago      894MB
 pangeodev/base-worker       2020.02.27          e80915786570        25 minutes ago      329MB
@@ -50,6 +50,8 @@ cd ../
 echo "FROM pangeodev/base-image:2020.02.27" > Dockerfile
 cd base-notebook
 docker build -t pangeodev/pangeo-image:2020.02.27 -f ../Dockerfile .
+cd ../
+docker run -v $PWD:/home/jovyan pangeodev/pangeo-image:2020.02.27 ./run_tests.sh
 ```
 
 
