@@ -31,7 +31,7 @@ kubernetes:
       serviceAccount: daskkubernetes
       restartPolicy: Never
       containers:
-        - name: dask-${JUPYTERHUB_USER}
+        - name: dask-worker
           image: ${JUPYTER_IMAGE_SPEC}
           args:
             - dask-worker

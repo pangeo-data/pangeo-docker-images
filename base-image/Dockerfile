@@ -85,12 +85,14 @@ RUN export PATH=${CONDA_DIR}/bin:$PATH \
 ONBUILD USER ${NB_USER}
 
 # Create "pangeo" environment from environment.yml
-# get pangeodask version from environment.yml and pin
+# Get pangeodask version from environment.yml
+# NOTE: not sure if we need to pin pangeo-dask and pangeo-notebook images 
 ONBUILD RUN [ -d binder ] && cd binder \
         ; if test -f "environment.yml" ; then \
         export PATH=${CONDA_DIR}/bin:$PATH \
         && conda env create -f environment.yml \
-        && grep pangeodask environment.yml | cut -d'-' -f2 > ${CONDA_DIR}/envs/pangeo/conda-meta/pinned \
+        && grep pangeo-dask environment.yml | awk '{print $NF}' > ${CONDA_DIR}/envs/pangeo/conda-meta/pinned \
+        && grep pangeo-notebook environment.yml | awk '{print $NF}' > ${CONDA_DIR}/envs/pangeo/conda-meta/pinned \
         && echo "conda activate pangeo" >> ${CONDA_DIR}/etc/profile.d/conda.sh \
         && conda clean -afy \
         && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
