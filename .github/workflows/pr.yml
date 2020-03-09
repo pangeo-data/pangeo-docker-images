@@ -38,7 +38,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        IMAGE: [base-worker, base-notebook, pangeo-worker, pangeo-notebook]
+        IMAGE: [base-notebook, pangeo-notebook, ml-notebook]
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     steps:
