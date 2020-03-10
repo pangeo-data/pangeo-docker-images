@@ -3,7 +3,6 @@ FROM ubuntu:18.04
 
 # Run this section as root
 # ========================
-# Environment variables
 ENV CONDA_VERSION=4.7.12.1 \
     NB_USER=jovyan \
     NB_UID=1000 \
@@ -26,9 +25,6 @@ RUN apt-get update --fix-missing \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 # ========================
-
-# Copy auxiliary files
-#COPY --chown=${NB_USER}:${NB_USER} start condarc /srv/
 
 USER ${NB_USER}
 WORKDIR ${HOME}
@@ -57,7 +53,8 @@ ENTRYPOINT ["/srv/start"]
 # ----------------------
 ONBUILD USER root
 ONBUILD COPY --chown=${NB_USER}:${NB_USER} . ${HOME}
-ONBUILD RUN [ -d binder ] && cd binder \
+ONBUILD RUN echo "Checking for 'apt.txt'..." \
+        ; [ -d binder ] && cd binder \
         ; if test -f "apt.txt" ; then \
         apt-get update --fix-missing \
         && xargs -a apt.txt apt-get install -y \
@@ -70,40 +67,48 @@ ONBUILD USER ${NB_USER}
 # Create "pangeo" conda environment
 # NOTE: pin metapackage to avoid users install incompatible versions?
 # https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#building-identical-conda-environments
-ONBUILD RUN [ -d binder ] && cd binder \
-        export PATH=${CONDA_DIR}/bin:$PATH  \
+ONBUILD RUN echo "Checking for 'packages.txt'..." \
+        ; [ -d binder ] && cd binder \
         ; if test -f "packages.txt" ; then \
-        conda create -n pangeo -f spec-file.txt \
+        export PATH=${CONDA_DIR}/bin:$PATH  \
+        && conda create --name pangeo --file packages.txt \
 #        ; else ; if test -f "environment.yml" ; then \
 #        conda env create -f environment.yml  ; fi \
-        ; fi \
-        echo "conda activate pangeo" >> ${CONDA_DIR}/etc/profile.d/conda.sh \
-        && conda clean -afy \
+        && echo "conda activate pangeo" >> ${CONDA_DIR}/etc/profile.d/conda.sh \
+        && conda clean -yaf \
         && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
         && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete \
-        && find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete
-#        && find ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static -follow -type f -name '*.js' ! -name '*.min.js' -delete \
+        && find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete \
+        && find ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static -follow -type f -name '*.js' ! -name '*.min.js' -delete \
+        ; fi
 
 # Install pip packages if any
 # remove cache https://github.com/pypa/pip/pull/6391?
-ONBUILD RUN [ -d binder ] && cd binder \
+ONBUILD RUN echo "Checking for 'requirements.txt'..." \
+        ; [ -d binder ] && cd binder \
         ; if test -f "requirements.txt" ; then \
         export PATH=${CONDA_DIR}/bin:$PATH \
-        && pip install -r requirements.txt
+        && pip install -r requirements.txt \
+        ; fi
 
 # Run postBuild script within "pangeo" environment
-ONBUILD RUN [ -d binder ] && cd binder \
+ONBUILD RUN echo "Checking for 'postBuild'..." \
+        ; [ -d binder ] && cd binder \
         ; if test -f "postBuild" ; then \
         export PATH=${NB_PYTHON_PREFIX}/bin:$PATH \
         && chmod +x postBuild \
         && ./postBuild \
         && rm -rf ${HOME}/.cache ${HOME}/.npm ${HOME}/.yarn \
         && rm -rf ${NB_PYTHON_PREFIX}/share/jupyter/lab/staging \
+        && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
+        && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete \
+        && find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete \
         && find ${NB_PYTHON_PREFIX} -follow -type f -name '*.js.map' -delete \
         ; fi
 
 # Overwrite start entrypoint script if present
-ONBUILD RUN [ -d binder ] && cd binder \
+ONBUILD RUN echo "Checking for 'start'..." \
+        ; [ -d binder ] && cd binder \
         ; if test -f "start" ; then \
         chmod +x start \
         && cp start /srv/start \
