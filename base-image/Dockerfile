@@ -35,7 +35,12 @@ RUN echo "Installing Apt-get packages..." \
 USER ${NB_USER}
 WORKDIR ${HOME}
 # Create jovyan group + user, and set necessary permissions
-COPY  --chown=${NB_USER}:${NB_USER} . ${HOME}/
+
+# COPY chown available docker>17.09
+# but env sub only works for docker>19.03 (kubernetes>1.17)
+# https://github.com/moby/moby/issues/35018
+#COPY --chown=${NB_USER}:${NB_USER} . ${HOME}
+COPY --chown=jovyan:jovyan . /home/jovyan
 
 # NOTE: could use conda 4.8.2 with `conda update -n base -c defaults conda`
 RUN echo "Installing Miniconda3..." \
@@ -58,7 +63,9 @@ ENTRYPOINT ["/srv/start"]
 # Only run these if used as a base image
 # ----------------------
 ONBUILD USER root
-ONBUILD COPY --chown=${NB_USER}:${NB_USER} . ${HOME}
+# hardcode for now
+ONBUILD COPY --chown=jovyan:jovyan . /home/jovyan
+
 ONBUILD RUN echo "Checking for 'apt.txt'..." \
         ; [ -d binder ] && cd binder \
         ; if test -f "apt.txt" ; then \
