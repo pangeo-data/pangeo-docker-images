@@ -97,7 +97,8 @@ ONBUILD RUN echo "Checking for 'packages.txt' or 'environment.yml'..." \
 ONBUILD RUN echo "Checking for 'requirements.txt'..." \
         ; [ -d binder ] && cd binder \
         ; if test -f "requirements.txt" ; then \
-        pip install -r requirements.txt \
+        export PATH=${CONDA_DIR}/envs/pangeo/bin:${PATH} \
+        && pip install -r requirements.txt \
         ; fi
 
 # Run postBuild script within "pangeo" environment

@@ -5,6 +5,6 @@ echo "Testing docker image {$1}..."
 
 pip install pytest
 
-pytest -v tests/test_base-image.py tests/test_$1.py
+pytest -v tests/test_all.py tests/test_$1.py
 
 #EOF
