@@ -65,8 +65,8 @@ jobs:
 
     - name: Export Full Conda Environment
       run: |
-        docker run ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR conda env export
+        docker run ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR conda list --explicit
     # NOTE: shouldn't have to run this as root, but getting a GitHub Actions permissions error otherwise
     - name: Test Image
       run: |
-        docker run -u root -v $PWD:/home/jovyan ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR ./run_tests.sh
+        docker run -v $PWD:/home/jovyan ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR ./run_tests.sh ${{ matrix.IMAGE }}

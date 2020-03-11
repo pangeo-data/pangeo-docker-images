@@ -12,15 +12,21 @@ ENV CONDA_VERSION=4.7.12.1 \
     CONDA_DIR=/srv/conda
 
 ENV NB_PYTHON_PREFIX=${CONDA_DIR}/envs/pangeo \
-    HOME=/home/${NB_USER}
+    DASK_ROOT_CONFIG=${CONDA_DIR}/etc \
+    HOME=/home/${NB_USER} \
+    PATH=${CONDA_DIR}/bin:${PATH}
 
-RUN groupadd --gid ${NB_UID} ${NB_USER}  \
+# Ensure users start in 'pangeo' conda environment
+COPY init_conda.sh /etc/profile.d/init_conda.sh
+
+# Create jovyan user and adjust permissions
+RUN echo "Creating ${NB_USER} user..." \
+    && groupadd --gid ${NB_UID} ${NB_USER}  \
     && useradd --create-home --gid ${NB_UID} --no-log-init --uid ${NB_UID} ${NB_USER} \
-    && ln -s ${CONDA_DIR}/etc/profile.d/conda.sh /etc/profile.d/conda.sh \
     && chown -R ${NB_USER}:${NB_USER} /srv
 
-# Apt Packages
-RUN apt-get update --fix-missing \
+RUN echo "Installing Apt-get packages..." \
+    && apt-get update --fix-missing \
     && apt-get install wget -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
@@ -31,9 +37,8 @@ WORKDIR ${HOME}
 # Create jovyan group + user, and set necessary permissions
 COPY  --chown=${NB_USER}:${NB_USER} . ${HOME}/
 
-# Install miniconda and configure conda to activate 'pangeo' evironment by default
 # NOTE: could use conda 4.8.2 with `conda update -n base -c defaults conda`
-RUN export PATH=${CONDA_DIR}/bin:$PATH \
+RUN echo "Installing Miniconda3..." \
     && wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -O miniconda.sh \
     && /bin/bash miniconda.sh -u -b -p ${CONDA_DIR} \
     && rm miniconda.sh \
@@ -41,7 +46,8 @@ RUN export PATH=${CONDA_DIR}/bin:$PATH \
     && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
     && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete
 
-RUN cp condarc ${CONDA_DIR}/.condarc \
+RUN echo "Copying config files..." \
+    && cp condarc ${CONDA_DIR}/.condarc \
     && cp dask_config.yml ${CONDA_DIR}/etc/dask.yml \
     && cp start /srv/start
 
@@ -64,46 +70,48 @@ ONBUILD RUN echo "Checking for 'apt.txt'..." \
 
 ONBUILD USER ${NB_USER}
 
-# Create "pangeo" conda environment
-# NOTE: pin metapackage to avoid users install incompatible versions?
-# https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#building-identical-conda-environments
-ONBUILD RUN echo "Checking for 'packages.txt'..." \
+# Create "pangeo" conda environment and dask labextensions
+ONBUILD RUN echo "Checking for 'packages.txt' or 'environment.yml'..." \
         ; [ -d binder ] && cd binder \
         ; if test -f "packages.txt" ; then \
-        export PATH=${CONDA_DIR}/bin:$PATH  \
-        && conda create --name pangeo --file packages.txt \
-#        ; else ; if test -f "environment.yml" ; then \
-#        conda env create -f environment.yml  ; fi \
-        && echo "conda activate pangeo" >> ${CONDA_DIR}/etc/profile.d/conda.sh \
+        conda create --name pangeo --file packages.txt \
+        ; elif test -f "environment.yml" ; then \
+        conda env create -f environment.yml  \
+        ; else echo "No packages.txt or environment.yml! *creating default env*" ; \
+        conda create --name pangeo \
+        ; fi \
+        && export PATH=${CONDA_DIR}/envs/pangeo/bin:${PATH} \
+        && jupyter labextension install --clean @jupyter-widgets/jupyterlab-manager dask-labextension \
         && conda clean -yaf \
+        && rm -r /tmp/* \
+        && rm -rf ${HOME}/.cache ${HOME}/.npm ${HOME}/.yarn \
+        && rm -rf ${NB_PYTHON_PREFIX}/share/jupyter/lab/staging \
         && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
         && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete \
         && find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete \
-        && find ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static -follow -type f -name '*.js' ! -name '*.min.js' -delete \
-        ; fi
+        && find ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static -follow -type f -name '*.js' ! -name '*.min.js' -delete
 
-# Install pip packages if any
-# remove cache https://github.com/pypa/pip/pull/6391?
+# Install pip packages
+# remove cache https://github.com/pypa/pip/pull/6391 ?
 ONBUILD RUN echo "Checking for 'requirements.txt'..." \
         ; [ -d binder ] && cd binder \
         ; if test -f "requirements.txt" ; then \
-        export PATH=${CONDA_DIR}/bin:$PATH \
-        && pip install -r requirements.txt \
+        pip install -r requirements.txt \
         ; fi
 
 # Run postBuild script within "pangeo" environment
 ONBUILD RUN echo "Checking for 'postBuild'..." \
         ; [ -d binder ] && cd binder \
         ; if test -f "postBuild" ; then \
-        export PATH=${NB_PYTHON_PREFIX}/bin:$PATH \
+        export PATH=${CONDA_DIR}/envs/pangeo/bin:${PATH} \
         && chmod +x postBuild \
         && ./postBuild \
+        && rm -r /tmp/* \
         && rm -rf ${HOME}/.cache ${HOME}/.npm ${HOME}/.yarn \
         && rm -rf ${NB_PYTHON_PREFIX}/share/jupyter/lab/staging \
         && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
         && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete \
         && find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete \
-        && find ${NB_PYTHON_PREFIX} -follow -type f -name '*.js.map' -delete \
         ; fi
 
 # Overwrite start entrypoint script if present

@@ -6,12 +6,12 @@ base-image :
 
 base-notebook : base-image
 	cd base-notebook ; \
-	docker build -f ../Dockerfile -t base-notebook:master .
+	docker build -f ../Dockerfile -t pangeodev/base-notebook:master .
 
 pangeo-notebook : base-image
 	cd pangeo-notebook ; \
-	docker build -f ../Dockerfile -t pangeo-notebook:master .
+	docker build -f ../Dockerfile -t pangeodev/pangeo-notebook:master .
 
 ml-notebook : base-image
 	cd ml-notebook ; \
-	docker build -f ../Dockerfile -t ml-notebook:master .
+	docker build -f ../Dockerfile -t pangeodev/ml-notebook:master .
