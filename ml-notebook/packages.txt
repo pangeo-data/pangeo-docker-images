@@ -1,11 +1,32 @@
 # This file may be used to create an environment using:
 # $ conda create --name <env> --file <this file>
 # platform: linux-64
-conda-forge/linux-64::python==3.7*
-rapidsai-nightly/linux-64::cuspatial
-rapidsai-nightly/linux-64::cudf
-# NOTE: can't get -gpu libraries to install alongside pytorch in main channel
-#pkgs/main/linux-64::keras-gpu
-#pkgs/main/linux-64::tensorflow-gpu
-pkgs/main/linux-64::pytorch
+python=3.7*
+# Conda solver conflicts for these
+#rapidsai-nightly/linux-64::cuspatial
+#rapidsai-nightly/linux-64::cudf
 conda-forge/linux-64::cupy
+pkgs/main/linux-64::tensorflow-gpu>=2
+datashader
+fsspec
+gcsfs
+geopandas
+geoviews-core
+h5netcdf
+h5py
+holoviews
+hvplot
+intake
+intake-xarray
+lz4
+matplotlib-base
+nb_conda_kernels
+numpy
+pandas
+panel
+rasterio
+s3fs
+scipy
+sparse
+xarray
+zarr

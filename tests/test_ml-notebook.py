@@ -4,7 +4,9 @@ import sys
 
 packages = [
     # machine learning stuff
-    'tensorflow', 'keras', 'torch'
+    'tensorflow', 'keras'
+    # Error w/conda solve of pytorch
+    # 'torch'
     ]
 
 @pytest.mark.parametrize('package_name', packages, ids=packages)

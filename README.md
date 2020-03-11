@@ -7,16 +7,17 @@ See: https://github.com/pangeo-data/pangeo-stacks/issues/125
 
 Goals:
 1) compatibility with Pangeo BinderHubs and JupyterHubs
-2) small size, fast build
+2) smaller size, faster build
 3) easy to customize
 4) compatibility with Repo2Docker sidecar files (apt.txt, environment.yml, postBuild, start)
 
 Design:
-Everything stems from the `Dockerfile` defining the base-image. Once built, all other images use a simple Dockerfile in the repository root to run ONBUILD commands on the base-image (`FROM pangeodev/base-image:2020.02.27` is all you need!). We then create `base-worker` images that do not have JupyterLab UI packages installed but do have dask packages pinned by a `pangeo-dask` conda metapackage https://github.com/pangeo-data/conda-metapackages. `base-notebook` has JupyerLab UI packages and extensions installed and is consequently much larger in size:
+Everything stems from the `Dockerfile` in the `base-image` folder. The `base-image` installs a miniconda base environment and configures default settings for conda and dask with `condarc` and `dask_config.yml`. Compatible dask and jupyter packages are guaranteed by specifying the `pangeo-notebook` conda metapackage in `base-image/condarc` file. `-notebook` images run ONBUILD commands from the base-image to create JupyerLab UI packages and extensions installed and are consequently much larger in size:
 ```
-pangeodev/base-notebook     2020.02.27          418a793a9970        21 minutes ago      894MB
-pangeodev/base-worker       2020.02.27          f4a634c69cdf        26 seconds ago      581MB
-pangeodev/base-image        2020.02.27          5b36a380a27c        26 minutes ago      204MB
+pangeodev/ml-notebook       2020.03.11     4.83GB
+pangeodev/pangeo-notebook   2020.03.11     1.92GB
+pangeodev/base-notebook     2020.03.11     794MB
+pangeodev/base-image        2020.03.11     204MB
 ```
 
 
@@ -44,26 +45,17 @@ docker rm repo2docker
 (pangeo-image)
 ```
 git clone https://github.com/pangeo-data/pangeo-stacks-dev
-cd base-image
-docker build -t pangeodev/base-image:2020.02.27 .
-cd ../
-echo "FROM pangeodev/base-image:2020.02.27" > Dockerfile
-cd base-notebook
-docker build -t pangeodev/pangeo-image:2020.02.27 -f ../Dockerfile .
-cd ../
-docker run -v $PWD:/home/jovyan pangeodev/pangeo-image:2020.02.27 ./run_tests.sh
+make base-image
+make base-notebook
+make pangeo-notebook
+make ml-notebook
 ```
 
 
 ### Image descriptions
 ```
 base-image/      master Dockerfile for building images, conda and filesystem configured
-
-base-worker/     minimal dask worker config, no jupyterlab packages
-base-notebook/   minimally functional image for pangeo jupyterhub notebooks
-
-pangeo-worker/   dask worker config with analysis packages, no jupyterlab packages
-pangeo-notebook/ image for jupyterlab with consistent dask and analysis packages
-
-pangeo-ml/ on hold...
+base-notebook/   minimally functional image for pangeo jupyterhub and binderhub notebooks
+pangeo-notebook/ add core earth science analysis packages
+ml-notebook/     add core earth science analysis packages and tensorflow2 (GPU-enabled)
 ```
