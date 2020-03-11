@@ -16,14 +16,18 @@ ENV NB_PYTHON_PREFIX=${CONDA_DIR}/envs/pangeo \
     HOME=/home/${NB_USER} \
     PATH=${CONDA_DIR}/bin:${PATH}
 
-# Ensure users start in 'pangeo' conda environment
-COPY init_conda.sh /etc/profile.d/init_conda.sh
-
-# Create jovyan user and adjust permissions
+# Create jovyan user, permissions, add conda init to startup script
 RUN echo "Creating ${NB_USER} user..." \
     && groupadd --gid ${NB_UID} ${NB_USER}  \
     && useradd --create-home --gid ${NB_UID} --no-log-init --uid ${NB_UID} ${NB_USER} \
+    && echo ". ${CONDA_DIR}/etc/profile.d/conda.sh ; conda activate pangeo" > /etc/profile.d/init_conda.sh \
     && chown -R ${NB_USER}:${NB_USER} /srv
+
+# COPY chown available docker>17.09
+# but env sub only works for docker>19.03 (kubernetes>1.17)
+# https://github.com/moby/moby/issues/35018
+#COPY --chown=${NB_USER}:${NB_USER} . ${HOME}
+COPY --chown=jovyan:jovyan . /srv
 
 RUN echo "Installing Apt-get packages..." \
     && apt-get update --fix-missing \
@@ -34,27 +38,17 @@ RUN echo "Installing Apt-get packages..." \
 
 USER ${NB_USER}
 WORKDIR ${HOME}
-# Create jovyan group + user, and set necessary permissions
-
-# COPY chown available docker>17.09
-# but env sub only works for docker>19.03 (kubernetes>1.17)
-# https://github.com/moby/moby/issues/35018
-#COPY --chown=${NB_USER}:${NB_USER} . ${HOME}
-COPY --chown=jovyan:jovyan . /home/jovyan
 
 # NOTE: could use conda 4.8.2 with `conda update -n base -c defaults conda`
 RUN echo "Installing Miniconda3..." \
     && wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -O miniconda.sh \
     && /bin/bash miniconda.sh -u -b -p ${CONDA_DIR} \
     && rm miniconda.sh \
+    && mv /srv/condarc ${CONDA_DIR}/.condarc \
+    && mv /srv/dask_config.yml ${CONDA_DIR}/etc/dask.yml \
     && conda clean -afy \
     && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
     && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete
-
-RUN echo "Copying config files..." \
-    && cp condarc ${CONDA_DIR}/.condarc \
-    && cp dask_config.yml ${CONDA_DIR}/etc/dask.yml \
-    && cp start /srv/start
 
 EXPOSE 8888
 ENTRYPOINT ["/srv/start"]
