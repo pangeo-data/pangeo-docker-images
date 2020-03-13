@@ -1,0 +1,37 @@
+name: pangeo
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+ - python=3.7*
+ - pangeo-notebook=0.0.2
+# Conda solver conflicts for these
+#rapidsai-nightly/linux-64::cuspatial
+#rapidsai-nightly/linux-64::cudf
+ - conda-forge/linux-64::cupy
+ - pkgs/main/linux-64::tensorflow-gpu>=2
+ - datashader
+ - fsspec
+ - gcsfs
+ - geopandas
+ - geoviews-core
+ - h5netcdf
+ - h5py
+ - holoviews
+ - hvplot
+ - intake
+ - intake-xarray
+ - lz4
+ - matplotlib-base
+ - nb_conda_kernels
+ - numpy
+ - pandas
+ - panel
+ - rasterio
+ - s3fs
+ - scikit-image
+ - scikit-learn
+ - scipy
+ - sparse
+ - xarray
+ - zarr
