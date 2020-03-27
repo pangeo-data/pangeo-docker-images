@@ -72,14 +72,14 @@ ONBUILD RUN echo "Checking for 'apt.txt'..." \
 ONBUILD USER ${NB_USER}
 
 # Create "pangeo" conda environment and dask labextensions
-ONBUILD RUN echo "Checking for 'packages.txt' or 'environment.yml'..." \
+ONBUILD RUN echo "Checking for conda 'spec-file.txt' or 'environment.yml'..." \
         ; [ -d binder ] && cd binder \
-        ; if test -f "packages.txt" ; then \
-        conda create --name pangeo --file packages.txt \
+        ; if test -f "spec-file.txt" ; then \
+        conda create --name pangeo --file spec-file.txt \
         ; elif test -f "environment.yml" ; then \
         conda env create -f environment.yml  \
-        ; else echo "No packages.txt or environment.yml! *creating default env*" ; \
-        conda create --name pangeo \
+        ; else echo "No spec-file.txt or environment.yml! *creating default env*" ; \
+        conda create --name pangeo pangeo-notebook=0.0.2 \
         ; fi \
         && conda clean -yaf \
         && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
@@ -89,11 +89,10 @@ ONBUILD RUN echo "Checking for 'packages.txt' or 'environment.yml'..." \
 
 # Install pip packages
 # remove cache https://github.com/pypa/pip/pull/6391 ?
-ONBUILD RUN echo "Checking for 'requirements.txt'..." \
+ONBUILD RUN echo "Checking for pip 'requirements.txt'..." \
         ; [ -d binder ] && cd binder \
         ; if test -f "requirements.txt" ; then \
-        export PATH=${CONDA_DIR}/envs/pangeo/bin:${PATH} \
-        && pip install -r requirements.txt \
+        ${CONDA_DIR}/envs/pangeo/bin/pip install --no-cache-dir -r requirements.txt \
         ; fi
 
 # Run postBuild script within "pangeo" environment

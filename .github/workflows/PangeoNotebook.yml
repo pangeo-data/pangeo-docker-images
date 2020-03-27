@@ -1,0 +1,27 @@
+# test pangeo/pangeo-notebook:master
+name: PangeoNotebook
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'pangeo-notebook/**'
+      - 'tests/**'
+      - 'run_tests.sh'
+
+env:
+  IMAGE: pangeo-notebook
+  DOCKER_ORG: pangeo
+  GITHUB_SHA: ${{ github.sha }}
+  GITHUB_REF: ${{ github.ref }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Test Image
+      run: |
+        docker run -v $PWD:/home/jovyan ${DOCKER_ORG}/${{ env.IMAGE }}:master ./run_tests.sh ${{ env.IMAGE }}

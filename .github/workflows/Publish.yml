@@ -1,12 +1,12 @@
-# Re-tag most recent staging image with github tag and latest
-name: Production
+# Re-tag most recent master branch images with github tag and 'latest'
+name: Publish
 on:
   push:
     tags:
     - '*'
 
 env:
-  DOCKER_ORG: pangeodev
+  DOCKER_ORG: pangeo
   GITHUB_SHA: ${{ github.sha }}
   GITHUB_REF: ${{ github.ref }}
 

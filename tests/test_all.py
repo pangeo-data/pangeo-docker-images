@@ -9,11 +9,21 @@ def test_config_paths():
     assert os.path.exists('/srv/start')
     assert os.path.exists('/srv/conda/etc/dask.yml')
 
-def test_import_metapackage():
-    importlib.import_module('pangeo-notebook')
-
-def test_conda_environment():
+def test_default_conda_environment():
     assert sys.prefix == '/srv/conda/envs/pangeo'
+
+packages = [
+    # included in pangeo-notebook metapackage
+    # https://github.com/conda-forge/pangeo-notebook-feedstock/blob/master/recipe/meta.yaml
+    'dask', 'distributed', 'dask_kubernetes', 'dask_gateway', 'dask_labextension',
+    # jupyterhub and related utilities
+    'jupyterhub', 'jupyterlab', 'nbgitpuller'
+    ]
+
+@pytest.mark.parametrize('package_name', packages, ids=packages)
+def test_import(package_name):
+    importlib.import_module(package_name)
+
 
 def test_dask_config():
     import dask
@@ -22,15 +32,12 @@ def test_dask_config():
     assert dask.config.config['labextension']['factory']['class'] == 'KubeCluster'
     assert 'worker-template' in dask.config.config['kubernetes']
 
-# @pytest.fixture(scope='module')
-# def client():
-#     from dask.distributed import Client
-#     with Client(n_workers=4) as dask_client:
-#         yield dask_client
-#
-#
-# def test_check_dask_version(client):
-#     print(client)
-#     versions = client.get_versions(check=True)
-#v["name"] for v in self.scheduler_info["workers"].values()
-#KeyError: 'workers'
+@pytest.fixture(scope='module')
+def client():
+    from dask.distributed import Client
+    with Client(n_workers=4) as dask_client:
+        yield dask_client
+
+def test_check_dask_version(client):
+    print(client)
+    versions = client.get_versions(check=True)

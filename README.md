@@ -1,61 +1,64 @@
-# pangeo-stacks-dev
+# Pangeo Docker Images
 
-![Action Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/Staging/badge.svg) ![Action Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/Production/badge.svg)
+![Base-Notebook Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/BaseNotebook/badge.svg)
+![Pangeo-Notebook Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/PangeoNotebook/badge.svg) ![ML-Notebook Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/MLNotebook/badge.svg)
+![Build Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/Build/badge.svg)
+![Publish Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/Publish/badge.svg)
 
-An experiment to simplify Pangeo docker images
-See: https://github.com/pangeo-data/pangeo-stacks/issues/125
 
-Goals:
-1) compatibility with Pangeo BinderHubs and JupyterHubs
-2) smaller size, faster build
-3) easy to customize
-4) compatibility with Repo2Docker sidecar files (apt.txt, environment.yml, postBuild, start)
+![](https://img.shields.io/docker/v/pangeodev/base-image?sort=date)
 
-Design:
-Everything stems from the `Dockerfile` in the `base-image` folder. The `base-image` installs a miniconda base environment and configures default settings for conda and dask with `condarc` and `dask_config.yml`. Compatible dask and jupyter packages are guaranteed by specifying the `pangeo-notebook` conda metapackage in `base-image/condarc` file. `-notebook` images run ONBUILD commands from the base-image to create JupyerLab UI packages and extensions installed and are consequently much larger in size:
-```
-pangeodev/ml-notebook       2020.03.11     4.83GB
-pangeodev/pangeo-notebook   2020.03.11     1.92GB
-pangeodev/base-notebook     2020.03.11     794MB
-pangeodev/base-image        2020.03.11     204MB
-```
+| Image           | Description                                   |  Size | Pulls |
+|-----------------|-----------------------------------------------|--------------|-------------|
+| base-image      | Foundational Dockerfile for builds            | ![](https://img.shields.io/docker/image-size/pangeodev/base-image?sort=date) | ![](https://img.shields.io/docker/pulls/pangeodev/base-image?sort=date)
+| base-notebook   | minimally functional image for pangeo hubs    | ![](https://img.shields.io/docker/image-size/pangeodev/base-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeodev/base-notebook?sort=date)
+| pangeo-notebook | above + core earth science analysis packages  | ![](https://img.shields.io/docker/image-size/pangeodev/pangeo-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeodev/pangeo-notebook?sort=date)
+| ml-notebook     | above + GPU-enabled tensorflow2               | ![](https://img.shields.io/docker/image-size/pangeodev/ml-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeodev/ml-notebook?sort=date)
 
+
+### Goals:
+  1. compatibility with Pangeo BinderHubs and JupyterHubs
+  1. smaller size, faster build
+  1. easy to customize
+  1. compatibility with Repo2Docker Python sidecar files
+
+### Design:
+Everything stems from the `Dockerfile` in the `base-image` folder. The `base-image` configures default settings for Conda and Dask with `condarc` and `dask_config.yml` files. The `base-image` is not meant to run on its own, it is the common foundation for `-notebook` images that install Python packages including JupyerLab and lab extensions. Lists of Conda packages for each image are specified in an `environment.yml` in each `-notebook` folder and compatible Dask and Jupyter packages are guaranteed by specifying the `pangeo-notebook` [conda metapackage](https://github.com/conda-forge/pangeo-notebook-feedstock).
+
+You can pre-solve for compatible environments locally with [conda-lock](https://github.com/mariusvniekerk/conda-lock/blob/master/README.md) to convert a human-editable `environment.yml` file to [spec-file.txt](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#building-identical-conda-environments) which is an explicit list of compatible packages solved by Conda. The major advantage of doing this is that if you rebuild at a later date the resulting image is identical, which is important for reproducibility. For this reason, building off the `base-image` a `spec-file.txt` is preferred over `environment.yml`.
 
 ### Image tagging and "continuous building"
-https://hub.docker.com/orgs/pangeodev
+All images are public on DockerHub: https://hub.docker.com/orgs/pangeo
 
-* `pangeodev/base-notebook:latest` is always most recent production image. Tags pushed to GitHub also correspond to tags on dockerhub `pangeodev/base-image:0.0.1`
+* Pull requests from forks trigger rebuilding all image but can't push to DockerHub because they don't have access to repo secrets for authentication.
 
-* `pangeodev/base-notebook:master` corresponds to current staging image in sync with master branch. Built with every commit to master. Also tagged with short github SHA `pangeodev/base-notebook:2639bd3`
+* `pangeo/base-notebook:master` corresponds to current "staging" image in sync with master branch. Built with every commit to master. Also tagged with short GitHub short SHA `pangeo/base-notebook:2639bd3`.
 
-* Pull requests automatically trigger building image but can't push to dockerhub b/c they don't have access to repo secrets for authentication
+* Tags pushed to GitHub represent "production" releases with corresponding tags on dockerhub `pangeo/pangeo-notebook:2020.03.11`. The `latest` tag also corresponds to the most recent GitHub tag.
 
-### Test BinderHub configuration
+### To build locally (and make a PR)
+**Important!!!** regenerating the conda-lockfile is not currently done through CI. You need to create this file locally and include it in your PR. You'll need at least Conda installed, and Docker if you want to build and test locally.
+```
+# create a fork of this repo and clone it locally
+git clone https://github.com/mygithub/pangeo-stacks-dev
+cd pangeo-stacks-dev
+# Install conda-lock
+conda env create -n environment-condalock.yml
+git checkout -b change-pangeo-notebook
+```
+
+edit `pangeo-notebook/environment.yml` to change packages! Note that `make pangeo-notebook` is a convenient shortcut to build and test. See the Makefile for specific commands that are run. For example, you can just run conda-lock and don't have to build and test locally.
+```
+make pangeo-notebook
+git commit -a -m "added x packages, changed x version"
+git push
+# go to github to create PR, or use github cli https://cli.github.com
+```
+
+### Use base-image for BinderHub-compatible repos
 https://github.com/scottyhq/pangeodev-binder
 
 ### To run locally
 ```
-docker pull pangeodev/base-notebook:latest
-docker run -it --name repo2docker -p 8888:8888 pangeodev/base-notebook:latest jupyter lab --ip 0.0.0.0
-docker stop repo2docker
-docker rm repo2docker
-```
-
-### To build locally
-(pangeo-image)
-```
-git clone https://github.com/pangeo-data/pangeo-stacks-dev
-make base-image
-make base-notebook
-make pangeo-notebook
-make ml-notebook
-```
-
-
-### Image descriptions
-```
-base-image/      master Dockerfile for building images, conda and filesystem configured
-base-notebook/   minimally functional image for pangeo jupyterhub and binderhub notebooks
-pangeo-notebook/ add core earth science analysis packages
-ml-notebook/     add core earth science analysis packages and tensorflow2 (GPU-enabled)
+docker run -it --rm -p 8888:8888 pangeo/base-notebook:latest jupyter lab --ip 0.0.0.0
 ```

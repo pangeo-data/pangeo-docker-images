@@ -3,19 +3,22 @@
 
 base-image :
 	cd base-image ; \
-	docker build -t pangeodev/base-image:master .
+	docker build -t pangeo/base-image:master .
 
 base-notebook : base-image
-	./update_lockfile.sh base-notebook ; \
+	CONDARC=base-image/condarc ./update_lockfile.sh base-notebook ; \
 	cd base-notebook ; \
-	docker build -f ../Dockerfile -t pangeodev/base-notebook:master .
+	docker build -t pangeo/base-notebook:master . ; \
+	docker run -v $(PWD):/home/jovyan pangeo/base-notebook:master ./run_tests.sh base-notebook
 
 pangeo-notebook : base-image
-	./update_lockfile.sh pangeo-notebook ; \
+	CONDARC=base-image/condarc ./update_lockfile.sh pangeo-notebook ; \
 	cd pangeo-notebook ; \
-	docker build -f ../Dockerfile -t pangeodev/pangeo-notebook:master .
+	docker build -t pangeo/pangeo-notebook:master . ; \
+	docker run -v $(PWD):/home/jovyan pangeo/pangeo-notebook:master ./run_tests.sh pangeo-notebook
 
 ml-notebook : base-image
-	CONDARC=ml-notebook/.condarc ./update_lockfile.sh ml-notebook ; \
+	CONDARC=ml-notebook/condarc ./update_lockfile.sh ml-notebook ; \
 	cd ml-notebook ; \
-	docker build -f ../Dockerfile -t pangeodev/ml-notebook:master .
+	docker build -t pangeo/ml-notebook:master . ; \
+	docker run -v $(PWD):/home/jovyan pangeo/ml-notebook:master ./run_tests.sh ml-notebook
