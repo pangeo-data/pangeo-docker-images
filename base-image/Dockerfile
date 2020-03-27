@@ -79,7 +79,7 @@ ONBUILD RUN echo "Checking for conda 'spec-file.txt' or 'environment.yml'..." \
         ; elif test -f "environment.yml" ; then \
         conda env create -f environment.yml  \
         ; else echo "No spec-file.txt or environment.yml! *creating default env*" ; \
-        conda create --name pangeo pangeo-notebook=0.0.2 \
+        conda create --name pangeo pangeo-notebook \
         ; fi \
         && conda clean -yaf \
         && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
