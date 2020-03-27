@@ -71,7 +71,6 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
         workdir: ${{ matrix.IMAGE }}
-        dockerfile: ../Dockerfile
         tags: "master, ${{env.DOCKER_TAG}}"
 
     - name: Export Full Conda Environment
