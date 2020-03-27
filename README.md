@@ -1,10 +1,7 @@
 # Pangeo Docker Images
 
-![Base-Notebook Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/BaseNotebook/badge.svg)
-![Pangeo-Notebook Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/PangeoNotebook/badge.svg) ![ML-Notebook Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/MLNotebook/badge.svg)
 ![Build Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/Build/badge.svg)
 ![Publish Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/Publish/badge.svg)
-
 
 Latest production release: ![](https://img.shields.io/docker/v/pangeodev/base-image?sort=date)
 | Image           | Description                                   |  Size | Pulls |
@@ -14,18 +11,13 @@ Latest production release: ![](https://img.shields.io/docker/v/pangeodev/base-im
 | pangeo-notebook | above + core earth science analysis packages  | ![](https://img.shields.io/docker/image-size/pangeodev/pangeo-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeodev/pangeo-notebook?sort=date)
 | ml-notebook     | above + GPU-enabled tensorflow2               | ![](https://img.shields.io/docker/image-size/pangeodev/ml-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeodev/ml-notebook?sort=date)
 
-  1. compatibility with Pangeo BinderHubs and JupyterHubs
-  1. smaller size, faster build
-  1. easy to customize
-  1. compatibility with Repo2Docker Python sidecar files
-
 ### Design:
 
-  1. compatibility with Pangeo BinderHubs and JupyterHubs
+  1. compatible with [Pangeo BinderHubs](https://github.com/pangeo-data/pangeo-binder) and [JupyterHubs](https://github.com/pangeo-data/pangeo-cloud-federation)
+  1. compatible with [Repo2Docker Python configuration files](https://repo2docker.readthedocs.io/en/latest/config_files.html)
+  1. reproducible build process and explicit conda package lists
   1. small size, fast build
   1. easy to customize
-  1. reproducible builing process and explicit conda package lists
-  1. compatibility with Repo2Docker Python sidecar files
 
 Everything stems from the `Dockerfile` in the `base-image` folder. The `base-image` configures default settings for Conda and Dask with `condarc` and `dask_config.yml` files. The `base-image` is not meant to run on its own, it is the common foundation for `-notebook` images that install Python packages including JupyerLab and lab extensions. Lists of Conda packages for each image are specified in an `environment.yml` in each `-notebook` folder and compatible Dask and Jupyter packages are guaranteed by specifying the `pangeo-notebook` [conda metapackage](https://github.com/conda-forge/pangeo-notebook-feedstock).
 
