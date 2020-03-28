@@ -2,8 +2,9 @@
 
 ![Build Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/Build/badge.svg)
 ![Publish Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/Publish/badge.svg)
+![DockerHub Version](https://img.shields.io/docker/v/pangeo/base-image?sort=date)
 
-Latest DockerHub Images: ![](https://img.shields.io/docker/v/pangeo/base-image?sort=date)
+Latest DockerHub Images: https://hub.docker.com/orgs/pangeo/repositories 
 | Image           | Description                                   |  Size | Pulls |
 |-----------------|-----------------------------------------------|--------------|-------------|
 | base-image      | Foundational Dockerfile for builds            | ![](https://img.shields.io/docker/image-size/pangeo/base-image?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/base-image?sort=date)
