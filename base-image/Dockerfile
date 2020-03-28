@@ -45,10 +45,12 @@ RUN echo "Installing Miniconda3..." \
     && /bin/bash miniconda.sh -u -b -p ${CONDA_DIR} \
     && rm miniconda.sh \
     && mv /srv/condarc ${CONDA_DIR}/.condarc \
-    && mv /srv/dask_config.yml ${CONDA_DIR}/etc/dask.yml \
     && conda clean -afy \
     && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
     && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete
+
+RUN echo "Copying configuration files..." \
+    && mv /srv/dask_config.yml ${CONDA_DIR}/etc/dask.yml
 
 EXPOSE 8888
 ENTRYPOINT ["/srv/start"]
