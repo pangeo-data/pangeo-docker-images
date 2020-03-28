@@ -29,9 +29,14 @@ RUN echo "Creating ${NB_USER} user..." \
 #COPY --chown=${NB_USER}:${NB_USER} . ${HOME}
 COPY --chown=jovyan:jovyan . /srv
 
+# SEE: https://github.com/phusion/baseimage-docker/issues/58
+# and https://github.com/phusion/baseimage-docker/issues/319
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN echo "Installing Apt-get packages..." \
     && apt-get update --fix-missing \
-    && apt-get install wget -y \
+    && apt-get install -y apt-utils 2> /dev/null \
+    && apt-get install -y wget \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 # ========================
@@ -62,6 +67,7 @@ ONBUILD USER root
 # hardcode for now
 ONBUILD COPY --chown=jovyan:jovyan . /home/jovyan
 
+ONBUILD ARG DEBIAN_FRONTEND=noninteractive
 ONBUILD RUN echo "Checking for 'apt.txt'..." \
         ; [ -d binder ] && cd binder \
         ; if test -f "apt.txt" ; then \
