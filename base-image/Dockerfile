@@ -44,7 +44,7 @@ RUN echo "Installing Miniconda3..." \
     && wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -O miniconda.sh \
     && /bin/bash miniconda.sh -u -b -p ${CONDA_DIR} \
     && rm miniconda.sh \
-    && mv /srv/condarc ${CONDA_DIR}/.condarc \
+    && mv /srv/condarc.yml ${CONDA_DIR}/.condarc \
     && conda clean -afy \
     && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
     && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete
