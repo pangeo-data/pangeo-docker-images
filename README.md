@@ -3,13 +3,13 @@
 ![Build Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/Build/badge.svg)
 ![Publish Status](https://github.com/pangeo-data/pangeo-stacks-dev/workflows/Publish/badge.svg)
 
-Latest production release: ![](https://img.shields.io/docker/v/pangeo/base-image?sort=date)
+Latest DockerHub Images: ![](https://img.shields.io/docker/v/pangeo/base-image?sort=date)
 | Image           | Description                                   |  Size | Pulls |
 |-----------------|-----------------------------------------------|--------------|-------------|
-| base-image      | Foundational Dockerfile for builds            | ![](https://img.shields.io/docker/image-size/pangeodev/base-image?sort=date) | ![](https://img.shields.io/docker/pulls/pangeodev/base-image?sort=date)
-| base-notebook   | minimally functional image for pangeo hubs    | ![](https://img.shields.io/docker/image-size/pangeodev/base-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeodev/base-notebook?sort=date)
-| pangeo-notebook | above + core earth science analysis packages  | ![](https://img.shields.io/docker/image-size/pangeodev/pangeo-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeodev/pangeo-notebook?sort=date)
-| ml-notebook     | above + GPU-enabled tensorflow2               | ![](https://img.shields.io/docker/image-size/pangeodev/ml-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeodev/ml-notebook?sort=date)
+| base-image      | Foundational Dockerfile for builds            | ![](https://img.shields.io/docker/image-size/pangeo/base-image?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/base-image?sort=date)
+| base-notebook   | minimally functional image for pangeo hubs    | ![](https://img.shields.io/docker/image-size/pangeo/base-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/base-notebook?sort=date)
+| pangeo-notebook | above + core earth science analysis packages  | ![](https://img.shields.io/docker/image-size/pangeo/pangeo-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/pangeo-notebook?sort=date)
+| ml-notebook     | above + GPU-enabled tensorflow2               | ![](https://img.shields.io/docker/image-size/pangeo/ml-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/ml-notebook?sort=date)
 
 ### Design:
 
