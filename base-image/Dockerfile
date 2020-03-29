@@ -80,13 +80,13 @@ ONBUILD RUN echo "Checking for 'apt.txt'..." \
 ONBUILD USER ${NB_USER}
 
 # Create "pangeo" conda environment and dask labextensions
-ONBUILD RUN echo "Checking for conda 'spec-file.txt' or 'environment.yml'..." \
+ONBUILD RUN echo "Checking for 'conda-linux-64.lock' or 'environment.yml'..." \
         ; [ -d binder ] && cd binder \
-        ; if test -f "spec-file.txt" ; then \
-        conda create --name pangeo --file spec-file.txt \
+        ; if test -f "conda-linux-64.lock" ; then \
+        conda create --name pangeo --file conda-linux-64.lock \
         ; elif test -f "environment.yml" ; then \
         conda env create -f environment.yml  \
-        ; else echo "No spec-file.txt or environment.yml! *creating default env*" ; \
+        ; else echo "No conda-linux-64.lock or environment.yml! *creating default env*" ; \
         conda create --name pangeo pangeo-notebook \
         ; fi \
         && conda clean -yaf \

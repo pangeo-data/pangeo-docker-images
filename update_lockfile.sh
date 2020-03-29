@@ -6,6 +6,5 @@
 # conda activate condalock
 conda activate condalock
 conda-lock -f $1/environment.yml -p linux-64
-mv conda-linux-64.lock $1/spec-file.txt
-echo "Explicit conda package list spec-file.txt created in $1"
+echo "Fully reproducible Conda lock file created in $1"
 # EOF
