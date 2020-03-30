@@ -2,8 +2,10 @@ FROM ubuntu:18.04
 # Master build file for pangeo images
 
 # Run this section as root
+# try to keep conda version in sync with repo2docker
 # ========================
-ENV CONDA_VERSION=4.7.12.1 \
+ENV CONDA_VERSION=4.8.2-1 \
+    CONDA_ENV=notebook \
     NB_USER=jovyan \
     NB_UID=1000 \
     SHELL=/bin/bash \
@@ -11,7 +13,7 @@ ENV CONDA_VERSION=4.7.12.1 \
     LC_ALL=C.UTF-8 \
     CONDA_DIR=/srv/conda
 
-ENV NB_PYTHON_PREFIX=${CONDA_DIR}/envs/pangeo \
+ENV NB_PYTHON_PREFIX=${CONDA_DIR}/envs/${CONDA_ENV} \
     DASK_ROOT_CONFIG=${CONDA_DIR}/etc \
     HOME=/home/${NB_USER} \
     PATH=${CONDA_DIR}/bin:${PATH}
@@ -20,7 +22,7 @@ ENV NB_PYTHON_PREFIX=${CONDA_DIR}/envs/pangeo \
 RUN echo "Creating ${NB_USER} user..." \
     && groupadd --gid ${NB_UID} ${NB_USER}  \
     && useradd --create-home --gid ${NB_UID} --no-log-init --uid ${NB_UID} ${NB_USER} \
-    && echo ". ${CONDA_DIR}/etc/profile.d/conda.sh ; conda activate pangeo" > /etc/profile.d/init_conda.sh \
+    && echo ". ${CONDA_DIR}/etc/profile.d/conda.sh ; conda activate ${CONDA_ENV}" > /etc/profile.d/init_conda.sh \
     && chown -R ${NB_USER}:${NB_USER} /srv
 
 # COPY chown available docker>17.09
@@ -44,17 +46,17 @@ RUN echo "Installing Apt-get packages..." \
 USER ${NB_USER}
 WORKDIR ${HOME}
 
-# NOTE: could use conda 4.8.2 with `conda update -n base -c defaults conda`
-RUN echo "Installing Miniconda3..." \
-    && wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -O miniconda.sh \
+RUN echo "Installing Miniforge..." \
+    && URL="https://github.com/conda-forge/miniforge/releases/download/${CONDA_VERSION}/Miniforge3-${CONDA_VERSION}-Linux-x86_64.sh" \
+    && wget --quiet ${URL} -O miniconda.sh \
     && /bin/bash miniconda.sh -u -b -p ${CONDA_DIR} \
     && rm miniconda.sh \
-    && mv /srv/condarc.yml ${CONDA_DIR}/.condarc \
     && conda clean -afy \
     && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
     && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete
 
 RUN echo "Copying configuration files..." \
+    && mv /srv/condarc.yml ${CONDA_DIR}/.condarc \
     && mv /srv/dask_config.yml ${CONDA_DIR}/etc/dask.yml
 
 EXPOSE 8888
@@ -79,15 +81,15 @@ ONBUILD RUN echo "Checking for 'apt.txt'..." \
 
 ONBUILD USER ${NB_USER}
 
-# Create "pangeo" conda environment and dask labextensions
+# Create "notebook" conda environment and dask labextensions
 ONBUILD RUN echo "Checking for 'conda-linux-64.lock' or 'environment.yml'..." \
         ; [ -d binder ] && cd binder \
         ; if test -f "conda-linux-64.lock" ; then \
-        conda create --name pangeo --file conda-linux-64.lock \
+        conda create --name ${CONDA_ENV} --file conda-linux-64.lock \
         ; elif test -f "environment.yml" ; then \
-        conda env create -f environment.yml  \
+        conda env create --name ${CONDA_ENV} -f environment.yml  \
         ; else echo "No conda-linux-64.lock or environment.yml! *creating default env*" ; \
-        conda create --name pangeo pangeo-notebook \
+        conda create --name ${CONDA_ENV} pangeo-notebook \
         ; fi \
         && conda clean -yaf \
         && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
@@ -100,14 +102,14 @@ ONBUILD RUN echo "Checking for 'conda-linux-64.lock' or 'environment.yml'..." \
 ONBUILD RUN echo "Checking for pip 'requirements.txt'..." \
         ; [ -d binder ] && cd binder \
         ; if test -f "requirements.txt" ; then \
-        ${CONDA_DIR}/envs/pangeo/bin/pip install --no-cache-dir -r requirements.txt \
+        ${NB_PYTHON_PREFIX}/bin/pip install --no-cache-dir -r requirements.txt \
         ; fi
 
 # Run postBuild script within "pangeo" environment
 ONBUILD RUN echo "Checking for 'postBuild'..." \
         ; [ -d binder ] && cd binder \
         ; if test -f "postBuild" ; then \
-        export PATH=${CONDA_DIR}/envs/pangeo/bin:${PATH} \
+        export PATH=${NB_PYTHON_PREFIX}/bin:${PATH} \
         && chmod +x postBuild \
         && ./postBuild \
         && rm -r /tmp/* \
