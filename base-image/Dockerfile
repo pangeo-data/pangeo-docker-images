@@ -29,9 +29,14 @@ RUN echo "Creating ${NB_USER} user..." \
 #COPY --chown=${NB_USER}:${NB_USER} . ${HOME}
 COPY --chown=jovyan:jovyan . /srv
 
+# SEE: https://github.com/phusion/baseimage-docker/issues/58
+# and https://github.com/phusion/baseimage-docker/issues/319
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN echo "Installing Apt-get packages..." \
     && apt-get update --fix-missing \
-    && apt-get install wget -y \
+    && apt-get install -y apt-utils 2> /dev/null \
+    && apt-get install -y wget \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 # ========================
@@ -44,11 +49,13 @@ RUN echo "Installing Miniconda3..." \
     && wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -O miniconda.sh \
     && /bin/bash miniconda.sh -u -b -p ${CONDA_DIR} \
     && rm miniconda.sh \
-    && mv /srv/condarc ${CONDA_DIR}/.condarc \
-    && mv /srv/dask_config.yml ${CONDA_DIR}/etc/dask.yml \
+    && mv /srv/condarc.yml ${CONDA_DIR}/.condarc \
     && conda clean -afy \
     && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
     && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete
+
+RUN echo "Copying configuration files..." \
+    && mv /srv/dask_config.yml ${CONDA_DIR}/etc/dask.yml
 
 EXPOSE 8888
 ENTRYPOINT ["/srv/start"]
@@ -60,6 +67,7 @@ ONBUILD USER root
 # hardcode for now
 ONBUILD COPY --chown=jovyan:jovyan . /home/jovyan
 
+ONBUILD ARG DEBIAN_FRONTEND=noninteractive
 ONBUILD RUN echo "Checking for 'apt.txt'..." \
         ; [ -d binder ] && cd binder \
         ; if test -f "apt.txt" ; then \
@@ -72,13 +80,13 @@ ONBUILD RUN echo "Checking for 'apt.txt'..." \
 ONBUILD USER ${NB_USER}
 
 # Create "pangeo" conda environment and dask labextensions
-ONBUILD RUN echo "Checking for conda 'spec-file.txt' or 'environment.yml'..." \
+ONBUILD RUN echo "Checking for 'conda-linux-64.lock' or 'environment.yml'..." \
         ; [ -d binder ] && cd binder \
-        ; if test -f "spec-file.txt" ; then \
-        conda create --name pangeo --file spec-file.txt \
+        ; if test -f "conda-linux-64.lock" ; then \
+        conda create --name pangeo --file conda-linux-64.lock \
         ; elif test -f "environment.yml" ; then \
         conda env create -f environment.yml  \
-        ; else echo "No spec-file.txt or environment.yml! *creating default env*" ; \
+        ; else echo "No conda-linux-64.lock or environment.yml! *creating default env*" ; \
         conda create --name pangeo pangeo-notebook \
         ; fi \
         && conda clean -yaf \
