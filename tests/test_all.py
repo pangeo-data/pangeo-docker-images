@@ -10,7 +10,7 @@ def test_config_paths():
     assert os.path.exists('/srv/conda/etc/dask.yml')
 
 def test_default_conda_environment():
-    assert sys.prefix == '/srv/conda/envs/pangeo'
+    assert sys.prefix == '/srv/conda/envs/notebook'
 
 packages = [
     # included in pangeo-notebook metapackage
@@ -24,11 +24,11 @@ packages = [
 def test_import(package_name):
     importlib.import_module(package_name)
 
-
+# NOTE: will want to change these for dask-gateway
 def test_dask_config():
     import dask
-
-    assert '/srv/conda/envs/pangeo/etc/dask' in dask.config.paths
+    assert '/srv/conda/etc' in dask.config.paths
+    assert '/srv/conda/envs/notebook/etc/dask' in dask.config.paths
     assert dask.config.config['labextension']['factory']['class'] == 'KubeCluster'
     assert 'worker-template' in dask.config.config['kubernetes']
 
@@ -43,4 +43,3 @@ def test_dask_config():
 #def test_check_dask_version(client):
 #    print(client)
 #    versions = client.get_versions(check=True)
-

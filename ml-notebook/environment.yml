@@ -6,6 +6,8 @@ dependencies:
  - python=3.7*
  - pangeo-notebook=2020.03.27
  - pip=20
+ - bokeh<2
+# ERROR: panel 0.9.3 has requirement bokeh>=2.0.0, but you'll have bokeh 1.4.0 which is incompatible
 # Conda solver conflicts for these
 #rapidsai-nightly/linux-64::cuspatial
 #rapidsai-nightly/linux-64::cudf
@@ -27,7 +29,7 @@ dependencies:
  - nb_conda_kernels
  - numpy
  - pandas
- - panel
+ - panel<0.9.3
  - rasterio
  - s3fs
  - scikit-image
