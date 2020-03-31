@@ -6,7 +6,7 @@ on:
   repository_dispatch:
     types: [condalock-command]
 jobs:
-  autopep8:
+  condalock:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -26,6 +26,7 @@ jobs:
 
       # For now run in all 3 notebook subfolders
       - name: Run Condalock
+        shell: bash -l {0}
         run: |
           CONDARC=base-image/condarc.yml conda-lock -f environment.yml -p linux-64
           mv conda-linux-64.lock base-notebook/
