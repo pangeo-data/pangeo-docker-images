@@ -1,5 +1,5 @@
 # Check for new versions of pangeo-notebook metapackage on Conda Forge
-name: WhatCondaForge
+name: WatchCondaForge
 
 on:
   schedule:
@@ -11,19 +11,23 @@ jobs:
     if: github.repository == 'pangeo-data/pangeo-stacks-dev'
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
       - name: Get latest pangeo-notebook version
         id: latest_version
         uses: jacobtomlinson/gha-anaconda-package-version@0.1.1
         with:
           org: "conda-forge"
           package: "pangeo-notebook"
+
       - name: Find and Replace Base
         uses: jacobtomlinson/gha-find-replace@0.1.1
         with:
           include: "*-notebook/environment.yml"
           find: "pangeo-notebook=.* "
           replace: "pangeo-notebook=${{ steps.latest_version.outputs.version }} "
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v2
         with:

@@ -1,0 +1,54 @@
+# Slash Command for running conda-lock on PRs
+# https://github.com/peter-evans/slash-command-dispatch/pull/11
+name: CondaLock
+
+on:
+  repository_dispatch:
+    types: [condalock-command]
+jobs:
+  condalock:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.client_payload.pull_request.head.ref }}
+
+      - name: Setup Conda Environment
+        uses: goanpeca/setup-miniconda@v1
+        with:
+           environment-file: environment-condalock.yml
+           activate-environment: condalock
+           miniconda-version: 4.7.12
+           auto-update-conda: true
+
+      # For now run in all 3 notebook subfolders
+      - name: Run Condalock
+        shell: bash -l {0}
+        run: |
+          CONDARC=base-image/condarc.yml conda-lock -f environment.yml -p linux-64
+          mv conda-linux-64.lock base-notebook/
+
+          CONDARC=base-image/condarc.yml conda-lock -f environment.yml -p linux-64
+          mv conda-linux-64.lock pangeo-notebook
+
+          CONDARC=ml-notebook/condarc.yml conda-lock -f environment.yml -p linux-64
+          mv conda-linux-64.lock ml-notebook
+
+      # Commit the change to the PR branch
+      - name: Commit to the PR branch
+        run: |
+          git config --global user.name 'actions-bot'
+          git config --global user.email '58130806+actions-bot@users.noreply.github.com'
+          git commit -am "[condalock-command] fixes"
+          git push
+
+      - name: Add reaction
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+          comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+          reaction-type: hooray
