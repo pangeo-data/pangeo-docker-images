@@ -30,6 +30,7 @@ jobs:
           replace: "pangeo-notebook=${{ steps.latest_version.outputs.version }}"
 
       - name: Create Pull Request
+        id: cpr
         uses: peter-evans/create-pull-request@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -37,12 +38,17 @@ jobs:
           title: "Update pangeo-notebook metapackage version to ${{ steps.latest_version.outputs.version }}"
           reviewers: "scottyhq"
           branch: "upgrade-pangeo-metapackage-version"
-          branch-suffix: timestamp
           body: |
-            /condalock
-
             A new pangeo-metapackage version has been detected.
 
             Updated `environment.yml`s to use `${{ steps.latest_version.outputs.version }}`.
 
-            Automatically locking new conda environment, building and testing images.
+      - name: Add Condalock Comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          issue-number: ${{ steps.cpr.outputs.pr_number }}
+          body: |
+            /condalock
+
+            Automatically locking new conda environment, building, and testing images...
