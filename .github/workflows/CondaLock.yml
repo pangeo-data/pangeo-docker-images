@@ -22,20 +22,21 @@ jobs:
            environment-file: environment-condalock.yml
            activate-environment: condalock
            miniconda-version: 4.7.12
-           auto-update-conda: true
+           auto-activate-base: false
+           auto-update-conda: false
 
       # For now run in all 3 notebook subfolders
       - name: Run Condalock
         shell: bash -l {0}
         run: |
-          CONDARC=base-image/condarc.yml conda-lock -f environment.yml -p linux-64
-          mv conda-linux-64.lock base-notebook/
+          cd base-notebook
+          CONDARC=../base-image/condarc.yml conda-lock -f environment.yml -p linux-64
 
-          CONDARC=base-image/condarc.yml conda-lock -f environment.yml -p linux-64
-          mv conda-linux-64.lock pangeo-notebook
+          cd ../pangeo-notebook
+          CONDARC=../base-image/condarc.yml conda-lock -f environment.yml -p linux-64
 
-          CONDARC=ml-notebook/condarc.yml conda-lock -f environment.yml -p linux-64
-          mv conda-linux-64.lock ml-notebook
+          cd ../ml-notebook
+          CONDARC=condarc.yml conda-lock -f environment.yml -p linux-64
 
       # Commit the change to the PR branch
       - name: Commit to the PR branch
