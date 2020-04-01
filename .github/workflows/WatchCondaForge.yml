@@ -37,7 +37,12 @@ jobs:
           title: "Update pangeo-notebook metapackage version to ${{ steps.latest_version.outputs.version }}"
           reviewers: "scottyhq"
           branch: "upgrade-pangeo-metapackage-version"
+          branch-suffix: timestamp
           body: |
+            /condalock
+
             A new pangeo-metapackage version has been detected.
 
             Updated `environment.yml`s to use `${{ steps.latest_version.outputs.version }}`.
+
+            Automatically locking new conda environment, building and testing images.
