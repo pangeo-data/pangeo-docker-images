@@ -20,11 +20,12 @@ jobs:
         with:
           org: "conda-forge"
           package: "pangeo-notebook"
+          version_system: "CalVer"
 
       - name: Find and Replace Base
         uses: jacobtomlinson/gha-find-replace@0.1.1
         with:
-          include: ".*/environment.yml"
+          include: ".*"  # TODO: FIXME!
           find: "pangeo-notebook=.* "
           replace: "pangeo-notebook=${{ steps.latest_version.outputs.version }} "
 
