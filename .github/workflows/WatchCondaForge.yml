@@ -25,9 +25,9 @@ jobs:
       - name: Find and Replace Base
         uses: jacobtomlinson/gha-find-replace@0.1.1
         with:
-          include: ".*"  # TODO: FIXME!
-          find: "pangeo-notebook=.* "
-          replace: "pangeo-notebook=${{ steps.latest_version.outputs.version }} "
+          include: "environment.yml"
+          find: "pangeo-notebook=.*"
+          replace: "pangeo-notebook=${{ steps.latest_version.outputs.version }}"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v2
