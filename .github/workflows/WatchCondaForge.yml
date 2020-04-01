@@ -16,7 +16,7 @@ jobs:
 
       - name: Get latest pangeo-notebook version
         id: latest_version
-        uses: jacobtomlinson/gha-anaconda-package-version@0.1.1
+        uses: jhamman/gha-anaconda-package-version@feature/calver
         with:
           org: "conda-forge"
           package: "pangeo-notebook"
@@ -24,7 +24,7 @@ jobs:
       - name: Find and Replace Base
         uses: jacobtomlinson/gha-find-replace@0.1.1
         with:
-          include: "*-notebook/environment.yml"
+          include: ".*/environment.yml"
           find: "pangeo-notebook=.* "
           replace: "pangeo-notebook=${{ steps.latest_version.outputs.version }} "
 
