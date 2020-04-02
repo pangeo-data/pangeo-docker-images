@@ -60,6 +60,7 @@ jobs:
             Updated `environment.yml`s to use `${{ steps.latest_version.outputs.version }}`.
 
       - name: Add Condalock Comment
+        if: steps.check_branch.outputs.exists == 'False'
         uses: peter-evans/create-or-update-comment@v1
         with:
           token: ${{ secrets.PERSONAL_TOKEN }}
