@@ -44,7 +44,7 @@ conda env create -f environment-condalock.yml
 git checkout -b change-pangeo-notebook
 ```
 
-edit `pangeo-notebook/environment.yml` to change packages! Note that `make pangeo-notebook` is a convenient shortcut to build and test. See the Makefile for specific commands that are run. For example, you can just run conda-lock and don't have to build and test locally.
+Edit `pangeo-notebook/environment.yml` to change packages! Note that `make pangeo-notebook` is a convenient shortcut to build and test. See the Makefile for specific commands that are run. For example, you can just run conda-lock and don't have to build and test locally.
 ```
 make pangeo-notebook
 git commit -a -m "added x packages, changed x version"
