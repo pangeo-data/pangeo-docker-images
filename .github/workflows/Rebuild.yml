@@ -6,13 +6,13 @@ on:
   repository_dispatch:
     types: [rebuild-command]
 jobs:
-  condalock:
+  rebuild:
     runs-on: ubuntu-latest
     steps:
-    - name: Set Job Environment Variables
-      run: |
-        CALVER="$( date -u '+%Y.%m.%d' )"
-        echo "::set-env name=CALVER::${CALVER}"
+      - name: Set Job Environment Variables
+        run: |
+          CALVER="$( date -u '+%Y.%m.%d' )"
+          echo "::set-env name=CALVER::${CALVER}"
 
       - name: Checkout Repository
         uses: actions/checkout@v2
