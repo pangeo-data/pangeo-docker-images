@@ -1,5 +1,5 @@
 # https://github.com/peter-evans/slash-command-dispatch
-name: Slash Command Dispatch
+name: Issue ChatOps Dispatch
 on:
   issue_comment:
     types: [created]
@@ -10,8 +10,8 @@ jobs:
       - name: Slash Command Dispatch
         uses: peter-evans/slash-command-dispatch@v1
         with:
-          token: ${{ secrets.PERSONAL_TOKEN }}
+          token: ${{ secrets.PANGEOBOT_TOKEN }}
           reaction-token: ${{ secrets.GITHUB_TOKEN }}
-          issue-type: pull-request
-          permission: none
-          commands: condalock
+          issue-type: issue
+          permission: admin
+          commands: rebuild

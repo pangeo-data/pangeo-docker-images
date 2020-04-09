@@ -34,6 +34,7 @@ jobs:
         uses: peter-evans/create-pull-request@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          committer: Pangeo Bot <pangeo-bot@users.noreply.github.com>
           commit-message: "Update pangeo-notebook metapackage version to ${{ steps.latest_version.outputs.version }}"
           title: "Update pangeo-notebook metapackage version to ${{ steps.latest_version.outputs.version }}"
           reviewers: "scottyhq"
@@ -46,7 +47,7 @@ jobs:
       - name: Add Condalock Comment
         uses: peter-evans/create-or-update-comment@v1
         with:
-          token: ${{ secrets.PERSONAL_TOKEN }}
+          token: ${{ secrets.PANGEOBOT_TOKEN }}
           issue-number: ${{ steps.cpr.outputs.pr_number }}
           body: |
             /condalock
