@@ -9,10 +9,19 @@ jobs:
   rebuild:
     runs-on: ubuntu-latest
     steps:
+      - name: Dump the client payload context
+        env:
+          PAYLOAD_CONTEXT: ${{ toJson(github.event.client_payload) }}
+        run: echo "$PAYLOAD_CONTEXT"
+
       - name: Set Job Environment Variables
         run: |
           CALVER="$( date -u '+%Y.%m.%d' )"
+          ISSUE_NUMBER=${{ github.event.client_payload.github.payload.issue.number }}
+          COMMENT_ID=${{ github.event.client_payload.github.payload.comment.id }}
           echo "::set-env name=CALVER::${CALVER}"
+          echo "::set-env name=ISSUE_NUMBER::${ISSUE_NUMBER}"
+          echo "::set-env name=COMMENT_ID::${COMMENT_ID}"
 
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -54,4 +63,7 @@ jobs:
           branch: "chatops-rebuild"
           branch-suffix: "timestamp"
           body: |
-            Rebuilding images was requested in issue comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+            Rebuilding images was requested:
+            https://github.com/pangeo-data/pangeo-stacks-dev/issues/${ISSUE_NUMBER}\#issuecomment-${COMMENT_ID}
+
+            Closes #{ISSUE_NUMBER}
