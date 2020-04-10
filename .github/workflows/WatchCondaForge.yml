@@ -1,0 +1,84 @@
+# Check for new versions of pangeo-notebook metapackage on Conda Forge
+name: WatchCondaForge
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    if: github.repository == 'pangeo-data/pangeo-docker-images'
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Get Latest pangeo-notebook Metapackage Version
+        id: latest_version
+        uses: jhamman/gha-anaconda-package-version@feature/calver
+        with:
+          org: "conda-forge"
+          package: "pangeo-notebook"
+          version_system: "CalVer"
+
+      - name: Set Environment Variables
+        run: |
+          CALVER="$( date -u '+%Y.%m.%d' )"
+          PR_BRANCH="upgrade-pangeo-metapackage-${{ steps.latest_version.outputs.version }}"
+          echo "::set-env name=CALVER::${CALVER}"
+          echo "::set-env name=PR_BRANCH::${PR_BRANCH}"
+
+      - name: Check if PR Already Exists
+        id: check_branch
+        run: |
+          # https://github.com/actions/checkout#fetch-all-branches
+          git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
+          if git show-ref --quiet refs/remotes/origin/${{env.PR_BRANCH}}; then
+            RESULT=True
+          else
+            RESULT=False
+          fi
+          echo "::set-output name=exists::${RESULT}"
+
+      # Only run the following steps for new PRs
+      - name: Find and Replace pangeo-notebook
+        if: steps.check_branch.outputs.exists == 'False'
+        uses: jacobtomlinson/gha-find-replace@0.1.1
+        with:
+          include: "environment.yml"
+          find: "pangeo-notebook=.*"
+          replace: "pangeo-notebook=${{ steps.latest_version.outputs.version }}"
+
+      - name: Create Pull Request
+        if: steps.check_branch.outputs.exists == 'False'
+        id: cpr
+        uses: peter-evans/create-pull-request@v2
+        with:
+          committer: Pangeo Bot <pangeo-bot@users.noreply.github.com>
+          token: ${{ secrets.PANGEOBOT_TOKEN }}
+          commit-message: "Update pangeo-notebook metapackage version to ${{ steps.latest_version.outputs.version }}"
+          title: "Update pangeo-notebook metapackage version to ${{ steps.latest_version.outputs.version }}"
+          reviewers: "scottyhq"
+          branch: ${{ env.PR_BRANCH }}
+          body: |
+            A new pangeo-metapackage version has been detected.
+            Updated `environment.yml`s to use `${{ steps.latest_version.outputs.version }}`.
+
+            Will automatically rebuild and test images in an hour...
+
+      - name: Wait for Package Availability on Conda-forge Channel
+        if: steps.check_branch.outputs.exists == 'False'
+        uses: jakejarvis/wait-action@v0.1.0
+        with:
+          time: '1h'
+
+      - name: Add Condalock Comment
+        if: steps.check_branch.outputs.exists == 'False'
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          token: ${{ secrets.PANGEOBOT_TOKEN }}
+          issue-number: ${{ steps.cpr.outputs.pr_number }}
+          body: |
+            /condalock
+            Automatically locking new conda environment, building, and testing images...
