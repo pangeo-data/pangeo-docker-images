@@ -64,6 +64,6 @@ jobs:
           branch-suffix: "timestamp"
           body: |
             Rebuilding images was requested:
-            https://github.com/pangeo-data/pangeo-stacks-dev/issues/${{ env.ISSUE_NUMBER}}#issuecomment-${{ env.COMMENT_ID }}
+            https://github.com/${{ github.repository }}/issues/${{ env.ISSUE_NUMBER}}#issuecomment-${{ env.COMMENT_ID }}
 
             Closes #${{ env.ISSUE_NUMBER}}
