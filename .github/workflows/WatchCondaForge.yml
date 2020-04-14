@@ -24,7 +24,6 @@ jobs:
           
       - name: Find and Replace pangeo-notebook
         id: find_replace
-        if: steps.check_branch.outputs.exists == 'False'
         uses: jacobtomlinson/gha-find-replace@0.1.1
         with:
           include: "environment.yml"
