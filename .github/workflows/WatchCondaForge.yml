@@ -21,6 +21,15 @@ jobs:
           org: "conda-forge"
           package: "pangeo-notebook"
           version_system: "CalVer"
+          
+      - name: Find and Replace pangeo-notebook
+        id: find_replace
+        if: steps.check_branch.outputs.exists == 'False'
+        uses: jacobtomlinson/gha-find-replace@0.1.1
+        with:
+          include: "environment.yml"
+          find: "pangeo-notebook=.*"
+          replace: "pangeo-notebook=${{ steps.latest_version.outputs.version }}"
 
       - name: Set Environment Variables
         run: |
@@ -40,18 +49,10 @@ jobs:
             RESULT=False
           fi
           echo "::set-output name=exists::${RESULT}"
-
-      # Only run the following steps for new PRs
-      - name: Find and Replace pangeo-notebook
-        if: steps.check_branch.outputs.exists == 'False'
-        uses: jacobtomlinson/gha-find-replace@0.1.1
-        with:
-          include: "environment.yml"
-          find: "pangeo-notebook=.*"
-          replace: "pangeo-notebook=${{ steps.latest_version.outputs.version }}"
-
+ 
+      # Skip following commands if PR already exists or pangeo-notebook version matches current master
       - name: Create Pull Request
-        if: steps.check_branch.outputs.exists == 'False'
+        if: steps.check_branch.outputs.exists == 'False' && steps.find_replace.outputs.modifiedFiles > 0
         id: cpr
         uses: peter-evans/create-pull-request@v2
         with:
@@ -68,13 +69,13 @@ jobs:
             Will automatically rebuild and test images in an hour...
 
       - name: Wait for Package Availability on Conda-forge Channel
-        if: steps.check_branch.outputs.exists == 'False'
+        if: steps.check_branch.outputs.exists == 'False' && steps.find_replace.outputs.modifiedFiles > 0
         uses: jakejarvis/wait-action@v0.1.0
         with:
           time: '1h'
 
       - name: Add Condalock Comment
-        if: steps.check_branch.outputs.exists == 'False'
+        if: steps.check_branch.outputs.exists == 'False' && steps.find_replace.outputs.modifiedFiles > 0
         uses: peter-evans/create-or-update-comment@v1
         with:
           token: ${{ secrets.PANGEOBOT_TOKEN }}
