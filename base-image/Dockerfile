@@ -112,7 +112,7 @@ ONBUILD RUN echo "Checking for 'postBuild'..." \
         export PATH=${NB_PYTHON_PREFIX}/bin:${PATH} \
         && chmod +x postBuild \
         && ./postBuild \
-        && rm -r /tmp/* \
+        && rm -rf /tmp/* \
         && rm -rf ${HOME}/.cache ${HOME}/.npm ${HOME}/.yarn \
         && rm -rf ${NB_PYTHON_PREFIX}/share/jupyter/lab/staging \
         && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
