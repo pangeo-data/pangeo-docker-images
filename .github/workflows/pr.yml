@@ -69,4 +69,4 @@ jobs:
 
     - name: Test Image
       run: |
-        docker run --user 1000 --volume $PWD:/home/jovyan ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR ./run_tests.sh ${{ matrix.IMAGE }}
+        docker run --user 1000 --volume $PWD:/tmp ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR /tmp/run_tests.sh ${{ matrix.IMAGE }}

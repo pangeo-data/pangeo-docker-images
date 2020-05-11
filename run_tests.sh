@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Usage: docker run -v $PWD:/home/jovyan pangeodev/base-notebook:master ./run_tests.sh base-notebook
+# Usage: docker run -v $PWD:/tmp pangeodev/base-notebook:master /tmp/run_tests.sh base-notebook
 echo "Testing docker image {$1}..."
 
 #pip install pytest
 conda install pytest -y
 
-pytest -v tests/test_all.py tests/test_$1.py
+pytest -v /tmp/tests/test_all.py /tmp/tests/test_$1.py
 
 #EOF
