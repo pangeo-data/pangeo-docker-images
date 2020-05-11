@@ -1,9 +1,10 @@
 #!/bin/bash
 
-# Usage: docker run -v $PWD:/home/jovyan pangeodev/base-notebook:master ./run_tests.sh base-notebook
+# Usage: docker run -w /srv/test -v $PWD:/srv/test pangeodev/base-notebook:latest ./run_tests.sh base-notebook
 echo "Testing docker image {$1}..."
 
-pip install pytest
+# --no-channel-priority added b/c solver failing installing into ml-notebook
+conda install pytest --freeze-installed --no-channel-priority
 
 pytest -v tests/test_all.py tests/test_$1.py
 

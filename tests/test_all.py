@@ -9,13 +9,21 @@ def test_config_paths():
     assert os.path.exists('/srv/start')
     assert os.path.exists('/srv/conda/etc/dask.yml')
 
+
+def test_environment_variables():
+    # These are required for jupyterhub and binderhub compatibility
+    assert os.environ['NB_USER'] == 'jovyan'
+    assert os.environ['NB_UID'] == '1000'
+    assert 'NB_PYTHON_PREFIX' in os.environ
+
+
 def test_default_conda_environment():
     assert sys.prefix == '/srv/conda/envs/notebook'
 
 packages = [
     # included in pangeo-notebook metapackage
     # https://github.com/conda-forge/pangeo-notebook-feedstock/blob/master/recipe/meta.yaml
-    'dask', 'distributed', 'dask_kubernetes', 'dask_gateway', 'dask_labextension',
+    'dask', 'distributed', 'dask_gateway', 'dask_labextension', #dask_kubernetes (now using dask-gateway)
     # jupyterhub and related utilities
     'jupyterhub', 'jupyterlab', 'nbgitpuller'
     ]
