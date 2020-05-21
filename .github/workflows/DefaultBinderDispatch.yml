@@ -4,7 +4,7 @@ on:
   push:
     tags:
     - '*'
-    
+
 jobs:
   default-binder-dispatch:
     runs-on: ubuntu-latest
@@ -20,4 +20,5 @@ jobs:
         token: ${{ secrets.PANGEOBOT_TOKEN }}
         repository: scottyhq/default-binder
         event-type: newtag
-        client-payload: '{"tag": "${DOCKER_TAG}"}'
+#        client-payload: '{"tag": "${DOCKER_TAG}"}'
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
