@@ -1,0 +1,23 @@
+# https://github.com/peter-evans/slash-command-dispatch
+name: Default Binder Dispatcher
+on:
+  push:
+    tags:
+    - '*'
+    
+jobs:
+  default-binder-dispatch:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set Job Environment Variables
+      run: |
+        DOCKER_TAG="${GITHUB_REF##*/}"
+        echo "::set-env name=DOCKER_TAG::${DOCKER_TAG}"
+
+    - name: Repository Dispatch
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        token: ${{ secrets.PANGEOBOT_TOKEN }}
+        repository: scottyhq/default-binder
+        event-type: newtag
+        client-payload: '{"tag": "${DOCKER_TAG}"}'
