@@ -29,6 +29,8 @@ jobs:
       - name: Run Condalock
         shell: bash -l {0}
         run: |
+          conda clean --all --yes --force-pkgs-dirs
+
           cd base-notebook
           CONDARC=../base-image/condarc.yml conda-lock -f environment.yml -p linux-64
 
