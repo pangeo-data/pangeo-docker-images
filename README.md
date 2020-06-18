@@ -49,7 +49,7 @@ git push
 ```
 
 ### How to use the base-image with a Pangeo Binder
-https://github.com/scottyhq/pangeodev-binder
+https://github.com/pangeo-data/pangeo-binder-template
 
 
 ### How to launch jupyterlab locally with one of these images
