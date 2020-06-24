@@ -1,4 +1,5 @@
-# Re-tag most recent master branch images with github tag and 'latest'
+# Re-tag staging SHA-tagged image with git tag and 'latest'
+# tags can be anything, but typically calver string (2020.06.10)
 name: Publish
 on:
   push:
@@ -24,17 +25,14 @@ jobs:
 
     - name: Set Job Environment Variables
       run: |
-        CALVER="$( date -u '+%Y.%m.%d' )"
         SHA7="${GITHUB_SHA::7}"
         TAG="${GITHUB_REF##*/}"
-        DOCKER_TAG=$TAG
-        IMAGE_SPEC="${DOCKER_ORG}/${{ matrix.IMAGE }}:${DOCKER_TAG}"
-        echo "::set-env name=DOCKER_TAG::${DOCKER_TAG}"
-        echo "::set-env name=IMAGE_SPEC::${IMAGE_SPEC}"
+        echo "::set-env name=SHA7::${SHA7}"
+        echo "::set-env name=TAG::${TAG}"
 
-    - name: Pull Latest Master Image
+    - name: Pull Image for Corresponding GitHub Commit
       run: |
-        docker pull ${DOCKER_ORG}/${{ matrix.IMAGE }}:master
+        docker pull ${DOCKER_ORG}/${{ matrix.IMAGE }}:${SHA7}
 
     - name: Authenticate with DockerHub
       run: |
@@ -42,8 +40,7 @@ jobs:
 
     - name: Retag and Push Image
       run: |
-        IMAGE_LATEST=${DOCKER_ORG}/${{ matrix.IMAGE }}:latest
-        docker tag ${DOCKER_ORG}/${{ matrix.IMAGE }}:master $IMAGE_SPEC
-        docker tag ${DOCKER_ORG}/${{ matrix.IMAGE }}:master $IMAGE_LATEST
-        docker push $IMAGE_LATEST
-        docker push $IMAGE_SPEC
+        docker tag ${DOCKER_ORG}/${{ matrix.IMAGE }}:${SHA7} ${DOCKER_ORG}/${{ matrix.IMAGE }}:latest
+        docker tag ${DOCKER_ORG}/${{ matrix.IMAGE }}:${SHA7} ${DOCKER_ORG}/${{ matrix.IMAGE }}:${TAG}
+        docker push ${DOCKER_ORG}/${{ matrix.IMAGE }}:latest
+        docker push ${DOCKER_ORG}/${{ matrix.IMAGE }}:${TAG}
