@@ -12,8 +12,8 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Add Condalock Comment
-         uses: peter-evans/create-or-update-comment@v1
-         with:
+        uses: peter-evans/create-or-update-comment@v1
+        with:
            token: ${{ secrets.PANGEOBOT_TOKEN }}
            issue-number: ${{github.event.number}}
            body: |
