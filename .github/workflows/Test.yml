@@ -1,10 +1,13 @@
-# Only test building images
-name: PullRequest
+# Any PR opened, build images and run tests
+name: Test
 
 on:
-  pull_request:
-    branches:
-      - master
+  workflow_run:
+    workflows: ["CondaLock"]
+    branches: [master]
+    types:
+      - completed
+      - requested
 
 env:
   DOCKER_ORG: pangeo
