@@ -1,6 +1,8 @@
 # Respond to every Pull Request with Pangeo Bot!
 name: PullRequest
-on: [pull_request_target]
+on:
+  pull_request_target:
+    types: [opened, reopened]
 
 jobs:
   DeployPangeoBot:

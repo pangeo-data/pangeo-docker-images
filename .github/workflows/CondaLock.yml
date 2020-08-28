@@ -42,7 +42,7 @@ jobs:
           cd ../ml-notebook
           CONDARC=condarc.yml conda-lock -f environment.yml -p linux-64
 
-      # Commit the change to the PR branch
+      # Commit the change to the PR branch (currently fails if no modified files)
       - name: Commit condalock files to PR
         run: |
           git config --global user.name 'pangeo-bot'
