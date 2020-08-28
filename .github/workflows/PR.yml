@@ -1,0 +1,21 @@
+# Respond to every Pull Request with Pangeo Bot!
+name: PullRequest
+on: [pull_request_target]
+
+jobs:
+  DeployPangeoBot:
+    runs-on: ubuntu-latest
+    if: github.repository == 'pangeo-data/pangeo-docker-images'
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Add Condalock Comment
+         uses: peter-evans/create-or-update-comment@v1
+         with:
+           token: ${{ secrets.PANGEOBOT_TOKEN }}
+           issue-number: ${{github.event.number}}
+           body: |
+             /condalock
+             Automatically locking new conda environment, building, and testing images...
