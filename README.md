@@ -14,19 +14,17 @@ Latest DockerHub Images: https://hub.docker.com/orgs/pangeo/repositories
 
 
 ### Image tagging and "continuous building"
-This repository uses [GitHub Actions](https://help.github.com/en/actions) to build images, run tests, and push images to [DockerHub](https://hub.docker.com/orgs/pangeo). 
+This repository uses [GitHub Actions](https://help.github.com/en/actions) to build images, run tests, and push images to [DockerHub](https://hub.docker.com/orgs/pangeo).
 
-* Pull requests from forks trigger rebuilding all images but can't push to DockerHub because they don't have access to repo secrets for authentication.
+* Pull requests from forks trigger rebuilding all images
 
 * `pangeo/base-notebook:master` corresponds to current "staging" image in sync with master branch. Built with every commit to master. Also tagged with short GitHub short SHA `pangeo/base-notebook:2639bd3`.
 
-* Tags pushed to GitHub represent "production" releases with corresponding tags on dockerhub `pangeo/pangeo-notebook:2020.03.11`. The `latest` tag also corresponds to the most recent GitHub tag.
+* Tags pushed to GitHub manually represent "production" releases with corresponding tags on DockerHub `pangeo/pangeo-notebook:2020.03.11`. The `latest` tag also corresponds to the most recent GitHub tag.
 
 
-### How to build images through CI 
-A common need is to update conda package versions in these images. To do so simply, 1) Fork this repo, 2) edit `pangeo-notebook/environment.yml` on your fork, 3) create a PR and on the first line of your PR comment write `/condalock` (you can write more details about your PR on subsequent lines). 
-
-Repository admins can trigger rebuilding all images simply by adding a comment in an open issue with `/rebuild` on the first line. This is useful if you don't need to change any configuration files, but want to rebuild images with the latest package versions available on conda-forge.
+### How to build images through CI
+A common need is to update conda package versions in these images. To do so simply, 1) Fork this repo, 2) edit `pangeo-notebook/environment.yml` on your fork, 3) create a PR. Compatible packages versions with `conda-lock` and a lock file is automatically committed added as a commit in your PR.
 
 
 ### How to build images locally
