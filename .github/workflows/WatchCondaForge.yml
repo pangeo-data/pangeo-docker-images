@@ -21,7 +21,7 @@ jobs:
           org: "conda-forge"
           package: "pangeo-notebook"
           version_system: "CalVer"
-          
+
       - name: Find and Replace pangeo-notebook
         id: find_replace
         uses: jacobtomlinson/gha-find-replace@0.1.1
@@ -48,7 +48,7 @@ jobs:
             RESULT=False
           fi
           echo "::set-output name=exists::${RESULT}"
- 
+
       # Skip following commands if PR already exists or pangeo-notebook version matches current master
       - name: Create Pull Request
         if: steps.check_branch.outputs.exists == 'False' && steps.find_replace.outputs.modifiedFiles > 0
@@ -64,21 +64,3 @@ jobs:
           body: |
             A new pangeo-metapackage version has been detected.
             Updated `environment.yml`s to use `${{ steps.latest_version.outputs.version }}`.
-
-            Will automatically rebuild and test images in an hour...
-
-      - name: Wait for Package Availability on Conda-forge Channel
-        if: steps.check_branch.outputs.exists == 'False' && steps.find_replace.outputs.modifiedFiles > 0
-        uses: jakejarvis/wait-action@v0.1.0
-        with:
-          time: '1h'
-
-      - name: Add Condalock Comment
-        if: steps.check_branch.outputs.exists == 'False' && steps.find_replace.outputs.modifiedFiles > 0
-        uses: peter-evans/create-or-update-comment@v1
-        with:
-          token: ${{ secrets.PANGEOBOT_TOKEN }}
-          issue-number: ${{ steps.cpr.outputs.pr_number }}
-          body: |
-            /condalock
-            Automatically locking new conda environment, building, and testing images...
