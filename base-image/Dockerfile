@@ -96,8 +96,8 @@ ONBUILD USER ${NB_USER}
 
 # Create "notebook" conda environment and dask labextensions
 #
-# note that ...bokeh/server/static doesn't exist if bokeh note in environment
-# create it so find doesn't faile
+# note that ...bokeh/server/static doesn't exist if bokeh not in environment
+# create it so find doesn't fail
 #
 ONBUILD RUN echo "Checking for 'conda-linux-64.lock' or 'environment.yml'..." \
         ; [ -d binder ] && cd binder \
