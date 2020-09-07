@@ -4,7 +4,7 @@ FROM ubuntu:18.04
 # Run this section as root
 # try to keep conda version in sync with repo2docker
 # ========================
-ENV CONDA_VERSION=4.8.3-4 \
+ENV CONDA_VERSION=4.8.3-5 \
     CONDA_ENV=notebook \
     NB_USER=jovyan \
     NB_UID=1000 \
@@ -38,7 +38,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN echo "Installing Apt-get packages..." \
     && apt-get update --fix-missing \
     && apt-get install -y apt-utils 2> /dev/null \
-    && apt-get install -y wget \
+    && apt-get install -y wget zip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 # ========================
