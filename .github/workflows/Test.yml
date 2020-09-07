@@ -4,11 +4,6 @@ name: Test
 on:
   pull_request:
     types: [synchronize]
-  workflow_run:
-    workflows: ["CondaLock"]
-    branches: [master]
-    types:
-      - completed
 
 env:
   DOCKER_ORG: pangeo
