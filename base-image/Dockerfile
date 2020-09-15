@@ -7,7 +7,7 @@ FROM ubuntu:18.04
 ENV CONDA_VERSION=4.8.3-5 \
     CONDA_ENV=notebook \
     NB_USER=jovyan \
-    NB_UID=1000 \
+    NB_UID=2005 \
     SHELL=/bin/bash \
     LANG=C.UTF-8  \
     LC_ALL=C.UTF-8 \

@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  base_image:
+    build:
+      context: base-image
+      dockerfile: Dockerfile
+    image: phaustin/base-image:node07
+    container_name: base-image
