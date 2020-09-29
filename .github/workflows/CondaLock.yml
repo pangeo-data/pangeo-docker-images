@@ -18,12 +18,10 @@ jobs:
           repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
           ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
-      # Note: might move to https://github.com/conda-forge/setup-miniforge
-      # https://github.com/conda-forge/miniforge/issues/32
       - name: Setup Conda Environment with Miniforge
-        uses: goanpeca/setup-miniconda@v1
+        uses: conda-incubator/setup-miniconda@v1
         with:
-           installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.3-5/Miniforge3-Linux-x86_64.sh
+           installer-url: https://github.com/conda-forge/miniforge/releases/download/4.8.5-1/Miniforge3-Linux-x86_64.sh
            environment-file: environment-condalock.yml
            activate-environment: condalock
            auto-activate-base: false

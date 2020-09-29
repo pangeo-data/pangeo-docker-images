@@ -4,7 +4,7 @@ FROM ubuntu:18.04
 # Run this section as root
 # try to keep conda version in sync with repo2docker
 # ========================
-ENV CONDA_VERSION=4.8.3-5 \
+ENV CONDA_VERSION=4.8.5-1 \
     CONDA_ENV=notebook \
     NB_USER=jovyan \
     NB_UID=1000 \
