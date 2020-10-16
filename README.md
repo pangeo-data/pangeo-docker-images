@@ -78,3 +78,10 @@ The runtime environment sets two variables by default
    points to a cloud storage bucket for temporary storage. This is set
    if the variable `$PANGEO_SCRATCH_PREFIX` and `JUPYTERHUB_USER`
    are detected. The prefix should be like `s3://pangeo-scratch`
+
+
+### Other notes
+
+* Since 2020.10.16, [mamba](https://github.com/mamba-org/mamba) is installed into the base-image and conda-lock environment and is used by default to solve for a compatible environment (see #146)
+* For a simple list of packages for a given image, you can use a link like this: https://github.com/pangeo-data/pangeo-docker-images/blob/2020.10.08/pangeo-notebook/packages.txt
+* To compare changes between two images, you can use a link like this: https://github.com/pangeo-data/pangeo-docker-images/compare/2020.10.03..2020.10.08
