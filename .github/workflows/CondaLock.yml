@@ -34,11 +34,11 @@ jobs:
           conda clean --all --yes --force-pkgs-dirs
 
           cd base-notebook
-          CONDARC=../base-image/condarc.yml conda-lock -f environment.yml -p linux-64
+          conda-lock -f environment.yml -p linux-64
           ../list_packages.sh | sort > packages.txt
 
           cd ../pangeo-notebook
-          CONDARC=../base-image/condarc.yml conda-lock -f environment.yml -p linux-64
+          conda-lock -f environment.yml -p linux-64
           ../list_packages.sh | sort > packages.txt
 
           cd ../ml-notebook
