@@ -7,7 +7,6 @@ def test_config_paths():
     assert os.path.exists('/etc/profile.d/init_conda.sh')
     assert os.path.exists('/srv/conda/.condarc')
     assert os.path.exists('/srv/start')
-    assert os.path.exists('/srv/conda/etc/dask.yml')
 
 
 def test_environment_variables():
@@ -32,12 +31,10 @@ packages = [
 def test_import(package_name):
     importlib.import_module(package_name)
 
-# NOTE: will want to change these for dask-gateway
 def test_dask_config():
     import dask
     assert '/srv/conda/etc' in dask.config.paths
-    assert '/srv/conda/envs/notebook/etc/dask' in dask.config.paths
-    assert dask.config.config['labextension']['factory']['class'] == 'GatewayCluster'
+    assert dask.config.config['labextension']['factory']['class'] == 'LocalCluster'
 
 # Works locally but hanging on GitHub Actions, possibly due to:
 # Unclosed client session client_session: <aiohttp.client.ClientSession object at 0x7ff7a2931950>

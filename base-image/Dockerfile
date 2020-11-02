@@ -25,14 +25,7 @@ RUN echo "Creating ${NB_USER} user..." \
     && echo ". ${CONDA_DIR}/etc/profile.d/conda.sh ; conda activate ${CONDA_ENV}" > /etc/profile.d/init_conda.sh \
     && chown -R ${NB_USER}:${NB_USER} /srv
 
-# COPY chown available docker>17.09
-# but env sub only works for docker>19.03 (kubernetes>1.17)
-# https://github.com/moby/moby/issues/35018
-#COPY --chown=${NB_USER}:${NB_USER} . ${HOME}
-COPY --chown=jovyan:jovyan . /srv
-
 # SEE: https://github.com/phusion/baseimage-docker/issues/58
-# and https://github.com/phusion/baseimage-docker/issues/319
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN echo "Installing Apt-get packages..." \
@@ -55,10 +48,6 @@ RUN echo "Installing Miniforge..." \
     && mamba clean -afy \
     && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
     && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete
-
-RUN echo "Copying configuration files..." \
-    && mv /srv/condarc.yml ${CONDA_DIR}/.condarc \
-    && mv /srv/dask_config.yml ${CONDA_DIR}/etc/dask.yml
 
 EXPOSE 8888
 ENTRYPOINT ["/srv/start"]
