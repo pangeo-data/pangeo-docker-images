@@ -27,8 +27,8 @@ jobs:
       run: |
         SHA7="${GITHUB_SHA::7}"
         TAG="${GITHUB_REF##*/}"
-        echo "::set-env name=SHA7::${SHA7}"
-        echo "::set-env name=TAG::${TAG}"
+        echo "SHA7=${SHA7}" >> $GITHUB_ENV
+        echo "TAG=${TAG}" >> $GITHUB_ENV
 
     - name: Pull Image for Corresponding GitHub Commit
       run: |

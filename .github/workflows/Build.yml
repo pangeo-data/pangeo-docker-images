@@ -31,8 +31,8 @@ jobs:
         SHA7="${GITHUB_SHA::7}"
         DOCKER_TAG=$SHA7
         IMAGE_SPEC="${DOCKER_ORG}/${{ env.IMAGE }}:${DOCKER_TAG}"
-        echo "::set-env name=DOCKER_TAG::${DOCKER_TAG}"
-        echo "::set-env name=IMAGE_SPEC::${IMAGE_SPEC}"
+        echo "DOCKER_TAG=${DOCKER_TAG}" >> $GITHUB_ENV
+        echo "IMAGE_SPEC=${IMAGE_SPEC}" >> $GITHUB_ENV
 
     - name: Build and Publish to DockerHub
       uses: elgohr/Publish-Docker-Github-Action@2.12
@@ -62,8 +62,8 @@ jobs:
         SHA7="${GITHUB_SHA::7}"
         DOCKER_TAG=$SHA7
         IMAGE_SPEC="${DOCKER_ORG}/${{ matrix.IMAGE }}:${DOCKER_TAG}"
-        echo "::set-env name=DOCKER_TAG::${DOCKER_TAG}"
-        echo "::set-env name=IMAGE_SPEC::${IMAGE_SPEC}"
+        echo "DOCKER_TAG=${DOCKER_TAG}" >> $GITHUB_ENV
+        echo "IMAGE_SPEC=${IMAGE_SPEC}" >> $GITHUB_ENV
 
     - name: Build and Publish to DockerHub
       uses: elgohr/Publish-Docker-Github-Action@2.12

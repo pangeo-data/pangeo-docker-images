@@ -34,8 +34,8 @@ jobs:
         run: |
           CALVER="$( date -u '+%Y.%m.%d' )"
           PR_BRANCH="upgrade-pangeo-metapackage-${{ steps.latest_version.outputs.version }}"
-          echo "::set-env name=CALVER::${CALVER}"
-          echo "::set-env name=PR_BRANCH::${PR_BRANCH}"
+          echo "CALVER=${CALVER}" >> $GITHUB_ENV
+          echo "PR_BRANCH=${PR_BRANCH}" >> $GITHUB_ENV
 
       - name: Check if PR Already Exists
         id: check_branch
