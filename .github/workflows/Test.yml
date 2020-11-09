@@ -2,6 +2,8 @@
 name: Test
 
 on:
+  repository_dispatch:
+    types: [test]
   pull_request:
     types: [synchronize]
 
