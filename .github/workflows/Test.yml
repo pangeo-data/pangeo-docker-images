@@ -2,10 +2,8 @@
 name: Test
 
 on:
-  repository_dispatch:
-    types: [test-command]
   pull_request:
-    types: [synchronize]
+    types: [opened, synchronize, reopened]
 
 env:
   DOCKER_ORG: pangeo
