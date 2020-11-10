@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 # Master build file for pangeo images
 
 # Run this section as root
