@@ -85,3 +85,15 @@ The runtime environment sets two variables by default
 * Since 2020.10.16, [mamba](https://github.com/mamba-org/mamba) is installed into the base-image and conda-lock environment and is used by default to solve for a compatible environment (see #146)
 * For a simple list of packages for a given image, you can use a link like this: https://github.com/pangeo-data/pangeo-docker-images/blob/2020.10.08/pangeo-notebook/packages.txt
 * To compare changes between two images, you can use a link like this: https://github.com/pangeo-data/pangeo-docker-images/compare/2020.10.03..2020.10.08
+
+
+### Dask-gateway compatibility
+
+The primary use of these Docker images is running on Pangeo Cloud deployments with [dask-gateway](https://github.com/dask/dask-gateway). Generally, the dask-gateway library version built into the image must match the dask-gateway version deployed in the cloud environment. The follow table keeps track of the first time a new dask-gateway version appears in a tagged image:
+
+| dask-gateway |  Image tag  |
+|--------------|-------------|
+| 0.9          | 2020.11.06  |
+| 0.8          | 2020.07.28  |
+| 0.7          | 2020.04.22  |
+
