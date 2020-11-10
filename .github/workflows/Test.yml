@@ -2,10 +2,8 @@
 name: Test
 
 on:
-  repository_dispatch:
-    types: [test-command]
   pull_request:
-    types: [synchronize]
+    types: [opened, synchronize, reopened]
 
 env:
   DOCKER_ORG: pangeo
@@ -18,11 +16,6 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.PANGEOBOT_TOKEN }}
-        # These lines are critical, otherwise it seems slash commands run against master branch
-        repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
-        ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
     - name: Build Base Image
       run: |
