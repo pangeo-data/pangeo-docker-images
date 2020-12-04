@@ -8,14 +8,14 @@ base-image :
 
 base-notebook : base-image
 	cd base-notebook ; \
-	../update_lockfile.sh ../base-image/condarc.yml; \
+	../update_lockfile.sh; \
 	../list_packages.sh | sort > packages.txt; \
 	docker build -t pangeo/base-notebook:master . ; \
 	docker run -w $(TESTDIR) -v $(PWD):$(TESTDIR) pangeo/base-notebook:master ./run_tests.sh base-notebook
 
 pangeo-notebook : base-image
 	cd pangeo-notebook ; \
-	../update_lockfile.sh ../base-image/condarc.yml; \
+	../update_lockfile.sh; \
 	../list_packages.sh | sort > packages.txt; \
 	docker build -t pangeo/pangeo-notebook:master . ; \
 	docker run -w $(TESTDIR) -v $(PWD):$(TESTDIR) pangeo/pangeo-notebook:master ./run_tests.sh pangeo-notebook
