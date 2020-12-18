@@ -9,7 +9,7 @@ jobs:
   add-binder-links:
     runs-on: ubuntu-latest
     steps:
-    - name: Add Condalock Comment
+    - name: Add BinderHub Links
       uses: peter-evans/create-or-update-comment@v1
       env:
         PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
@@ -17,7 +17,8 @@ jobs:
       with:
          token: ${{ secrets.GITHUB_TOKEN }}
          issue-number: ${{github.event.number}}
+         reactions: rocket
          body: |
-          [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/${PR_HEAD_USERREPO}/${PR_HEAD_REF}) :point_left: Try on Mybinder.org!
-          [![Binder](https://img.shields.io/static/v1.svg?logo=Jupyter&label=Pangeo+Binder&message=GCE+us-central1&color=blue)](https://binder.pangeo.io/v2/gh/${PR_HEAD_USERREPO}/${PR_HEAD_REF}) :point_left: Try on Pangeo GCP Binder!
-          [![Binder](https://img.shields.io/static/v1.svg?logo=Jupyter&label=Pangeo+Binder&message=AWS+us-west-2&color=orange)](https://aws-uswest2-binder.pangeo.io/v2/gh/${PR_HEAD_USERREPO}/${PR_HEAD_REF}) :point_left: Try on Pangeo AWS Binder!
+          [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/${{env.PR_HEAD_USERREPO}}/${{env.PR_HEAD_REF}}) :point_left: Try on Mybinder.org!
+          [![Binder](https://img.shields.io/static/v1.svg?logo=Jupyter&label=Pangeo+Binder&message=GCE+us-central1&color=blue)](https://binder.pangeo.io/v2/gh/${{env.PR_HEAD_USERREPO}}/${{env.PR_HEAD_REF}}) :point_left: Try on Pangeo GCP Binder!
+          [![Binder](https://img.shields.io/static/v1.svg?logo=Jupyter&label=Pangeo+Binder&message=AWS+us-west-2&color=orange)](https://aws-uswest2-binder.pangeo.io/v2/gh/${{env.PR_HEAD_USERREPO}}/${{env.PR_HEAD_REF}}) :point_left: Try on Pangeo AWS Binder!
