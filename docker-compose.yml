@@ -5,5 +5,13 @@ services:
     build:
       context: base-image
       dockerfile: Dockerfile
-    image: phaustin/base-image:oct9
+    image: phaustin/base-image:jan09
     container_name: base-image
+
+  base_notebook:
+    build:
+      context: base-notebook
+      dockerfile: Dockerfile
+    image: phaustin/base-notebook:jan09
+    container_name: base-notebook
+    

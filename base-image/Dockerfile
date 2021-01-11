@@ -1,10 +1,10 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 # Master build file for pangeo images
 
 # Run this section as root
 # try to keep conda version in sync with repo2docker
 # ========================
-ENV CONDA_VERSION=4.8.3-5 \
+ENV CONDA_VERSION=4.9.2-4 \
     CONDA_ENV=notebook \
     NB_USER=jovyan \
     NB_UID=2005 \
@@ -112,9 +112,9 @@ ONBUILD RUN echo "Checking for 'conda-linux-64.lock' or 'environment.yml'..." \
         && conda clean -yaf \
         && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
         && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete \
-        && find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete \
-        && mkdir -p ${NB_PYTHON_PREFIX}/lib/python3/site-packages/bokeh/server/static \
-        && find ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static -follow -type f -name '*.js' ! -name '*.min.js' -delete
+        && find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete 
+#        && mkdir -p ${NB_PYTHON_PREFIX}/lib/python3/site-packages/bokeh/server/static \
+#        && find ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static -follow -type f -name '*.js' ! -name '*.min.js' -delete
 
 # Install pip packages
 # remove cache https://github.com/pypa/pip/pull/6391 ?

@@ -1,1 +1,1 @@
-FROM pangeo/base-image:master
+FROM phaustin/base-image:jan09
