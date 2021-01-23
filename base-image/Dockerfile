@@ -18,6 +18,9 @@ ENV NB_PYTHON_PREFIX=${CONDA_DIR}/envs/${CONDA_ENV} \
     HOME=/home/${NB_USER} \
     PATH=${CONDA_DIR}/bin:${PATH}
 
+# required for prefect agent: https://github.com/PrefectHQ/prefect/issues/3061
+ENV DEBIAN_FRONTEND=noninteractive
+
 # Create jovyan user, permissions, add conda init to startup script
 RUN echo "Creating ${NB_USER} user..." \
     && groupadd --gid ${NB_UID} ${NB_USER}  \
@@ -32,6 +35,7 @@ RUN echo "Installing Apt-get packages..." \
     && apt-get update --fix-missing \
     && apt-get install -y apt-utils 2> /dev/null \
     && apt-get install -y wget zip \
+    && apt-get install -y wget tzdata \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 # ========================
