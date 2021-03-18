@@ -134,4 +134,16 @@ ONBUILD RUN echo "Checking for 'start'..." \
         chmod +x start \
         && cp start /srv/start \
         ; fi
+
+# Copy jupyter_notebook_config.py to /etc/jupyter, which is an action not done
+# with repo2docker.
+ONBUILD USER root
+ONBUILD RUN echo "Checking for config 'jupyter_notebook_config.py'..." \
+        ; [ -d binder ] && cd binder \
+        ; [ -d .binder ] && cd .binder \
+        ; if test -f "jupyter_notebook_config.py" ; then \
+        mkdir -p /etc/jupyter \
+        && cp jupyter_notebook_config.py /etc/jupyter \
+        ; fi
+ONBUILD USER ${NB_USER}
 # ----------------------
