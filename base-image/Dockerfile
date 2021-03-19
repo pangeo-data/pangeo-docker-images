@@ -61,7 +61,8 @@ ENTRYPOINT ["/srv/start"]
 # Only run these if used as a base image
 # ----------------------
 ONBUILD USER root
-# hardcode for now
+# FIXME (?): user and home folder is hardcoded for now
+# FIXME (?): this line breaks the cache of all steps below
 ONBUILD COPY --chown=jovyan:jovyan . /home/jovyan
 
 ONBUILD RUN echo "Checking for 'binder' or '.binder' subfolder" \
@@ -82,6 +83,15 @@ ONBUILD RUN echo "Checking for 'apt.txt'..." \
         && xargs -a apt.txt apt-get install -y \
         && apt-get clean \
         && rm -rf /var/lib/apt/lists/* \
+        ; fi
+
+# Copy jupyter_notebook_config.py to /etc/jupyter
+ONBUILD RUN echo "Checking for 'jupyter_notebook_config.py'..." \
+        ; [ -d binder ] && cd binder \
+        ; [ -d .binder ] && cd .binder \
+        ; if test -f "jupyter_notebook_config.py" ; then \
+        mkdir -p /etc/jupyter \
+        && cp jupyter_notebook_config.py /etc/jupyter \
         ; fi
 
 ONBUILD USER ${NB_USER}
