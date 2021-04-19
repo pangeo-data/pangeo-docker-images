@@ -18,14 +18,24 @@ jobs:
           repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
           ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
+      - name: Cache conda
+        uses: actions/cache@v2
+        env:
+          # Increase this value to reset cache if etc/example-environment.yml has not changed
+          CACHE_NUMBER: 0
+        with:
+          path: ~/conda_pkgs_dir
+          key:
+            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{hashFiles('environment-condalock.yml') }}
+
       - name: Setup Conda Environment with Miniforge
         uses: conda-incubator/setup-miniconda@v2
         with:
-           installer-url: https://github.com/conda-forge/miniforge/releases/download/4.9.0-0/Miniforge3-4.9.0-0-Linux-x86_64.sh
+           # Match base-image/Dockerfile version
+           miniforge-version: 4.10.0-0
            environment-file: environment-condalock.yml
            activate-environment: condalock
-           auto-activate-base: false
-           auto-update-conda: false
+           use-only-tar-bz2: true # IMPORTANT: This needs to be set for caching to work properly!
 
       # For now run in all 3 notebook subfolders
       - name: Run Condalock
