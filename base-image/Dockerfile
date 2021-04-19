@@ -6,7 +6,7 @@ LABEL org.opencontainers.image.source=https://github.com/pangeo-data/pangeo-dock
 # Run this section as root
 # try to keep conda version in sync with repo2docker
 # ========================
-ENV CONDA_VERSION=4.9.2-7 \
+ENV CONDA_VERSION=4.10.0-0 \
     CONDA_ENV=notebook \
     NB_USER=jovyan \
     NB_UID=1000 \

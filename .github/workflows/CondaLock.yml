@@ -21,11 +21,9 @@ jobs:
       - name: Setup Conda Environment with Miniforge
         uses: conda-incubator/setup-miniconda@v2
         with:
-           installer-url: https://github.com/conda-forge/miniforge/releases/download/4.9.0-0/Miniforge3-4.9.0-0-Linux-x86_64.sh
+           miniforge-version: latest
            environment-file: environment-condalock.yml
            activate-environment: condalock
-           auto-activate-base: false
-           auto-update-conda: false
 
       # For now run in all 3 notebook subfolders
       - name: Run Condalock
