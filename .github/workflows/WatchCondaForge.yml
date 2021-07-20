@@ -3,7 +3,8 @@ name: WatchCondaForge
 
 on:
   schedule:
-    - cron: "0 * * * *"
+    # Run once per day at midnight
+    - cron: "0 0 * * *"
 
 jobs:
   check-version:
