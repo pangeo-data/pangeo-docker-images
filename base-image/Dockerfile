@@ -1,4 +1,4 @@
-FROM ubuntu:21.10
+FROM ubuntu:20.04
 # build file for pangeo images
 
 LABEL org.opencontainers.image.source=https://github.com/pangeo-data/pangeo-docker-images
