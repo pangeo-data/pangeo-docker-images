@@ -51,10 +51,19 @@ git push
 https://github.com/pangeo-data/pangeo-binder-template
 
 
-### How to launch jupyterlab locally with one of these images
+### How to launch Jupyterlab locally with one of these images
 ```
-docker run -it --rm -p 8888:8888 pangeo/base-notebook:latest jupyter lab --ip 0.0.0.0
+docker run -it --rm -p 8888:8888 pangeo/pangeo-notebook:latest jupyter lab --ip 0.0.0.0
 ```
+
+To access files from your local hard drive from within the Docker Jupyterlab, you need to use a Docker [volume mount](https://docs.docker.com/storage/volumes/), e.g.
+
+```
+docker run -it --rm --volume $HOME:$HOME -p 8888:8888 pangeo/pangeo-notebook:latest jupyter lab --ip 0.0.0.0 $HOME
+```
+
+will mount your home directory in the docker container and launch the Jupyterlab from there.
+
 
 ### Design:
 
