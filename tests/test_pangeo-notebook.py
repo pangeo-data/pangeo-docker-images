@@ -14,6 +14,10 @@ packages = [
 @pytest.mark.parametrize('package_name', packages, ids=packages)
 def test_import(package_name):
     importlib.import_module(package_name)
+    
+def test_cartopy_downloads():
+    import cartopy
+    _ = cartopy.io.shapereader.natural_earth()  # should trigger download
 
 def test_start():
     print(os.environ)
