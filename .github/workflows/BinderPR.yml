@@ -1,9 +1,9 @@
-# Any PR opened add a comment with binder links
-name: BinderLinks
+# Add Binder Link to PR for testing pangeo-notebook image
+name: BinderPR
 
 on:
   pull_request_target:
-    types: [opened, reopened]
+    types: [opened]
 
 jobs:
   add-binder-links:
