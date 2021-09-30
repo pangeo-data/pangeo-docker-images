@@ -3,7 +3,8 @@ name: WatchCondaForge
 
 on:
   schedule:
-    - cron: "0 * * * *"
+    # Run once per day at midnight
+    - cron: "0 0 * * *"
 
 jobs:
   check-version:
@@ -53,7 +54,7 @@ jobs:
       - name: Create Pull Request
         if: steps.check_branch.outputs.exists == 'False' && steps.find_replace.outputs.modifiedFiles > 0
         id: cpr
-        uses: peter-evans/create-pull-request@v2
+        uses: peter-evans/create-pull-request@v3
         with:
           committer: Pangeo Bot <pangeo-bot@users.noreply.github.com>
           token: ${{ secrets.PANGEOBOT_TOKEN }}

@@ -18,6 +18,12 @@ jobs:
           repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
           ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
+      - name: Show environment.ymls
+        run: | 
+          echo "---\nbase-notebook:\n---\n" && cat base-notebook/environment.yml
+          echo "---\npangeo-notebook:\n---\n" && cat pangeo-notebook/environment.yml
+          echo "---\nml-notebook:\n---\n" && cat ml-notebook/environment.yml
+
       - name: Cache conda
         uses: actions/cache@v2
         env:
@@ -32,7 +38,7 @@ jobs:
         uses: conda-incubator/setup-miniconda@v2
         with:
            # Match base-image/Dockerfile version
-           miniforge-version: 4.10.0-0
+           miniforge-version: 4.10.3-2
            environment-file: environment-condalock.yml
            activate-environment: condalock
            use-only-tar-bz2: true # IMPORTANT: This needs to be set for caching to work properly!
