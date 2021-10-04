@@ -1,0 +1,15 @@
+# Trigger build on mybinder.org for faster startup
+# https://github.com/jupyterhub/repo2docker-action#cache-builds-on-mybinderorg
+name: Binder
+on: [push]
+
+jobs:
+  # NOTE: look into doing this for pangeo-binders too!
+  Create-MyBinderOrg-Cache:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: cache binder build on mybinder.org
+      uses: jupyterhub/repo2docker-action@master
+      with:
+        NO_PUSH: true
+        MYBINDERORG_TAG: ${{ github.event.ref }}
