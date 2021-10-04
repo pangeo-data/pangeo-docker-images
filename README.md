@@ -4,7 +4,10 @@
 ![Publish Status](https://github.com/pangeo-data/pangeo-docker-images/workflows/Publish/badge.svg)
 ![DockerHub Version](https://img.shields.io/docker/v/pangeo/base-image?sort=date)
 
-Latest DockerHub Images: https://hub.docker.com/u/pangeo
+The images defined in this repository capture reproducible computing environments used by [Pangeo Cloud](https://pangeo.io/cloud.html). They build on top of the Ubuntu operating system and include [conda environments](https://conda.io/projects/conda) with a curated set of Python packages for geospatial analysis. While intended for Pangeo Cloud, they can be used outside of Pangeo infrastructure too!
+
+Image are hosted on DockerHub: https://hub.docker.com/u/pangeo
+
 | Image           | Description                                   |  Size | Pulls |
 |-----------------|-----------------------------------------------|--------------|-------------|
 | base-image      | Foundational Dockerfile for builds            | ![](https://img.shields.io/docker/image-size/pangeo/base-image?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/base-image?sort=date)
@@ -14,26 +17,21 @@ Latest DockerHub Images: https://hub.docker.com/u/pangeo
 
 *Click on the image name in the table above for a current list of installed packages and versions*
 
-These images are meant to be used with [Pangeo Cloud](https://pangeo.io/cloud.html) JupyterHub environments, and provide comprehensive sets Python packages for geospatial analysis that are commonly used for scientific research. Package versions are tracked for reproducibility (see links in table above).
-
-### How to use the base-image with a Pangeo Binder
+### How to use the pangeo-notebook image with a Pangeo Binder
 A major use-case for these images is running an ephemeral server on the Cloud with BinderHub. Anyone can launch a server running the latest-and-greatest `pangeo-notebook` image with the following URLs for running in GCP us-central1 or AWS us-west-2 respectively:
 
-```
-https://binder.pangeo.io/v2/gh/pangeo-data/pangeo-docker-images/HEAD?urlpath=lab
+* https://binder.pangeo.io/v2/gh/pangeo-data/pangeo-docker-images/HEAD?urlpath=lab
+* https://aws-uswest2-binder.pangeo.io/v2/gh/pangeo-data/pangeo-docker-images/HEAD?urlpath=lab
 
-https://aws-uswest2-binder.pangeo.io/v2/gh/pangeo-data/pangeo-docker-images/HEAD?urlpath=lab
-```
+NOTE: the links above resolve to the [`pangeo-notebook` image](https://github.com/pangeo-data/pangeo-docker-images/tree/master/pangeo-notebook) and not `base-notebook` or `ml-notebook` that are also defined in this repository. Currently BinderHubs map to a single image definition per repository.
 
 #### Use nbgitpuller to automatically load content
 
-The links above will launch Jupyterlab without any notebooks or other content. After starting you can upload notebooks or run `git pull` commands to retrieve content in another github repository. However, it can be very useful to pre-load content when a server launches. [nbgitpuller link generator](https://jupyterhub.github.io/nbgitpuller/link) is very useful for this!
+The links above will launch Jupyterlab without any notebooks or other content. From Jupyterlab you can then upload notebooks or run `git pull` commands to retrieve content in another GitHub repository. However, it can be very useful to pre-load content when a server launches. [nbgitpuller link generator](https://jupyterhub.github.io/nbgitpuller/link) is very useful for this!
 
 Below is a link to illustrate launching [`pangeo-notebook/2021.09.30`](https://github.com/pangeo-data/pangeo-docker-images/blob/2021.09.30/pangeo-notebook/packages.txt) and automatically pulling the notebooks housed in https://github.com/pangeo-data/cog-best-practices.
 
-```
-https://aws-uswest2-binder.pangeo.io/v2/gh/pangeo-data/pangeo-docker-images/2021.09.30?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fpangeo-data%252Fcog-best-practices%26urlpath%3Dlab%252Ftree%252Fcog-best-practices%252F%26branch%3Dmain
-```
+* https://aws-uswest2-binder.pangeo.io/v2/gh/pangeo-data/pangeo-docker-images/2021.09.30?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fpangeo-data%252Fcog-best-practices%26urlpath%3Dlab%252Ftree%252Fcog-best-practices%252F%26branch%3Dmain
 
 Those links get a bit long and complicated to look at, so it's common use a markdown button to hide them:
 
@@ -41,10 +39,8 @@ Those links get a bit long and complicated to look at, so it's common use a mark
 | ------------- | ------------- |
 [![badge](https://img.shields.io/static/v1.svg?logo=Jupyter&label=PangeoBinder&message=AWS+us-west-2&color=orange)](https://aws-uswest2-binder.pangeo.io/v2/gh/pangeo-data/pangeo-docker-images/2021.09.30?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fpangeo-data%252Fcog-best-practices%26urlpath%3Dlab%252Ftree%252Fcog-best-practices%252F%26branch%3Dmain) | [![badge](https://img.shields.io/static/v1.svg?logo=Jupyter&label=PangeoBinder&message=GCP+us-central1&color=blue)](https://binder.pangeo.io/v2/gh/pangeo-data/pangeo-docker-images/2021.09.30?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fpangeo-data%252Fcog-best-practices%26urlpath%3Dlab%252Ftree%252Fcog-best-practices%252F%26branch%3Dmain)  |
 
-
-If you want to fully customize your own environment, you can do that by building off the pangeo `base-image` following our template repository example:
-https://github.com/pangeo-data/pangeo-binder-template
-
+#### Customize your environment
+Advanced users may want a highly customized environment that still works on Pangeo BinderHubs. You can do that by building off the pangeo `base-image` following our [template repository example](https://github.com/pangeo-data/pangeo-binder-template). Further documentation on the configuration files in the `binder` subfolder can be found in the [repo2docker documentation](https://repo2docker.readthedocs.io/en/latest/config_files.html#configuration-files).
 
 ### How to launch Jupyterlab locally with one of these images
 ```
