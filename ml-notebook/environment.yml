@@ -4,13 +4,10 @@ channels:
  - defaults
 dependencies:
  - python=3.9*
- - pangeo-notebook=2021.09.08
+ - pangeo-notebook=2021.09.30
  - pip
-# ERROR: panel 0.9.3 has requirement bokeh>=2.0.0, but you'll have bokeh 1.4.0 which is incompatible
-# Conda solver conflicts for these
-#rapidsai-nightly/linux-64::cuspatial
-#rapidsai-nightly/linux-64::cudf
  - conda-forge/linux-64::cupy
+ # Using defaults channel for GPU support https://github.com/pangeo-data/pangeo-docker-images/issues/243
  - pkgs/main/linux-64::tensorflow-gpu>=2
  - jax
  - adlfs
