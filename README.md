@@ -17,8 +17,12 @@ Image are hosted on DockerHub: https://hub.docker.com/u/pangeo
 
 *Click on the image name in the table above for a current list of installed packages and versions*
 
-### How to use the pangeo-notebook image with a Pangeo Binder
-A major use-case for these images is running an ephemeral server on the Cloud with BinderHub. Anyone can launch a server running the latest-and-greatest `pangeo-notebook` image with the following URLs for running in GCP us-central1 or AWS us-west-2 respectively:
+### How to use the pangeo-notebook image with Binder
+A major use-case for these images is running an ephemeral server on the Cloud with BinderHub. Anyone can launch a server running the latest-and-greatest `pangeo-notebook` image with the following URL
+
+* https://mybinder.org/v2/gh/pangeo-data/pangeo-docker-images/HEAD?urlpath=lab
+
+Users who need the special features offered by [Pangeo binder](https://binder.pangeo.io/) can use the following links for running in GCP us-central1 or AWS us-west-2 respectively:
 
 * https://binder.pangeo.io/v2/gh/pangeo-data/pangeo-docker-images/HEAD?urlpath=lab
 * https://aws-uswest2-binder.pangeo.io/v2/gh/pangeo-data/pangeo-docker-images/HEAD?urlpath=lab
