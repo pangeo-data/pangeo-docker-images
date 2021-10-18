@@ -19,7 +19,7 @@ jobs:
           ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
       - name: Show environment.ymls
-        run: | 
+        run: |
           echo "---\nbase-notebook:\n---\n" && cat base-notebook/environment.yml
           echo "---\npangeo-notebook:\n---\n" && cat pangeo-notebook/environment.yml
           echo "---\nml-notebook:\n---\n" && cat ml-notebook/environment.yml
@@ -38,27 +38,34 @@ jobs:
         uses: conda-incubator/setup-miniconda@v2
         with:
            # Match base-image/Dockerfile version
-           miniforge-version: 4.10.3-2
+           miniforge-version: 4.10.3-6
            environment-file: environment-condalock.yml
            activate-environment: condalock
            use-only-tar-bz2: true # IMPORTANT: This needs to be set for caching to work properly!
 
-      # For now run in all 3 notebook subfolders
-      - name: Run Condalock
+      # Could run as single step in parallel, but would complicate logs...
+      - name: Run conda-lock base-notebook
         shell: bash -l {0}
         run: |
           conda clean --all --yes --force-pkgs-dirs
-
           cd base-notebook
-          conda-lock -f environment.yml -p linux-64
+          conda-lock lock --mamba -f environment.yml -p linux-64
           ../list_packages.sh | sort > packages.txt
 
-          cd ../pangeo-notebook
-          conda-lock -f environment.yml -p linux-64
+      - name: Run conda-lock pangeo-notebook
+        shell: bash -l {0}
+        run: |
+          conda clean --all --yes --force-pkgs-dirs
+          cd pangeo-notebook
+          conda-lock lock --mamba -f environment.yml -p linux-64
           ../list_packages.sh | sort > packages.txt
 
-          cd ../ml-notebook
-          CONDARC=condarc.yml conda-lock -f environment.yml -p linux-64
+      - name: Run conda-lock ml-notebook
+        shell: bash -l {0}
+        run: |
+          conda clean --all --yes --force-pkgs-dirs
+          cd ml-notebook
+          CONDARC=condarc.yml conda-lock lock --mamba -f environment.yml -p linux-64
           ../list_packages.sh | sort > packages.txt
 
       # Commit the change to the PR branch (currently fails if no modified files)

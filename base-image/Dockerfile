@@ -4,9 +4,9 @@ FROM ubuntu:20.04
 LABEL org.opencontainers.image.source=https://github.com/pangeo-data/pangeo-docker-images
 
 # Run this section as root
-# try to keep conda version in sync with repo2docker
-# ========================
-ENV CONDA_VERSION=4.10.3-2 \
+# try to keep conda version in sync with repo2docker?
+# https://github.com/jupyterhub/repo2docker/blob/297c7955d208f3595c4d5bc2b079953199bb1f35/repo2docker/buildpacks/conda/install-miniforge.bash#L8-L9# ========================
+ENV CONDA_VERSION=4.10.3-6 \
     CONDA_ENV=notebook \
     NB_USER=jovyan \
     NB_UID=1000 \
