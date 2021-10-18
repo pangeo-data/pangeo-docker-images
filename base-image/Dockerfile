@@ -111,7 +111,7 @@ ONBUILD RUN echo "Checking for 'conda-linux-64.lock' or 'environment.yml'..." \
         && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
         && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete \
         && find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete \
-        && find ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static -follow -type f -name '*.js' ! -name '*.min.js' -delete
+        ; [ -d ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static ] && find ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static -follow -type f -name '*.js' ! -name '*.min.js' -delete
 
 # Install pip packages
 # remove cache https://github.com/pypa/pip/pull/6391 ?
