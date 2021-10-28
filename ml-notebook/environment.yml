@@ -1,39 +1,11 @@
+# Note: this environment will be merged with the pangeo-notebook/environment.yml
+# by conda-lock. Only put things here that are not already in pangeo-notebook
 name: pangeo
 channels:
  - conda-forge
  - defaults
 dependencies:
- - python=3.9*
- - pangeo-notebook=2021.09.30
- - pip
  - conda-forge/linux-64::cupy
  # Using defaults channel for GPU support https://github.com/pangeo-data/pangeo-docker-images/issues/243
  - pkgs/main/linux-64::tensorflow-gpu>=2
  - jax
- - adlfs
- - datashader
- - fsspec
- - gcsfs
- - geopandas
- - geoviews-core
- - h5netcdf
- - h5py
- - holoviews
- - hvplot
- - intake
- - intake-xarray
- - jupyterlab-nvdashboard
- - lz4
- - matplotlib-base
- - nb_conda_kernels
- - numpy
- - pandas
- - panel
- - rasterio
- - s3fs>0.5
- - scikit-image
- - scikit-learn
- - scipy
- - sparse
- - xarray
- - zarr
