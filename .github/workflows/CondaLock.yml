@@ -65,7 +65,7 @@ jobs:
         run: |
           conda clean --all --yes --force-pkgs-dirs
           cd ml-notebook
-          CONDARC=condarc.yml conda-lock lock --mamba -f environment.yml -f ../pangeo-notebook/environment.yml -p linux-64
+          conda-lock lock --mamba -f environment.yml -f ../pangeo-notebook/environment.yml -p linux-64
           ../list_packages.sh | sort > packages.txt
 
       # Commit the change to the PR branch (currently fails if no modified files)
