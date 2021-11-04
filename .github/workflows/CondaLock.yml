@@ -38,7 +38,7 @@ jobs:
         uses: conda-incubator/setup-miniconda@v2
         with:
            # Match base-image/Dockerfile version
-           miniforge-version: 4.10.3-6
+           miniforge-version: 4.10.3-7
            environment-file: environment-condalock.yml
            activate-environment: condalock
            use-only-tar-bz2: true # IMPORTANT: This needs to be set for caching to work properly!
@@ -65,7 +65,7 @@ jobs:
         run: |
           conda clean --all --yes --force-pkgs-dirs
           cd ml-notebook
-          conda-lock lock --mamba -f environment.yml -f ../pangeo-notebook/environment.yml -p linux-64
+          CONDA_OVERRIDE_CUDA=10.2 conda-lock lock --mamba -f environment.yml -f ../pangeo-notebook/environment.yml -p linux-64
           ../list_packages.sh | sort > packages.txt
 
       # Commit the change to the PR branch (currently fails if no modified files)
