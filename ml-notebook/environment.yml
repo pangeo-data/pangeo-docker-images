@@ -3,9 +3,6 @@
 name: pangeo
 channels:
  - conda-forge
- - defaults
 dependencies:
- - conda-forge/linux-64::cupy
- # Using defaults channel for GPU support https://github.com/pangeo-data/pangeo-docker-images/issues/243
- - pkgs/main/linux-64::tensorflow-gpu>=2
+ - tensorflow>=2
  - jax
