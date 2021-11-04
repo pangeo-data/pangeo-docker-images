@@ -6,7 +6,8 @@ LABEL org.opencontainers.image.source=https://github.com/pangeo-data/pangeo-dock
 # Run this section as root
 # try to keep conda version in sync with repo2docker?
 # https://github.com/jupyterhub/repo2docker/blob/297c7955d208f3595c4d5bc2b079953199bb1f35/repo2docker/buildpacks/conda/install-miniforge.bash#L8-L9# ========================
-ENV CONDA_VERSION=4.10.3-6 \
+ENV CONDA_VERSION=4.10.3-7 \
+    MAMBA_VERSION=0.17 \
     CONDA_ENV=notebook \
     NB_USER=jovyan \
     NB_UID=1000 \
@@ -49,7 +50,7 @@ RUN echo "Installing Miniforge..." \
     && wget --quiet ${URL} -O miniconda.sh \
     && /bin/bash miniconda.sh -u -b -p ${CONDA_DIR} \
     && rm miniconda.sh \
-    && conda install -y -c conda-forge mamba \
+    && conda install -y -c conda-forge mamba=${MAMBA_VERSION} \
     && mamba clean -afy \
     && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
     && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete

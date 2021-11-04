@@ -27,7 +27,7 @@ pangeo-notebook : base-image
 .PHONY: ml-notebook
 ml-notebook : base-image
 	cd ml-notebook ; \
-	CONDARC=condarc.yml conda-lock lock --mamba -f environment.yml -p linux-64; \
+	CONDA_OVERRIDE_CUDA=10.2 conda-lock lock --mamba -f environment.yml -f ../pangeo-notebook/environment.yml -p linux-64; \
 	../list_packages.sh | sort > packages.txt; \
 	docker build -t pangeo/ml-notebook:master . ; \
 	docker run -w $(TESTDIR) -v $(PWD):$(TESTDIR) pangeo/ml-notebook:master ./run_tests.sh ml-notebook
