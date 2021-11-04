@@ -121,6 +121,7 @@ ONBUILD RUN echo "Checking for pip 'requirements.txt'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
         ; if test -f "requirements.txt" ; then \
+        export PATH=${NB_PYTHON_PREFIX}/bin:${PATH} \
         ${NB_PYTHON_PREFIX}/bin/pip install --no-cache-dir -r requirements.txt \
         ; fi
 
@@ -145,6 +146,7 @@ ONBUILD RUN echo "Checking for 'start'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
         ; if test -f "start" ; then \
+        export PATH=${NB_PYTHON_PREFIX}/bin:${PATH} \
         chmod +x start \
         && cp start /srv/start \
         ; fi
