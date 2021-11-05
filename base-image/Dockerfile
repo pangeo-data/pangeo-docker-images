@@ -122,7 +122,7 @@ ONBUILD RUN echo "Checking for pip 'requirements.txt'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
         ; if test -f "requirements.txt" ; then \
-        && ${NB_PYTHON_PREFIX}/bin/pip install --no-cache-dir -r requirements.txt \
+        ${NB_PYTHON_PREFIX}/bin/pip install --no-cache-dir -r requirements.txt \
         ; fi
 
 # Run postBuild script within "pangeo" environment
@@ -130,7 +130,7 @@ ONBUILD RUN echo "Checking for 'postBuild'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
         ; if test -f "postBuild" ; then \
-        && chmod +x postBuild \
+        chmod +x postBuild \
         && ./postBuild \
         && rm -rf /tmp/* \
         && rm -rf ${HOME}/.cache ${HOME}/.npm ${HOME}/.yarn \
@@ -145,7 +145,7 @@ ONBUILD RUN echo "Checking for 'start'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
         ; if test -f "start" ; then \
-        && chmod +x start \
+        chmod +x start \
         && cp start /srv/start \
         ; fi
 # ----------------------
