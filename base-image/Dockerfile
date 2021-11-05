@@ -18,8 +18,9 @@ ENV CONDA_VERSION=4.10.3-7 \
 
 ENV NB_PYTHON_PREFIX=${CONDA_DIR}/envs/${CONDA_ENV} \
     DASK_ROOT_CONFIG=${CONDA_DIR}/etc \
-    HOME=/home/${NB_USER} \
-    PATH=${CONDA_DIR}/bin:${PATH}
+    HOME=/home/${NB_USER}
+    
+ENV PATH=${NB_PYTHON_PREFIX}/bin:${CONDA_DIR}/bin:${PATH}
 
 # required for prefect agent: https://github.com/PrefectHQ/prefect/issues/3061
 ENV DEBIAN_FRONTEND=noninteractive
@@ -130,8 +131,7 @@ ONBUILD RUN echo "Checking for 'postBuild'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
         ; if test -f "postBuild" ; then \
-        export PATH=${NB_PYTHON_PREFIX}/bin:${PATH} \
-        && chmod +x postBuild \
+        chmod +x postBuild \
         && ./postBuild \
         && rm -rf /tmp/* \
         && rm -rf ${HOME}/.cache ${HOME}/.npm ${HOME}/.yarn \
