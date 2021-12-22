@@ -75,6 +75,7 @@ If you're used to managing conda environments on your personal computer, or runn
 ```
 %conda create -n pangeo-notebook --file https://raw.githubusercontent.com/pangeo-data/pangeo-docker-images/2021.12.02/pangeo-notebook/conda-linux-64.lock
 ```
+Note that this will only work on linux environments, since the conda lockfile is specific to linux.
 
 ### Image tagging and "continuous building"
 This repository uses [GitHub Actions](https://help.github.com/en/actions) to build images, run tests, and push images to [DockerHub](https://hub.docker.com/orgs/pangeo).
