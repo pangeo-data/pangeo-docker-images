@@ -68,6 +68,15 @@ docker run -it --rm pangeo/base-notebook:2021.09.30 /bin/bash
 Many Cloud providers offer services to run Docker containers in their data centers. Instructions will vary, so we don't provide specifics here, but as an example you can check out these docs for running containers on [AWS ECS via Docker Compose](https://docs.docker.com/cloud/ecs-integration/)
 
 
+### How to install just the conda environment
+
+If you're used to managing conda environments on your personal computer, or running a hosted JupyterLab service like [Google Colab](https://colab.research.google.com) or [AWS SageMaker Studio Lab](https://studiolab.sagemaker.aws), you can exactly match a tagged pangeo-notebook conda environment. For example, below we install the `pangeo-notebook` environment tagged on `2021.12.02`:
+
+```
+%conda create -n pangeo-notebook --file https://raw.githubusercontent.com/pangeo-data/pangeo-docker-images/2021.12.02/pangeo-notebook/conda-linux-64.lock
+```
+Note that this will only work on linux environments, since the conda lockfile is specific to linux.
+
 ### Image tagging and "continuous building"
 This repository uses [GitHub Actions](https://help.github.com/en/actions) to build images, run tests, and push images to [DockerHub](https://hub.docker.com/orgs/pangeo).
 
