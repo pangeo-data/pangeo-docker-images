@@ -4,10 +4,14 @@ FROM ubuntu:20.04
 LABEL org.opencontainers.image.source=https://github.com/pangeo-data/pangeo-docker-images
 
 # Run this section as root
-# try to keep conda version in sync with repo2docker?
-# https://github.com/jupyterhub/repo2docker/blob/297c7955d208f3595c4d5bc2b079953199bb1f35/repo2docker/buildpacks/conda/install-miniforge.bash#L8-L9# ========================
-ENV CONDA_VERSION=4.10.3-7 \
-    MAMBA_VERSION=0.17 \
+# FIXME: Pin CONDA_VERSION only to "major.minor". Currently we can't just set
+#        CONDA_VERSION without including ".patch-build" as its used as a part in
+#        a download URL that requires the full version specification. The github
+#        repo's tags are available before the GitHub releases are made as well.
+# CONDA_VERSION: A miniforge release version https://github.com/conda-forge/miniforge/releases
+# MAMBA_VERSION: A conda-forge package version https://anaconda.org/conda-forge/mamba
+ENV CONDA_VERSION=4.11.0-0 \
+    MAMBA_VERSION=0.20 \
     CONDA_ENV=notebook \
     NB_USER=jovyan \
     NB_UID=1000 \
