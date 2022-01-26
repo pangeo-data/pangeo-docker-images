@@ -4,13 +4,13 @@ FROM ubuntu:20.04
 LABEL org.opencontainers.image.source=https://github.com/pangeo-data/pangeo-docker-images
 
 # Run this section as root
-# FIXME: Pin CONDA_VERSION only to "major.minor". Currently we can't just set
-#        CONDA_VERSION without including ".patch-build" as its used as a part in
-#        a download URL that requires the full version specification. The github
-#        repo's tags are available before the GitHub releases are made as well.
-# CONDA_VERSION: A miniforge release version https://github.com/conda-forge/miniforge/releases
-# MAMBA_VERSION: A conda-forge package version https://anaconda.org/conda-forge/mamba
-ENV CONDA_VERSION=4.11.0-0 \
+# CONDA_VERSION: A miniforge release version found at
+#                https://github.com/conda-forge/miniforge/releases specified to
+#                either just "major" or "major.minor", but always excluding
+#                ".patch-build".
+# MAMBA_VERSION: A conda-forge package version found at
+#                https://anaconda.org/conda-forge/mamba
+ENV CONDA_VERSION=4.11 \
     MAMBA_VERSION=0.20 \
     CONDA_ENV=notebook \
     NB_USER=jovyan \
@@ -42,7 +42,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN echo "Installing Apt-get packages..." \
     && apt-get update --fix-missing \
     && apt-get install -y apt-utils 2> /dev/null \
-    && apt-get install -y wget zip tzdata \
+    && apt-get install -y wget zip tzdata jq \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 # ========================
@@ -51,7 +51,11 @@ USER ${NB_USER}
 WORKDIR ${HOME}
 
 RUN echo "Installing Miniforge..." \
-    && URL="https://github.com/conda-forge/miniforge/releases/download/${CONDA_VERSION}/Miniforge3-${CONDA_VERSION}-Linux-x86_64.sh" \
+    && wget --quiet "https://api.github.com/repos/conda-forge/miniforge/releases?per_page=100" -O releases.json \
+    && MINIFORGE_VERSION=$(cat releases.json | jq --raw-output "[.[] | .tag_name | select(. | startswith(\"${CONDA_VERSION}.\"))][0]") \
+    && rm releases.json \
+    && echo "Downloading miniforge version ${MINIFORGE_VERSION}" \
+    && URL="https://github.com/conda-forge/miniforge/releases/download/${MINIFORGE_VERSION}/Miniforge3-${MINIFORGE_VERSION}-Linux-x86_64.sh" \
     && wget --quiet ${URL} -O miniconda.sh \
     && /bin/bash miniconda.sh -u -b -p ${CONDA_DIR} \
     && rm miniconda.sh \
