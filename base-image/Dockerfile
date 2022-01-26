@@ -4,11 +4,7 @@ FROM ubuntu:20.04
 LABEL org.opencontainers.image.source=https://github.com/pangeo-data/pangeo-docker-images
 
 # Run this section as root
-# try to keep conda version in sync with repo2docker?
-# https://github.com/jupyterhub/repo2docker/blob/297c7955d208f3595c4d5bc2b079953199bb1f35/repo2docker/buildpacks/conda/install-miniforge.bash#L8-L9# ========================
-ENV CONDA_VERSION=4.10.3-7 \
-    MAMBA_VERSION=0.17 \
-    CONDA_ENV=notebook \
+ENV CONDA_ENV=notebook \
     NB_USER=jovyan \
     NB_UID=1000 \
     SHELL=/bin/bash \
@@ -46,12 +42,11 @@ RUN echo "Installing Apt-get packages..." \
 USER ${NB_USER}
 WORKDIR ${HOME}
 
-RUN echo "Installing Miniforge..." \
-    && URL="https://github.com/conda-forge/miniforge/releases/download/${CONDA_VERSION}/Miniforge3-${CONDA_VERSION}-Linux-x86_64.sh" \
-    && wget --quiet ${URL} -O miniconda.sh \
-    && /bin/bash miniconda.sh -u -b -p ${CONDA_DIR} \
-    && rm miniconda.sh \
-    && conda install -y -c conda-forge mamba=${MAMBA_VERSION} \
+RUN echo "Installing Mambaforge..." \
+    && URL="https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh" \
+    && wget --quiet ${URL} -O installer.sh \
+    && /bin/bash installer.sh -u -b -p ${CONDA_DIR} \
+    && rm installer.sh \
     && mamba clean -afy \
     && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
     && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete

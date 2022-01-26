@@ -34,11 +34,12 @@ jobs:
           key:
             ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{hashFiles('environment-condalock.yml') }}
 
-      - name: Setup Conda Environment with Miniforge
+      - name: Setup Conda Environment with Mambaforge
         uses: conda-incubator/setup-miniconda@v2
         with:
            # Match base-image/Dockerfile version
-           miniforge-version: 4.10.3-7
+           miniforge-version: latest
+           miniforge-variant: Mambaforge
            environment-file: environment-condalock.yml
            activate-environment: condalock
            use-only-tar-bz2: true # IMPORTANT: This needs to be set for caching to work properly!
