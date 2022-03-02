@@ -1,3 +1,4 @@
+# Dockerfile for base image of all pangeo images
 FROM ubuntu:20.04
 # build file for pangeo images
 
@@ -15,7 +16,7 @@ ENV CONDA_ENV=notebook \
 ENV NB_PYTHON_PREFIX=${CONDA_DIR}/envs/${CONDA_ENV} \
     DASK_ROOT_CONFIG=${CONDA_DIR}/etc \
     HOME=/home/${NB_USER}
-    
+
 ENV PATH=${NB_PYTHON_PREFIX}/bin:${CONDA_DIR}/bin:${PATH}
 
 # required for prefect agent: https://github.com/PrefectHQ/prefect/issues/3061
@@ -54,13 +55,24 @@ EXPOSE 8888
 ENTRYPOINT ["/srv/start"]
 #CMD ["jupyter", "notebook", "--ip", "0.0.0.0"]
 
-# Only run these if used as a base image
+# We use ONBUILD (https://docs.docker.com/engine/reference/builder/#onbuild)
+# to support triggering certain behavior when specific files exist in the directories of our
+# child images (such as base-notebook, pangeo-notebook, etc). This is
+# to *mimic* the repo2docker behavior, where users can just add
+# environment.yml, requirements.txt, apt.txt etc files to get certain
+# behavior without having to understand how Dockerfiles work. We use
+# ONBUILD to support a subset of the files that repo2docker supports.
+# We do not use repo2docker itself here, to make the images much smaller
+# and easier to reason about.
 # ----------------------
 ONBUILD USER root
 # FIXME (?): user and home folder is hardcoded for now
 # FIXME (?): this line breaks the cache of all steps below
 ONBUILD COPY --chown=jovyan:jovyan . /home/jovyan
 
+# repo2docker will load files from a .binder or binder directory if
+# present. We check if those directories exist, and print a diagnostic
+# message here.
 ONBUILD RUN echo "Checking for 'binder' or '.binder' subfolder" \
         ; if [ -d binder ] ; then \
         echo "Using 'binder/' build context" \
@@ -70,6 +82,8 @@ ONBUILD RUN echo "Checking for 'binder' or '.binder' subfolder" \
         echo "Using './' build context" \
         ; fi
 
+# Install apt packages specified in a apt.txt file if it exists.
+# Unlike repo2docker, blank lines nor comments are supported here.
 ONBUILD RUN echo "Checking for 'apt.txt'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
@@ -80,7 +94,9 @@ ONBUILD RUN echo "Checking for 'apt.txt'..." \
         && rm -rf /var/lib/apt/lists/* \
         ; fi
 
-# Copy jupyter_notebook_config.py to /etc/jupyter
+# If a jupyter_notebook_config.py exists, copy it to /etc/jupyter so
+# it will be read by jupyter processes when they start. This feature is
+# not available in repo2docker.
 ONBUILD RUN echo "Checking for 'jupyter_notebook_config.py'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
@@ -91,7 +107,19 @@ ONBUILD RUN echo "Checking for 'jupyter_notebook_config.py'..." \
 
 ONBUILD USER ${NB_USER}
 
-# Create "notebook" conda environment and dask labextensions
+# We want to keep our images as reproducible as possible. If a lock
+# file with exact versions of all required packages is present, we use
+# it to install packages. conda-lock (https://github.com/conda-incubator/conda-lock)
+# is used to generate this conda-linux-64.lock file from a given environment.yml
+# file - so we get the exact same versions each time the image is built. This
+# also lets us see what packages have changed between two images by diffing
+# the contents of the lock file between those image versions.
+# If a lock file is not present, we use the environment.yml file. And
+# if that is also not present, we use the pangeo-notebook conda-forge
+# package (https://anaconda.org/conda-forge/pangeo-notebook) to install
+# a list of base packages.
+# After installing the packages, we cleanup some unnecessary files
+# to try reduce image size - see https://jcristharif.com/conda-docker-tips.html
 ONBUILD RUN echo "Checking for 'conda-linux-64.lock' or 'environment.yml'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
@@ -110,8 +138,9 @@ ONBUILD RUN echo "Checking for 'conda-linux-64.lock' or 'environment.yml'..." \
         find ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static -follow -type f -name '*.js' ! -name '*.min.js' -delete \
         ; fi
 
-# Install pip packages
-# remove cache https://github.com/pypa/pip/pull/6391 ?
+# If a requirements.txt file exists, use pip to install packages
+# listed there. We don't want to save cached wheels in the image
+# to avoid wasting space.
 ONBUILD RUN echo "Checking for pip 'requirements.txt'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
@@ -119,7 +148,10 @@ ONBUILD RUN echo "Checking for pip 'requirements.txt'..." \
         ${NB_PYTHON_PREFIX}/bin/pip install --no-cache-dir -r requirements.txt \
         ; fi
 
-# Run postBuild script within "pangeo" environment
+# If a postBuild file exists, run it!
+# After it's done, we try to remove any possible cruft commands there
+# leave behind under $HOME - particularly stuff that jupyterlab extensions
+# leave behind.
 ONBUILD RUN echo "Checking for 'postBuild'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
@@ -134,7 +166,8 @@ ONBUILD RUN echo "Checking for 'postBuild'..." \
         && find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete \
         ; fi
 
-# Overwrite start entrypoint script if present
+# If a start file exists, put that under /srv/start. Used in the
+# same way as a start file in repo2docker.
 ONBUILD RUN echo "Checking for 'start'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
