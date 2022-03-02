@@ -32,9 +32,8 @@ RUN echo "Creating ${NB_USER} user..." \
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN echo "Installing Apt-get packages..." \
-    && apt-get update --fix-missing \
-    && apt-get install -y apt-utils 2> /dev/null \
-    && apt-get install -y wget zip tzdata \
+    && apt-get update --fix-missing > /dev/null \
+    && apt-get install -y apt-utils wget zip tzdata > /dev/null \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 # ========================
@@ -76,7 +75,7 @@ ONBUILD RUN echo "Checking for 'apt.txt'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
         ; if test -f "apt.txt" ; then \
-        apt-get update --fix-missing \
+        apt-get update --fix-missing > /dev/null \
         && xargs -a apt.txt apt-get install -y \
         && apt-get clean \
         && rm -rf /var/lib/apt/lists/* \
