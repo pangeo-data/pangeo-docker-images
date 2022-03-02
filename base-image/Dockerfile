@@ -18,9 +18,11 @@ ENV CONDA_ENV=notebook \
     LANG=C.UTF-8  \
     LC_ALL=C.UTF-8 \
     # Install conda in the same place repo2docker does
-    CONDA_DIR=/srv/conda \
-    # Path to the python environment where the jupyter notebook packages are installed
-    NB_PYTHON_PREFIX=${CONDA_DIR}/envs/${CONDA_ENV} \
+    CONDA_DIR=/srv/conda
+
+# All env vars that reference other env vars need to be in their own ENV block
+# Path to the python environment where the jupyter notebook packages are installed
+ENV NB_PYTHON_PREFIX=${CONDA_DIR}/envs/${CONDA_ENV} \
     # Home directory of our non-root user
     HOME=/home/${NB_USER} \
     # Add both our notebook env as well as default conda installation to $PATH
