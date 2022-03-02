@@ -70,7 +70,6 @@ ONBUILD RUN echo "Checking for 'binder' or '.binder' subfolder" \
         echo "Using './' build context" \
         ; fi
 
-ONBUILD ARG DEBIAN_FRONTEND=noninteractive
 ONBUILD RUN echo "Checking for 'apt.txt'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
