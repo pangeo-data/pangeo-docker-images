@@ -4,34 +4,46 @@ FROM ubuntu:20.04
 
 LABEL org.opencontainers.image.source=https://github.com/pangeo-data/pangeo-docker-images
 
-# Run this section as root
+# Setup environment to match variables set by repo2docker as much as possible
+# The name of the conda environment into which the requested packages are installed
 ENV CONDA_ENV=notebook \
+    # Tell apt-get to not block installs by asking for interactive human input
+    DEBIAN_FRONTEND=noninteractive \
+    # Set username, uid and gid (same as uid) of non-root user the container will be run as
     NB_USER=jovyan \
     NB_UID=1000 \
+    # Use /bin/bash as shell, not the default /bin/sh (arrow keys, etc don't work then)
     SHELL=/bin/bash \
+    # Setup locale to be UTF-8, avoiding gnarly hard to debug encoding errors
     LANG=C.UTF-8  \
     LC_ALL=C.UTF-8 \
-    CONDA_DIR=/srv/conda
+    # Install conda in the same place repo2docker does
+    CONDA_DIR=/srv/conda \
+    # Path to the python environment where the jupyter notebook packages are installed
+    NB_PYTHON_PREFIX=${CONDA_DIR}/envs/${CONDA_ENV} \
+    # Home directory of our non-root user
+    HOME=/home/${NB_USER} \
+    # Add both our notebook env as well as default conda installation to $PATH
+    PATH=${NB_PYTHON_PREFIX}/bin:${CONDA_DIR}/bin:${PATH}
 
-ENV NB_PYTHON_PREFIX=${CONDA_DIR}/envs/${CONDA_ENV} \
-    DASK_ROOT_CONFIG=${CONDA_DIR}/etc \
-    HOME=/home/${NB_USER}
+# Ask dask to read config from ${CONDA_DIR}/etc rather than
+# the default of /etc, since the non-root jovyan user can write
+# to ${CONDA_DIR}/etc but not to /etc
+ENV DASK_ROOT_CONFIG=${CONDA_DIR}/etc
 
-ENV PATH=${NB_PYTHON_PREFIX}/bin:${CONDA_DIR}/bin:${PATH}
-
-# required for prefect agent: https://github.com/PrefectHQ/prefect/issues/3061
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Create jovyan user, permissions, add conda init to startup script
 RUN echo "Creating ${NB_USER} user..." \
+    # Create a group for the user to be part of, with gid same as uid
     && groupadd --gid ${NB_UID} ${NB_USER}  \
+    # Create non-root user, with given gid, uid and create $HOME
     && useradd --create-home --gid ${NB_UID} --no-log-init --uid ${NB_UID} ${NB_USER} \
-    && echo ". ${CONDA_DIR}/etc/profile.d/conda.sh ; conda activate ${CONDA_ENV}" > /etc/profile.d/init_conda.sh \
+    # Make sure that /srv is owned by non-root user, so we can install things there
     && chown -R ${NB_USER}:${NB_USER} /srv
 
-# SEE: https://github.com/phusion/baseimage-docker/issues/58
-ARG DEBIAN_FRONTEND=noninteractive
+# Run conda activate each time a bash shell starts, so users don't have to manually type conda activate
+# Note this is only read by shell, not by python
+RUN echo ". ${CONDA_DIR}/etc/profile.d/conda.sh ; conda activate ${CONDA_ENV}" > /etc/profile.d/init_conda.sh \
 
+# Install basic apt packages
 RUN echo "Installing Apt-get packages..." \
     && apt-get update --fix-missing > /dev/null \
     && apt-get install -y apt-utils wget zip tzdata > /dev/null \
@@ -42,12 +54,15 @@ RUN echo "Installing Apt-get packages..." \
 USER ${NB_USER}
 WORKDIR ${HOME}
 
+# Install latest mambaforge in ${CONDA_DIR}
 RUN echo "Installing Mambaforge..." \
     && URL="https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh" \
     && wget --quiet ${URL} -O installer.sh \
     && /bin/bash installer.sh -u -b -p ${CONDA_DIR} \
     && rm installer.sh \
     && mamba clean -afy \
+    # After installing the packages, we cleanup some unnecessary files
+    # to try reduce image size - see https://jcristharif.com/conda-docker-tips.html
     && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
     && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete
 
@@ -89,6 +104,7 @@ ONBUILD RUN echo "Checking for 'apt.txt'..." \
         ; [ -d .binder ] && cd .binder \
         ; if test -f "apt.txt" ; then \
         apt-get update --fix-missing > /dev/null \
+        # Read apt.txt line by line, and execute apt-get install -y for each line in apt.txt
         && xargs -a apt.txt apt-get install -y \
         && apt-get clean \
         && rm -rf /var/lib/apt/lists/* \
