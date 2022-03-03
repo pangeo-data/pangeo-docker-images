@@ -27,6 +27,9 @@ ENV NB_PYTHON_PREFIX=${CONDA_DIR}/envs/${CONDA_ENV} \
     HOME=/home/${NB_USER}
 
 # Add both our notebook env as well as default conda installation to $PATH
+# Thus, when we start a `python` process (for kernels, or notebooks, etc),
+# it loads the python in the notebook conda environment, as that comes
+# first here.
 ENV PATH=${NB_PYTHON_PREFIX}/bin:${CONDA_DIR}/bin:${PATH}
 
 # Ask dask to read config from ${CONDA_DIR}/etc rather than
@@ -43,7 +46,9 @@ RUN echo "Creating ${NB_USER} user..." \
     && chown -R ${NB_USER}:${NB_USER} /srv
 
 # Run conda activate each time a bash shell starts, so users don't have to manually type conda activate
-# Note this is only read by shell, not by python
+# Note this is only read by shell, but not by the jupyter notebook - that relies
+# on us starting the correct `python` process, which we do by adding the notebook conda environment's
+# bin to PATH earlier ($NB_PYTHON_PREFIX/bin)
 RUN echo ". ${CONDA_DIR}/etc/profile.d/conda.sh ; conda activate ${CONDA_ENV}" > /etc/profile.d/init_conda.sh \
 
 # Install basic apt packages
