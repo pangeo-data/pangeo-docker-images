@@ -24,9 +24,10 @@ ENV CONDA_ENV=notebook \
 # Path to the python environment where the jupyter notebook packages are installed
 ENV NB_PYTHON_PREFIX=${CONDA_DIR}/envs/${CONDA_ENV} \
     # Home directory of our non-root user
-    HOME=/home/${NB_USER} \
-    # Add both our notebook env as well as default conda installation to $PATH
-    PATH=${NB_PYTHON_PREFIX}/bin:${CONDA_DIR}/bin:${PATH}
+    HOME=/home/${NB_USER}
+
+# Add both our notebook env as well as default conda installation to $PATH
+ENV PATH=${NB_PYTHON_PREFIX}/bin:${CONDA_DIR}/bin:${PATH}
 
 # Ask dask to read config from ${CONDA_DIR}/etc rather than
 # the default of /etc, since the non-root jovyan user can write
