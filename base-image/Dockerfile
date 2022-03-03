@@ -49,7 +49,7 @@ RUN echo "Creating ${NB_USER} user..." \
 # Note this is only read by shell, but not by the jupyter notebook - that relies
 # on us starting the correct `python` process, which we do by adding the notebook conda environment's
 # bin to PATH earlier ($NB_PYTHON_PREFIX/bin)
-RUN echo ". ${CONDA_DIR}/etc/profile.d/conda.sh ; conda activate ${CONDA_ENV}" > /etc/profile.d/init_conda.sh \
+RUN echo ". ${CONDA_DIR}/etc/profile.d/conda.sh ; conda activate ${CONDA_ENV}" > /etc/profile.d/init_conda.sh
 
 # Install basic apt packages
 RUN echo "Installing Apt-get packages..." \
