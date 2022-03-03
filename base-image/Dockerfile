@@ -75,7 +75,12 @@ ENTRYPOINT ["/srv/start"]
 
 # We use ONBUILD (https://docs.docker.com/engine/reference/builder/#onbuild)
 # to support triggering certain behavior when specific files exist in the directories of our
-# child images (such as base-notebook, pangeo-notebook, etc). This is
+# child images (such as base-notebook, pangeo-notebook, etc). For example,
+# in pangeo-notebook/Dockerfile, we *only* inherit from base-image:master, and
+# that triggers all these ONBUILD directives - it is as if these ONBUILD
+# directives are located inside pangeo-notebook/Dockerfile. This lets us
+# keep the Dockerfiles for our child docker images simple, and customize
+# them by just adding files with known names to them. This is
 # to *mimic* the repo2docker behavior, where users can just add
 # environment.yml, requirements.txt, apt.txt etc files to get certain
 # behavior without having to understand how Dockerfiles work. We use
