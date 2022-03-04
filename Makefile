@@ -12,7 +12,7 @@ base-image :
 base-notebook : base-image
 	cd base-notebook ; \
 	conda-lock lock --mamba -f environment.yml -p linux-64; \
-	../generate-packages-list.py conda-linux-64.lock | sort > packages.txt; \
+	../generate-packages-list.py conda-linux-64.lock > packages.txt; \
 	docker build -t pangeo/base-notebook:master . ; \
 	docker run -w $(TESTDIR) -v $(PWD):$(TESTDIR) pangeo/base-notebook:master ./run_tests.sh base-notebook
 
@@ -28,6 +28,6 @@ pangeo-notebook : base-image
 ml-notebook : base-image
 	cd ml-notebook ; \
 	conda-lock lock --mamba -f environment.yml -f ../pangeo-notebook/environment.yml -p linux-64; \
-	../generate-packages-list.py conda-linux-64.lock | sort > packages.txt; \
+	../generate-packages-list.py conda-linux-64.lock > packages.txt; \
 	docker build -t pangeo/ml-notebook:master . ; \
 	docker run -w $(TESTDIR) -v $(PWD):$(TESTDIR) pangeo/ml-notebook:master ./run_tests.sh ml-notebook
