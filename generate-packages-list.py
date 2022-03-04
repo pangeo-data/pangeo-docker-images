@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """
 Generate human readable packages.txt file from a conda-lock file.
-
-Looks for a conda-lock
 """
 import argparse
 
