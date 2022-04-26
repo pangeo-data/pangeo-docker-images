@@ -6,7 +6,7 @@ import os
 packages = [
     # machine learning stuff
     'tensorflow', 'skimage', 'sklearn',
-    'jax', 'torch', 'torgcheo'
+    'jax', 'torch', 'torchgeo'
     # cupy import fails unless on GPU-enabled node:
     #'cupy', #libcuda.so.1: cannot open shared object file: No such file or directory
     ]
