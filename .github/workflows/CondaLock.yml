@@ -50,7 +50,7 @@ jobs:
         run: |
           conda clean --all --yes --force-pkgs-dirs
           cd base-notebook
-          conda-lock lock --mamba -f environment.yml -p linux-64
+          conda-lock lock --mamba -k explicit -f environment.yml -p linux-64
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       - name: Run conda-lock pangeo-notebook
@@ -58,7 +58,7 @@ jobs:
         run: |
           conda clean --all --yes --force-pkgs-dirs
           cd pangeo-notebook
-          conda-lock lock --mamba -f environment.yml -p linux-64
+          conda-lock lock --mamba -k explicit -f environment.yml -p linux-64
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       - name: Run conda-lock ml-notebook
@@ -66,7 +66,7 @@ jobs:
         run: |
           conda clean --all --yes --force-pkgs-dirs
           cd ml-notebook
-          conda-lock lock --mamba -f environment.yml -f ../pangeo-notebook/environment.yml -p linux-64
+          conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -p linux-64
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       # Commit the change to the PR branch (currently fails if no modified files)
