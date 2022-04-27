@@ -13,6 +13,7 @@ Image are hosted on DockerHub: https://hub.docker.com/u/pangeo
 | base-image      | Foundational Dockerfile for builds            | ![](https://img.shields.io/docker/image-size/pangeo/base-image?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/base-image?sort=date)
 | [base-notebook](base-notebook/packages.txt) | minimally functional image for pangeo hubs | ![](https://img.shields.io/docker/image-size/pangeo/base-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/base-notebook?sort=date)
 | [pangeo-notebook](pangeo-notebook/packages.txt) | above + core earth science analysis packages | ![](https://img.shields.io/docker/image-size/pangeo/pangeo-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/pangeo-notebook?sort=date)
+| [pytorch-notebook](pytorch-notebook/packages.txt) | above + GPU-enabled pytorch | ![](https://img.shields.io/docker/image-size/pangeo/pytorch-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/pytorch-notebook?sort=date)
 | [ml-notebook](ml-notebook/packages.txt) | above + GPU-enabled tensorflow2 | ![](https://img.shields.io/docker/image-size/pangeo/ml-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/ml-notebook?sort=date)
 
 *Click on the image name in the table above for a current list of installed packages and versions*
@@ -27,7 +28,7 @@ Users who need the special features offered by [Pangeo binder](https://binder.pa
 * https://binder.pangeo.io/v2/gh/pangeo-data/pangeo-docker-images/HEAD?urlpath=lab
 * https://aws-uswest2-binder.pangeo.io/v2/gh/pangeo-data/pangeo-docker-images/HEAD?urlpath=lab
 
-NOTE: the links above resolve to the [`pangeo-notebook` image](https://github.com/pangeo-data/pangeo-docker-images/tree/master/pangeo-notebook) and not `base-notebook` or `ml-notebook` that are also defined in this repository. Currently BinderHubs map to a single image definition per repository.
+NOTE: the links above resolve to the [`pangeo-notebook` image](https://github.com/pangeo-data/pangeo-docker-images/tree/master/pangeo-notebook) and not `base-notebook`, `ml-notebook` or `pytorch-notebook` that are also defined in this repository. Currently BinderHubs map to a single image definition per repository.
 
 #### Use nbgitpuller to automatically load content
 
