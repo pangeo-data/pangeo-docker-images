@@ -18,6 +18,14 @@ Image are hosted on DockerHub: https://hub.docker.com/u/pangeo
 
 *Click on the image name in the table above for a current list of installed packages and versions*
 
+```mermaid
+graph TD;
+    base-image-->base-notebook;
+    base-notebook-->pangeo-notebook;
+    pangeo-notebook-->pytorch-notebook;
+    pangeo-notebook-->ml-notebook;
+```
+
 ### How to use the pangeo-notebook image with Binder
 A major use-case for these images is running an ephemeral server on the Cloud with BinderHub. Anyone can launch a server running the latest-and-greatest `pangeo-notebook` image with the following URL
 
