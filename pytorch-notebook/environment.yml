@@ -1,0 +1,12 @@
+# Note: this environment will be merged with the pangeo-notebook/environment.yml
+# by conda-lock. Only put things here that are not already in pangeo-notebook
+name: pangeo
+channels:
+ - conda-forge
+dependencies:
+ - cudatoolkit=11
+ # needed for pytorch to work
+ # https://github.com/NVIDIA/MinkowskiEngine/issues/354#issuecomment-880555195
+ - anaconda::libopenblas
+ - pytorch-gpu
+ - torchgeo
