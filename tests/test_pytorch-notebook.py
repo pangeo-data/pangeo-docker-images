@@ -5,13 +5,13 @@ import os
 
 packages = [
     # machine learning stuff
-    "pytorch",
+    "pytorch_lightning",
     "skimage",
     "sklearn",
+    "torch",
+    "torchgeo",
     # cupy import fails unless on GPU-enabled node:
     #'cupy', #libcuda.so.1: cannot open shared object file: No such file or directory
-    # Error w/conda solve of pytorch+tensorflow, so not currently installed
-    # 'torch'
 ]
 
 
