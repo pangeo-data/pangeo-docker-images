@@ -87,8 +87,12 @@ docker run -it --rm --gpus all -p 8888:8888 pangeo/pytorch-notebook:master jupyt
 
 ### How to launch an image with a Cloud provider on your own account
 
-Many Cloud providers offer services to run Docker containers in their data centers. Instructions will vary, so we don't provide specifics here, but as an example you can check out these docs for running containers on [AWS ECS via Docker Compose](https://docs.docker.com/cloud/ecs-integration/)
+Many Cloud providers offer services to run Docker containers in their data centers.
+Instructions will vary, so we don't provide specifics here, but as an example,
+check out these docs for running containers on the cloud via Docker Compose:
 
+- [Amazon Elastic Container Service (ECS)](https://docs.docker.com/cloud/ecs-integration)
+- [Azure Container Instances (ACI)](https://docs.docker.com/cloud/aci-integration)
 
 ### How to install just the conda environment
 
