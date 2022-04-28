@@ -24,6 +24,11 @@ graph TD;
     base-notebook-->pangeo-notebook;
     pangeo-notebook-->pytorch-notebook;
     pangeo-notebook-->ml-notebook;
+    click base-image "https://hub.docker.com/r/pangeo/base-image" "Open this in a new tab" _blank
+    click base-notebook "https://hub.docker.com/r/pangeo/base-notebook" "Open this in a new tab" _blank
+    click pangeo-notebook "https://hub.docker.com/r/pangeo/pangeo-notebook" "Open this in a new tab" _blank
+    click pytorch-notebook "https://hub.docker.com/r/pangeo/pytorch-notebook" "Open this in a new tab" _blank
+    click ml-notebook "https://hub.docker.com/r/pangeo/ml-notebook" "Open this in a new tab" _blank
 ```
 
 ### How to use the pangeo-notebook image with Binder
@@ -72,10 +77,22 @@ You can also run commands other than `jupyter` when starting a Docker container:
 docker run -it --rm pangeo/base-notebook:2021.09.30 /bin/bash
 ```
 
+If you're doing Machine Learning and want to use NVIDIA GPUs,
+follow the instructions at https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
+to install `nvidia-docker`, and then start the Docker container like so:
+
+```
+docker run -it --rm --gpus all -p 8888:8888 pangeo/pytorch-notebook:master jupyter lab --ip 0.0.0.0
+```
+
 ### How to launch an image with a Cloud provider on your own account
 
-Many Cloud providers offer services to run Docker containers in their data centers. Instructions will vary, so we don't provide specifics here, but as an example you can check out these docs for running containers on [AWS ECS via Docker Compose](https://docs.docker.com/cloud/ecs-integration/)
+Many Cloud providers offer services to run Docker containers in their data centers.
+Instructions will vary, so we don't provide specifics here, but as an example,
+check out these docs for running containers on the cloud via Docker Compose:
 
+- [Amazon Elastic Container Service (ECS)](https://docs.docker.com/cloud/ecs-integration)
+- [Azure Container Instances (ACI)](https://docs.docker.com/cloud/aci-integration)
 
 ### How to install just the conda environment
 
