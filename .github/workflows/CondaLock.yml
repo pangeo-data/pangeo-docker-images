@@ -9,6 +9,10 @@ on:
 jobs:
   condalock:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -23,6 +27,7 @@ jobs:
           echo "---\nbase-notebook:\n---\n" && cat base-notebook/environment.yml
           echo "---\npangeo-notebook:\n---\n" && cat pangeo-notebook/environment.yml
           echo "---\nml-notebook:\n---\n" && cat ml-notebook/environment.yml
+          echo "---\npytorch-notebook:\n---\n" && cat pytorch-notebook/environment.yml
 
       - name: Cache conda
         uses: actions/cache@v2
@@ -46,7 +51,6 @@ jobs:
 
       # Could run as single step in parallel, but would complicate logs...
       - name: Run conda-lock base-notebook
-        shell: bash -l {0}
         run: |
           conda clean --all --yes --force-pkgs-dirs
           cd base-notebook
@@ -54,7 +58,6 @@ jobs:
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       - name: Run conda-lock pangeo-notebook
-        shell: bash -l {0}
         run: |
           conda clean --all --yes --force-pkgs-dirs
           cd pangeo-notebook
@@ -62,10 +65,16 @@ jobs:
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       - name: Run conda-lock ml-notebook
-        shell: bash -l {0}
         run: |
           conda clean --all --yes --force-pkgs-dirs
           cd ml-notebook
+          conda-lock lock --mamba -f environment.yml -f ../pangeo-notebook/environment.yml -p linux-64
+          ../generate-packages-list.py conda-linux-64.lock > packages.txt
+
+      - name: Run conda-lock pytorch-notebook
+        run: |
+          conda clean --all --yes --force-pkgs-dirs
+          cd pytorch-notebook
           conda-lock lock --mamba -f environment.yml -f ../pangeo-notebook/environment.yml -p linux-64
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
