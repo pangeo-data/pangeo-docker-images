@@ -39,3 +39,11 @@ pytorch-notebook : base-image
 	../generate-packages-list.py conda-linux-64.lock > packages.txt; \
 	docker build -t pangeo/pytorch-notebook:master . ; \
 	docker run -w $(TESTDIR) -v $(PWD):$(TESTDIR) pangeo/pytorch-notebook:master ./run_tests.sh pytorch-notebook
+
+.PHONY: jax-notebook
+jax-notebook : base-image
+	cd jax-notebook ; \
+	conda-lock lock --mamba -f environment.yml -f ../pangeo-notebook/environment.yml -p linux-64; \
+	../generate-packages-list.py conda-linux-64.lock > packages.txt; \
+	docker build -t pangeo/jax-notebook:master . ; \
+	docker run -w $(TESTDIR) -v $(PWD):$(TESTDIR) pangeo/pytorch-notebook:master ./run_tests.sh pytorch-notebook
