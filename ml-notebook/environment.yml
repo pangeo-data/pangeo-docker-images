@@ -2,9 +2,10 @@
 # by conda-lock. Only put things here that are not already in pangeo-notebook
 name: pangeo
 channels:
+ - ngam
  - conda-forge
 dependencies:
  - cudatoolkit=10
  - tensorflow=2.7.0
  - jax=0.3.0
- - jaxlib=0.1.75
+ - jaxlib==*=*cuda*
