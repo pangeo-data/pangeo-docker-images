@@ -12,10 +12,24 @@ Image are hosted on DockerHub: https://hub.docker.com/u/pangeo
 |-----------------|-----------------------------------------------|--------------|-------------|
 | base-image      | Foundational Dockerfile for builds            | ![](https://img.shields.io/docker/image-size/pangeo/base-image?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/base-image?sort=date)
 | [base-notebook](base-notebook/packages.txt) | minimally functional image for pangeo hubs | ![](https://img.shields.io/docker/image-size/pangeo/base-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/base-notebook?sort=date)
-| [pangeo-notebook](pangeo-notebook/packages.txt) | above + core earth science analysis packages | ![](https://img.shields.io/docker/image-size/pangeo/pangeo-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/pangeo-notebook?sort=date)
-| [ml-notebook](ml-notebook/packages.txt) | above + GPU-enabled tensorflow2 | ![](https://img.shields.io/docker/image-size/pangeo/ml-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/ml-notebook?sort=date)
+| [pangeo-notebook](pangeo-notebook/packages.txt) | base-notebook + core earth science analysis packages | ![](https://img.shields.io/docker/image-size/pangeo/pangeo-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/pangeo-notebook?sort=date)
+| [pytorch-notebook](pytorch-notebook/packages.txt) | pangeo-notebook + GPU-enabled pytorch | ![](https://img.shields.io/docker/image-size/pangeo/pytorch-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/pytorch-notebook?sort=date)
+| [ml-notebook](ml-notebook/packages.txt) | pangeo-notebook + GPU-enabled tensorflow2 | ![](https://img.shields.io/docker/image-size/pangeo/ml-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/ml-notebook?sort=date)
 
 *Click on the image name in the table above for a current list of installed packages and versions*
+
+```mermaid
+graph TD;
+    base-image-->base-notebook;
+    base-notebook-->pangeo-notebook;
+    pangeo-notebook-->pytorch-notebook;
+    pangeo-notebook-->ml-notebook;
+    click base-image "https://hub.docker.com/r/pangeo/base-image" "Open this in a new tab" _blank
+    click base-notebook "https://hub.docker.com/r/pangeo/base-notebook" "Open this in a new tab" _blank
+    click pangeo-notebook "https://hub.docker.com/r/pangeo/pangeo-notebook" "Open this in a new tab" _blank
+    click pytorch-notebook "https://hub.docker.com/r/pangeo/pytorch-notebook" "Open this in a new tab" _blank
+    click ml-notebook "https://hub.docker.com/r/pangeo/ml-notebook" "Open this in a new tab" _blank
+```
 
 ### How to use the pangeo-notebook image with Binder
 A major use-case for these images is running an ephemeral server on the Cloud with BinderHub. Anyone can launch a server running the latest-and-greatest `pangeo-notebook` image with the following URL
@@ -27,7 +41,7 @@ Users who need the special features offered by [Pangeo binder](https://binder.pa
 * https://binder.pangeo.io/v2/gh/pangeo-data/pangeo-docker-images/HEAD?urlpath=lab
 * https://aws-uswest2-binder.pangeo.io/v2/gh/pangeo-data/pangeo-docker-images/HEAD?urlpath=lab
 
-NOTE: the links above resolve to the [`pangeo-notebook` image](https://github.com/pangeo-data/pangeo-docker-images/tree/master/pangeo-notebook) and not `base-notebook` or `ml-notebook` that are also defined in this repository. Currently BinderHubs map to a single image definition per repository.
+NOTE: the links above resolve to the [`pangeo-notebook` image](https://github.com/pangeo-data/pangeo-docker-images/tree/master/pangeo-notebook) and not `base-notebook`, `ml-notebook` or `pytorch-notebook` that are also defined in this repository. Currently BinderHubs map to a single image definition per repository.
 
 #### Use nbgitpuller to automatically load content
 
@@ -63,10 +77,22 @@ You can also run commands other than `jupyter` when starting a Docker container:
 docker run -it --rm pangeo/base-notebook:2021.09.30 /bin/bash
 ```
 
+If you're doing Machine Learning and want to use NVIDIA GPUs,
+follow the instructions at https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
+to install `nvidia-docker`, and then start the Docker container like so:
+
+```
+docker run -it --rm --gpus all -p 8888:8888 pangeo/pytorch-notebook:master jupyter lab --ip 0.0.0.0
+```
+
 ### How to launch an image with a Cloud provider on your own account
 
-Many Cloud providers offer services to run Docker containers in their data centers. Instructions will vary, so we don't provide specifics here, but as an example you can check out these docs for running containers on [AWS ECS via Docker Compose](https://docs.docker.com/cloud/ecs-integration/)
+Many Cloud providers offer services to run Docker containers in their data centers.
+Instructions will vary, so we don't provide specifics here, but as an example,
+check out these docs for running containers on the cloud via Docker Compose:
 
+- [Amazon Elastic Container Service (ECS)](https://docs.docker.com/cloud/ecs-integration)
+- [Azure Container Instances (ACI)](https://docs.docker.com/cloud/aci-integration)
 
 ### How to install just the conda environment
 

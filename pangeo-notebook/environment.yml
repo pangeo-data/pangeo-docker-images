@@ -3,7 +3,10 @@ channels:
  - conda-forge
 dependencies:
  - python=3.9*
- - pangeo-notebook=2022.04.18
+ # needed for pytorch to work
+ # https://github.com/NVIDIA/MinkowskiEngine/issues/354#issuecomment-880555195
+ - anaconda::libopenblas
+ - pangeo-notebook=2022.05.10
  - pip=20
  - adlfs
  - argopy
@@ -62,6 +65,7 @@ dependencies:
  - panel
  - parcels
  - param!=1.11.0
+ - pop-tools
  - prefect
  - pyarrow
  - pycamhd
@@ -101,3 +105,4 @@ dependencies:
  - xrft
  - xskillscore
  - zarr
+ - gh-scoped-creds
