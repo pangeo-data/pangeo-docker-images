@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set Job Environment Variables
       run: |
@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set Job Environment Variables
       run: |
@@ -76,7 +76,7 @@ jobs:
 
     - name: Export Full Conda Environment
       run: |
-        docker run ${DOCKER_ORG}/${{ matrix.IMAGE }}:master conda list --export
+        docker run ${DOCKER_ORG}/${{ matrix.IMAGE }}:master conda list
 
     - name: Test Image
       run: |
