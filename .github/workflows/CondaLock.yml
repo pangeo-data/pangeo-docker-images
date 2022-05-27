@@ -28,7 +28,7 @@ jobs:
           echo "---\npangeo-notebook:\n---\n" && cat pangeo-notebook/environment.yml
           echo "---\nml-notebook:\n---\n" && cat ml-notebook/environment.yml
           echo "---\npytorch-notebook:\n---\n" && cat pytorch-notebook/environment.yml
-
+          echo "---\njax-notebook:\n---\n" && cat jax-notebook/environment.yml
       - name: Cache conda
         uses: actions/cache@v3
         env:
@@ -75,6 +75,13 @@ jobs:
         run: |
           conda clean --all --yes --force-pkgs-dirs
           cd pytorch-notebook
+          conda-lock lock --mamba -f environment.yml -f ../pangeo-notebook/environment.yml -p linux-64
+          ../generate-packages-list.py conda-linux-64.lock > packages.txt
+
+      - name: Run conda-lock jax-notebook
+        run: |
+          conda clean --all --yes --force-pkgs-dirs
+          cd jax-notebook
           conda-lock lock --mamba -f environment.yml -f ../pangeo-notebook/environment.yml -p linux-64
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
