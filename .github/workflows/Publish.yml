@@ -16,12 +16,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        IMAGE: [base-image, base-notebook, pangeo-notebook, ml-notebook]
+        IMAGE: [base-image, base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook]
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set Job Environment Variables
       run: |
