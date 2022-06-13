@@ -3,11 +3,9 @@
 name: pangeo
 channels:
  - conda-forge
- - nodefaults
 dependencies:
  - cudatoolkit=11
  # needed for pytorch to work
  # https://github.com/NVIDIA/MinkowskiEngine/issues/354#issuecomment-880555195
- - anaconda::libopenblas
- - pytorch-gpu
+ - pytorch==*=*cuda*
  - torchgeo
