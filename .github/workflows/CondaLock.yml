@@ -12,6 +12,10 @@ jobs:
     defaults:
       run:
         shell: bash -l {0}
+    
+    strategy:
+      matrix:
+        notebook: ["base-notebook", "pangeo-notebook", "ml-notebook", "pytorch-notebook"]
 
     steps:
       - name: Checkout Repository
@@ -50,31 +54,39 @@ jobs:
            use-only-tar-bz2: true # IMPORTANT: This needs to be set for caching to work properly!
 
       # Could run as single step in parallel, but would complicate logs...
-      - name: Run conda-lock base-notebook
+      - 
+        if: ${{ matrix.notebook == 'base-notebook' }}
+        name: Run conda-lock ${{ matrix.notebook }}
         run: |
           conda clean --all --yes --force-pkgs-dirs
-          cd base-notebook
+          cd ${{ matrix.notebook }}
           conda-lock lock --mamba -k explicit -f environment.yml -p linux-64
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
-      - name: Run conda-lock pangeo-notebook
+      - 
+        if: ${{ matrix.notebook == 'pangeo-notebook' }}
+        name: Run conda-lock ${{ matrix.notebook }}
         run: |
           conda clean --all --yes --force-pkgs-dirs
-          cd pangeo-notebook
+          cd cd ${{ matrix.notebook }}
           conda-lock lock --mamba -k explicit -f environment.yml -f ../base-notebook/environment.yml -p linux-64
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
-      - name: Run conda-lock ml-notebook
+      - 
+        if: ${{ matrix.notebook == 'ml-notebook' }}
+        name: Run conda-lock ${{ matrix.notebook }}
         run: |
           conda clean --all --yes --force-pkgs-dirs
-          cd ml-notebook
+          cd ${{ matrix.notebook }}
           conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml  -p linux-64
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
-      - name: Run conda-lock pytorch-notebook
+      - 
+        if: ${{ matrix.notebook == 'pytorch-notebook' }}
+        name: Run conda-lock ${{ matrix.notebook }}
         run: |
           conda clean --all --yes --force-pkgs-dirs
-          cd pytorch-notebook
+          cd ${{ matrix.notebook }}
           conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
