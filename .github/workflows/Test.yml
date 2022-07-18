@@ -57,7 +57,7 @@ jobs:
     - name: Build Image
       run: |
         cd ${{ matrix.IMAGE }}
-        docker build --build-arg  PANGEO_BASE_IMAGE_TAG=PR -t ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR -f ../Dockerfile .
+        docker build --build-arg  PANGEO_BASE_IMAGE_TAG=PR -t ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR .
 
     - name: Report Image Size and Conda Packages
       run: |
