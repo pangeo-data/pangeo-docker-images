@@ -15,4 +15,7 @@ FROM pangeo/base-image:master
 
 ARG BEAM_VERSION=2.40.0
 
+# Install this here so the version of boot matches the version of the python package
+RUN pip install --no-cache apache-beam[gcp]==${BEAM_VERSION}
+
 COPY --from=0 /beam-boot /usr/local/bin/boot
