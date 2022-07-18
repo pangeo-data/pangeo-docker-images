@@ -1,7 +1,20 @@
-#!/bin/bash -l
+#!/usr/bin/env python
+"""
+Runs beam-boot when called with beam-boot parameters,
+or acts like empty
+"""
+import os
+import sys
 
-# Equivalent to setting entrypoint to /usr/local/bin/boot
-# Every other image in this repo has a start, so we have one here too
-# Eventually, we can make sure we allow this image to run on
+REQUIRED_BEAM_BOOT_PARAMS = [
+    '-id', '-control_endpoint', '-logging_endpoint',
+    'artifact_endpoint', 'provision_endpoint'
+]
+if all(x in sys.argv for x in REQUIRED_BEAM_BOOT_PARAMS):
+    command = '/usr/local/bin/boot'
+    args = sys.argv[1:]
+else:
+    command = sys.argv[1]
+    args = sys.argv[2:]
 
-exec  /usr/local/bin/boot "$@"
+os.execvp(command, args)
