@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        IMAGE: [base-image, base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook]
+        IMAGE: [base-image, base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook, forge]
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     steps:

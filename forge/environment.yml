@@ -1,0 +1,10 @@
+# Note: this environment will be merged with the pangeo-notebook/environment.yml
+# by conda-lock. Only put things here that are not already in pangeo-notebook
+name: pangeo
+channels:
+ - conda-forge
+ - nodefaults
+dependencies:
+ - pip
+ - pip:
+   - apache-beam[gcp]==2.40.0

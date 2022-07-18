@@ -78,6 +78,13 @@ jobs:
           conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
+      - name: Run conda-lock forge
+        run: |
+          conda clean --all --yes --force-pkgs-dirs
+          cd forge
+          conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
+          ../generate-packages-list.py conda-linux-64.lock > packages.txt
+
       # Commit the change to the PR branch (currently fails if no modified files)
       - name: Commit condalock files to PR
         run: |
