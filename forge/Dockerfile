@@ -16,5 +16,3 @@ FROM pangeo/base-image:master
 ARG BEAM_VERSION=2.40.0
 
 COPY --from=0 /beam-boot /usr/local/bin/boot
-
-ENTRYPOINT ["/usr/local/bin/boot"]

@@ -1,0 +1,7 @@
+#!/bin/bash -l
+
+# Equivalent to setting entrypoint to /usr/local/bin/boot
+# Every other image in this repo has a start, so we have one here too
+# Eventually, we can make sure we allow this image to run on
+
+exec  /usr/local/bin/boot "$@"
