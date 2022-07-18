@@ -15,6 +15,6 @@ if all(x in sys.argv for x in REQUIRED_BEAM_BOOT_PARAMS):
     args = sys.argv[1:]
 else:
     command = sys.argv[1]
-    args = sys.argv[2:]
+    args = sys.argv[1:]
 
 os.execvp(command, args)
