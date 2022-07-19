@@ -1,6 +1,7 @@
 import pytest
 import importlib
 import os
+import re
 import subprocess
 
 packages = ['pangeo_forge_recipes']
@@ -49,6 +50,10 @@ def test_start_script():
     # If the parameters that Apache beam passes to the boot program are
     # detected, it should instead call the apache beam boot program! This is
     # equivalent to the apache beam boot program being set as entrypoint, which
-    # is what the apache beam documentation tells us to do
-    assert subprocess.run(['/srv/start'] + boot_args, capture_output=True).stderr ==  \
-    subprocess.run(['/usr/local/bin/boot'] + boot_args, capture_output=True).stderr
+    # is what the apache beam documentation tells us to do. The exact parameter
+    # boot complains about seems to be non deterministic, so let's use a bit of
+    # a fuzzy regex to check this works.
+    assert re.search(
+        r'No(.*)provided.\n$',
+        subprocess.run(['/srv/start'] + boot_args, capture_output=True).stderr.decode()
+    )
