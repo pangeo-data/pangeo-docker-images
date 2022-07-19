@@ -20,6 +20,11 @@ ARG BEAM_VERSION=2.40.0
 
 RUN curl -sSL https://github.com/apache/beam/archive/refs/tags/v${BEAM_VERSION}.tar.gz | tar -xzf -
 
+# CGO_ENABLED=0 will statically link the binary, so it becomes independent of the
+# underlying distro being used. In our case, we build on debian bullseye (as that
+# is what upstream golang provides) and our pangeo images are ubuntu based. These
+# should mostly be compatible, especially for such a small program as beam-boot -
+# but better safe than sorry?
 RUN cd beam-${BEAM_VERSION}/sdks/python/container && \
     CGO_ENABLED=0 go build -o /beam-boot
 
