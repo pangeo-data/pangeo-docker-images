@@ -12,7 +12,7 @@ ARG PANGEO_BASE_IMAGE_TAG=master
 # broken), and build the go executable by downloading the source & using a builder image
 # to build it. This ensures we meet the requirements needed for running beam while still
 # reusing most of the pre-existing infra we have for maintaining images.
-FROM golang:1.18-bullseye
+FROM golang:1.18-bullseye as beamboot
 
 # This version is specified twice in this Dockerfile, so if you change this one,
 # make sure to change the other one too!
@@ -36,4 +36,4 @@ ARG BEAM_VERSION=2.40.0
 # Install the same version of the package that we install the boot binary of
 RUN pip install --no-cache apache-beam[gcp]==${BEAM_VERSION}
 
-COPY --from=0 /beam-boot /usr/local/bin/boot
+COPY --from=beamboot /beam-boot /usr/local/bin/boot
