@@ -23,7 +23,7 @@ REQUIRED_BEAM_BOOT_PARAMS = [
     'artifact_endpoint', 'provision_endpoint'
 ]
 if all(x in sys.argv for x in REQUIRED_BEAM_BOOT_PARAMS):
-    command = '/usr/local/bin/boot'
+    command = '/opt/apache/beam/boot'
 else:
     command = sys.argv[1]
 
