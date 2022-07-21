@@ -19,11 +19,10 @@ ARG PANGEO_BASE_IMAGE_TAG=master
 # Refer to the base-image/Dockerfile for documentation.
 FROM pangeo/base-image:${PANGEO_BASE_IMAGE_TAG}
 
-# This version is specified twice in this Dockerfile, so if you change this one,
-# make sure to change the other one too!
-ARG BEAM_VERSION=2.40.0
+# This version should match what is specified in the COPY instruction. We can't use
+# ARG or ENV here unfortunately as those aren't valid in COPY instructions.
+RUN pip install --no-cache apache-beam[gcp]==2.40.0
 
-# Install the same version of the package that we install the boot binary of
-RUN pip install --no-cache apache-beam[gcp]==${BEAM_VERSION}
-
-COPY --from=apache/beam_python3.8_sdk:2.40.0 /opt/apache/beam/boot /opt/apache/beam/boot
+# Copy *just* the golang based boot binary from the beam sdk image, *not*
+# the entire python package they build there. We install the python bits ourselves.
+COPY --from=apache/beam_python3.9_sdk:2.40.0 /opt/apache/beam/boot /opt/apache/beam/boot
