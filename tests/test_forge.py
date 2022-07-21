@@ -16,21 +16,6 @@ def test_boot_exists():
     """
     assert os.path.exists('/opt/apache/beam/boot')
 
-def test_boot_static():
-    """
-    Test the 'boot' executable used by apache beam is a static executable.
-
-    It's built on a debian system but used in ubuntu. It is probably
-    ok for it to be dynamically linked, but better safe here than sorry.
-    """
-    proc = subprocess.run(['ldd', '/opt/apache/beam/boot'], capture_output=True)
-
-    # `ldd` returns failure if the executable isn't dynamic, which ours isn't
-    assert proc.returncode == 1
-
-    # Check the output to make sure it's not a dynamic executable
-    assert proc.stderr.decode().strip() == 'not a dynamic executable'
-
 
 def test_start_script():
     """
