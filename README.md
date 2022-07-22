@@ -15,6 +15,7 @@ Image are hosted on DockerHub: https://hub.docker.com/u/pangeo
 | [pangeo-notebook](pangeo-notebook/packages.txt) | base-notebook + core earth science analysis packages | ![](https://img.shields.io/docker/image-size/pangeo/pangeo-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/pangeo-notebook?sort=date)
 | [pytorch-notebook](pytorch-notebook/packages.txt) | pangeo-notebook + GPU-enabled pytorch | ![](https://img.shields.io/docker/image-size/pangeo/pytorch-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/pytorch-notebook?sort=date)
 | [ml-notebook](ml-notebook/packages.txt) | pangeo-notebook + GPU-enabled tensorflow2 | ![](https://img.shields.io/docker/image-size/pangeo/ml-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/ml-notebook?sort=date)
+| [forge](ml-notebook/packages.txt) | pangeo-notebook + [Apache Beam](https://beam.apache.org/) support| ![](https://img.shields.io/docker/image-size/pangeo/forge?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/forge?sort=date)
 
 *Click on the image name in the table above for a current list of installed packages and versions*
 
@@ -24,11 +25,13 @@ graph TD;
     base-notebook-->pangeo-notebook;
     pangeo-notebook-->pytorch-notebook;
     pangeo-notebook-->ml-notebook;
+    pangeo-notebook-->forge;
     click base-image "https://hub.docker.com/r/pangeo/base-image" "Open this in a new tab" _blank
     click base-notebook "https://hub.docker.com/r/pangeo/base-notebook" "Open this in a new tab" _blank
     click pangeo-notebook "https://hub.docker.com/r/pangeo/pangeo-notebook" "Open this in a new tab" _blank
     click pytorch-notebook "https://hub.docker.com/r/pangeo/pytorch-notebook" "Open this in a new tab" _blank
     click ml-notebook "https://hub.docker.com/r/pangeo/ml-notebook" "Open this in a new tab" _blank
+    click forge "https://hub.docker.com/r/pangeo/forge" "Open this in a new tab" _blank
 ```
 
 ### How to use the pangeo-notebook image with Binder
@@ -157,7 +160,8 @@ The runtime environment sets two variables by default
 2. `$PANGEO_SCRATCH`: a URL like `gcs://pangeo-scratch/username/` that
    points to a cloud storage bucket for temporary storage. This is set
    if the variable `$PANGEO_SCRATCH_PREFIX` and `JUPYTERHUB_USER`
-   are detected. The prefix should be like `s3://pangeo-scratch`
+   are detected. The prefix should be like `s3://pangeo-scratch`.
+   This is not present in the `forge/` image.
 
 
 ### Other notes

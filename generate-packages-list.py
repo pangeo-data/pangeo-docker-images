@@ -8,21 +8,43 @@ def parse_lock_line(line):
     """
     Parse a single conda-lock line and return name
 
-    Return name of package with version
-    """
-    # Given something like this:
-    # https://conda.anaconda.org/conda-forge/noarch/nomkl-1.0-h5ca1d4c_0.tar.bz2#9a66894dfd07c4510beb6b3f9672ccc0
-    # it should return nomkl, 1.0, h5ca14dc_0
+    Supports both conda and pip pins.
 
-    # Remove hash from the URL
-    url = line.split('#', 1)[0]
-    # Find last component of URL
-    full_pkg = url.rsplit('/', 1)[-1]
-    # Full pakage names are of form <pkg-name>-<version>-<build>.
-    # Since <pkg-name> can have dashes, use rsplit to split the whole
-    # thing into 3 components, starting from the right.
-    pkg_name, version, build = full_pkg.rsplit('-', 2)
-    return pkg_name, version, build
+    Returns name of package and version as tuple
+    """
+
+    if line.startswith("# pip"):
+        # Get just the URL
+        full_url = line.split()[-1]
+        # Remove hash from URL
+        url = full_url.split('#', 1)[0]
+        # Get just the name of file we're getting
+        filename = url.split('/')[-1]
+        if filename.endswith('.whl'):
+            # Wheels are in the format <package-name>-<version>-<tags>
+            underscored_pkg_name, version, _ = filename.split('-', 2)
+        elif filename.endswith('.tar.gz'):
+            # tarballs are just <package>-<version_.tgz
+            basename = filename.rsplit('.', 2)[0]
+            underscored_pkg_name, version = basename.split('-', 1)
+        else:
+            raise RuntimeError(f'Found unknown file {filename} in conda-lock file')
+
+        # PyPI has files with '_' when the package name has '-' in it
+        pkg_name = underscored_pkg_name.replace('_', '-')
+    else:
+        # Given something like this:
+        # https://conda.anaconda.org/conda-forge/noarch/nomkl-1.0-h5ca1d4c_0.tar.bz2#9a66894dfd07c4510beb6b3f9672ccc0
+        # it should return nomkl, 1.0, h5ca14dc_0
+        # Remove hash from the URL
+        url = line.split('#', 1)[0]
+        # Find last component of URL
+        full_pkg = url.rsplit('/', 1)[-1]
+        # Full pakage names are of form <pkg-name>-<version>-<build>.
+        # Since <pkg-name> can have dashes, use rsplit to split the whole
+        # thing into 3 components, starting from the right.
+        pkg_name, version, _ = full_pkg.rsplit('-', 2)
+    return pkg_name, version
 
 def main():
     argparser = argparse.ArgumentParser()
@@ -34,7 +56,7 @@ def main():
     with open(args.lock_file) as f:
         # Skip first four lines, as they only have metadata
         lines = f.readlines()[4:]
-        for pkg_name, version, _ in sorted(parse_lock_line(l) for l in lines):
+        for pkg_name, version in sorted(parse_lock_line(l) for l in lines if l.strip()):
             print(f'{pkg_name}=={version}')
 
 if __name__ == '__main__':

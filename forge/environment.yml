@@ -1,0 +1,12 @@
+# Note: this environment will be merged with the pangeo-notebook/environment.yml
+# by conda-lock. Only put things here that are not already in pangeo-notebook
+name: pangeo
+channels:
+ - conda-forge
+ - nodefaults
+dependencies:
+- pangeo-forge-recipes
+- pip:
+  # The version used here *must* match the tag of the Dockerfile we COPY
+  # the beam-boot program from in the accompanying Dockerfile.
+  - apache-beam[gcp]==2.40.0

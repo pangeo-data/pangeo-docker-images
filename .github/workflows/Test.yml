@@ -37,7 +37,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        IMAGE: [base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook]
+        IMAGE: [base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook, forge]
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     steps:
@@ -53,13 +53,11 @@ jobs:
     - name: Load Docker Image
       run: |
         docker load < ./artifact/base-image.tar.gz
-        # Create temporary Dockerfile
-        echo "FROM ${DOCKER_ORG}/base-image:PR" > Dockerfile
 
     - name: Build Image
       run: |
         cd ${{ matrix.IMAGE }}
-        docker build -t ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR -f ../Dockerfile .
+        docker build --build-arg  PANGEO_BASE_IMAGE_TAG=PR -t ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR .
 
     - name: Report Image Size and Conda Packages
       run: |
