@@ -6,4 +6,7 @@ channels:
  - nodefaults
 dependencies:
 - pangeo-forge-recipes
-- pip
+- pip:
+  # The version used here *must* match the tag of the Dockerfile we COPY
+  # the beam-boot program from in the accompanying Dockerfile.
+  - apache-beam[gcp]==2.40.0
