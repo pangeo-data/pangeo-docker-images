@@ -17,12 +17,17 @@ import os
 import sys
 
 # List is provided by running /usr/local/bin/boot, and finding
-# the ones marked as 'required'
+# the ones marked as 'required'.
 REQUIRED_BEAM_BOOT_PARAMS = [
-    '-id', '-control_endpoint', '-logging_endpoint',
-    '-artifact_endpoint', '-provision_endpoint'
+    'id', 'control_endpoint', 'logging_endpoint',
+    'artifact_endpoint', 'provision_endpoint'
 ]
-if all(x in sys.argv for x in REQUIRED_BEAM_BOOT_PARAMS):
+
+# Can't just use a simple existence check, as args can be passed in as
+# ["-id", "some-id"], ["-id=<some-id>"] or ["--id=<some-id>"]. So we
+# strip all preceeding -s, and check that *all* the required parameters
+# are passed in at least once
+if all(any(arg.lstrip('-').startswith(x) for arg in sys.argv) for x in REQUIRED_BEAM_BOOT_PARAMS):
     command = '/opt/apache/beam/boot'
 else:
     command = sys.argv[1]
