@@ -30,7 +30,7 @@ def test_start_script():
     # Copied from ./forge/start
     boot_args = [
         '-id', '-control_endpoint', '-logging_endpoint',
-        'artifact_endpoint', 'provision_endpoint'
+        '-artifact_endpoint', '-provision_endpoint'
     ]
     # If the parameters that Apache beam passes to the boot program are
     # detected, it should instead call the apache beam boot program! This is

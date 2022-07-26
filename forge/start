@@ -20,7 +20,7 @@ import sys
 # the ones marked as 'required'
 REQUIRED_BEAM_BOOT_PARAMS = [
     '-id', '-control_endpoint', '-logging_endpoint',
-    'artifact_endpoint', 'provision_endpoint'
+    '-artifact_endpoint', '-provision_endpoint'
 ]
 if all(x in sys.argv for x in REQUIRED_BEAM_BOOT_PARAMS):
     command = '/opt/apache/beam/boot'
