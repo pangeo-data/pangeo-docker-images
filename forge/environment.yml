@@ -9,3 +9,5 @@ dependencies:
 # The version used here *must* match the tag of the Dockerfile we COPY
 # the beam-boot program from in the accompanying Dockerfile.
 - apache-beam-with-gcp==2.40.0
+# Until https://github.com/conda-forge/apache-beam-feedstock/pull/52 is merged
+- google-auth-httplib2 >=0.1.0,<0.2.0
