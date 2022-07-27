@@ -4,11 +4,20 @@ import os
 import re
 import subprocess
 
-packages = ['pangeo_forge_recipes']
+packages = ['pangeo_forge_recipes', 'apache_beam']
 
 @pytest.mark.parametrize('package_name', packages, ids=packages)
 def test_import(package_name):
     importlib.import_module(package_name)
+
+
+def test_gcp_auth_available():
+    """
+    Make sure apache-beam knows it has gcp support
+    """
+    # https://github.com/apache/beam/blob/0760f13c4a5ca1dcfa0e2fad7d875e2d2f050963/sdks/python/apache_beam/internal/gcp/auth.py#L29
+    import apache_beam.internal.gcp.auth as auth
+    assert auth._GOOGLE_AUTH_AVAILABLE
 
 def test_boot_exists():
     """
