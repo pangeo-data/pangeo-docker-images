@@ -4,7 +4,7 @@ import os
 import re
 import subprocess
 
-packages = ['pangeo_forge_recipes']
+packages = ['pangeo_forge_recipes', 'apache_beam']
 
 @pytest.mark.parametrize('package_name', packages, ids=packages)
 def test_import(package_name):
