@@ -29,7 +29,11 @@ REQUIRED_BEAM_BOOT_PARAMS = [
 # are passed in at least once
 if all(any(arg.lstrip('-').startswith(x) for arg in sys.argv) for x in REQUIRED_BEAM_BOOT_PARAMS):
     command = '/opt/apache/beam/boot'
+    # exec's args need the command to be repeated, or most languages'
+    # commandline parsers (including go's) will break
+    args = [command] + sys.argv[1:]
 else:
     command = sys.argv[1]
+    args = sys.argv[1:]
 
-os.execvp(command, sys.argv[1:])
+os.execvp(command, args)
