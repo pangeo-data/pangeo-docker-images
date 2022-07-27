@@ -9,6 +9,7 @@ on:
 jobs:
   condalock:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     defaults:
       run:
         shell: bash -l {0}
@@ -51,6 +52,8 @@ jobs:
 
       # Could run as single step in parallel, but would complicate logs...
       - name: Run conda-lock base-notebook
+        timeout-minutes: 5
+        continue-on-error: true
         run: |
           conda clean --all --yes --force-pkgs-dirs
           cd base-notebook
@@ -58,6 +61,8 @@ jobs:
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       - name: Run conda-lock pangeo-notebook
+        timeout-minutes: 5
+        continue-on-error: true
         run: |
           conda clean --all --yes --force-pkgs-dirs
           cd pangeo-notebook
@@ -65,6 +70,8 @@ jobs:
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       - name: Run conda-lock ml-notebook
+        timeout-minutes: 5
+        continue-on-error: true
         run: |
           conda clean --all --yes --force-pkgs-dirs
           cd ml-notebook
@@ -72,6 +79,8 @@ jobs:
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       - name: Run conda-lock pytorch-notebook
+        timeout-minutes: 5
+        continue-on-error: true
         run: |
           conda clean --all --yes --force-pkgs-dirs
           cd pytorch-notebook
@@ -79,6 +88,8 @@ jobs:
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       - name: Run conda-lock forge
+        timeout-minutes: 5
+        continue-on-error: true
         run: |
           conda clean --all --yes --force-pkgs-dirs
           cd forge
