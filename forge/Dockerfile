@@ -24,3 +24,8 @@ FROM pangeo/base-image:${PANGEO_BASE_IMAGE_TAG}
 # The version used here *must* match the version of `apache-beam[gcp]` in the
 # accompanying `environment.yml` file
 COPY --from=apache/beam_python3.9_sdk:2.40.0 /opt/apache/beam/boot /opt/apache/beam/boot
+
+# Unfortunately, it looks like GCP DataFlow requires containers be run as root -
+# it mounts some folders into /var/opt/ and expects them to be writeable as root :(
+# This shouldn't affect Jupyter use cases as they often set uid explicitly anyway.
+USER root
