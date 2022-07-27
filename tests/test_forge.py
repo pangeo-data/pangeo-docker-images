@@ -39,6 +39,6 @@ def test_start_script():
     # boot complains about seems to be non deterministic, so let's use a bit of
     # a fuzzy regex to check this works.
     assert re.search(
-        r'No(.*)provided.\n$',
+        r'flag needs an argument:',
         subprocess.run(['/srv/start'] + boot_args, capture_output=True).stderr.decode()
     )
