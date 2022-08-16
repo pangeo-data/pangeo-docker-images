@@ -21,12 +21,3 @@ def test_start():
     print(os.environ)
     if os.environ.get('PANGEO_ENV') is not None:
         assert os.environ['PANGEO_ENV'] == 'ml-notebook'
-
-def test_jax_tf_together():
-    """ sometimes this impport fails due to sharing private symbols
-        complicated longer story, but it is better to
-        ensure they can coexist
-    """
-    import tensorflow, jax
-    assert tensorflow.__version__[0] >= 2
-    assert jax.__version__[0] >= 0
