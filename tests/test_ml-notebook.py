@@ -28,5 +28,5 @@ def test_jax_tf_together():
         ensure they can coexist
     """
     import tensorflow, jax
-    assert tensorflow.__version__[0] >= 2
-    assert jax.__version__[0] >= 0
+    assert int(tensorflow.__version__[0]) >= 2
+    assert int(jax.__version__[0]) >= 0
