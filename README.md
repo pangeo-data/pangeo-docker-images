@@ -6,7 +6,7 @@
 
 The images defined in this repository capture reproducible computing environments used by [Pangeo Cloud](https://pangeo.io/cloud.html). They build on top of the Ubuntu operating system and include [conda environments](https://conda.io/projects/conda) with a curated set of Python packages for geospatial analysis. While intended for Pangeo Cloud, they can be used outside of Pangeo infrastructure too!
 
-Image are hosted on DockerHub: https://hub.docker.com/u/pangeo
+Images are hosted on DockerHub: https://hub.docker.com/u/pangeo and on Quay.io: https://quay.io/organization/pangeo
 
 | Image           | Description                                   |  Size | Pulls |
 |-----------------|-----------------------------------------------|--------------|-------------|
@@ -67,6 +67,7 @@ Advanced users may want a highly customized environment that still works on Pang
 ```
 docker run -it --rm -p 8888:8888 pangeo/pangeo-notebook:latest jupyter lab --ip 0.0.0.0
 ```
+**NOTE:** images are mirrored on quay.io so you can also pull `quay.io/pangeo/pangeo-notebook:latest`
 
 To access files from your local hard drive from within the Docker Jupyterlab, you need to use a Docker [volume mount](https://docs.docker.com/storage/volumes/). The following command will mount your home directory in the docker container and launch the Jupyterlab from there.
 
