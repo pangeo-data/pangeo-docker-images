@@ -49,7 +49,7 @@ jobs:
       id: push-to-quay
       uses: redhat-actions/push-to-registry@v2
       with:
-        image: ${{ matrix.IMAGE }}
+        image: ${{env.DOCKER_ORG}}/${{ matrix.IMAGE }}
         tags:  "latest, ${{env.TAG}}"
         registry: quay.io
         username: ${{ secrets.QUAY_USERNAME }}
