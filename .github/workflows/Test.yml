@@ -27,7 +27,7 @@ jobs:
         docker save ${DOCKER_ORG}/base-image:PR | gzip > base-image.tar.gz
 
     - name: Upload Base Image
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v3
       with:
         name: base-image
         path: base-image.tar.gz

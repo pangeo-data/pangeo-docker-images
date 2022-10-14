@@ -38,9 +38,19 @@ jobs:
       run: |
         echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USER }} --password-stdin
 
-    - name: Retag and Push Image
+    - name: Retag and Push Image to DockerHub
       run: |
         docker tag ${DOCKER_ORG}/${{ matrix.IMAGE }}:${SHA7} ${DOCKER_ORG}/${{ matrix.IMAGE }}:latest
         docker tag ${DOCKER_ORG}/${{ matrix.IMAGE }}:${SHA7} ${DOCKER_ORG}/${{ matrix.IMAGE }}:${TAG}
         docker push ${DOCKER_ORG}/${{ matrix.IMAGE }}:latest
         docker push ${DOCKER_ORG}/${{ matrix.IMAGE }}:${TAG}
+
+    - name: Also Push To quay.io
+      id: push-to-quay
+      uses: redhat-actions/push-to-registry@v2
+      with:
+        image: ${{ matrix.IMAGE }}
+        tags:  "latest, ${{env.TAG}}"
+        registry: quay.io
+        username: ${{ secrets.QUAY_USERNAME }}
+        password: ${{ secrets.QUAY_PASSWORD }}
