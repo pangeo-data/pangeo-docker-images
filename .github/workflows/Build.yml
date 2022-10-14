@@ -51,7 +51,7 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v3
       with:
-        context: ${{ matrix.IMAGE }}
+        context: ${{ env.IMAGE }}
         push: true
         tags: |
           ${{env.DOCKER_ORG}}/${{ env.IMAGE }}:master
