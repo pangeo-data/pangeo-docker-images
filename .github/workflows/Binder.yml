@@ -6,7 +6,7 @@ on: [push]
 jobs:
   # NOTE: look into doing this for pangeo-binders too!
   Create-MyBinderOrg-Cache:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
     - name: cache binder build on mybinder.org
       uses: jupyterhub/repo2docker-action@master

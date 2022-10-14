@@ -35,7 +35,7 @@ jobs:
         echo "IMAGE_SPEC=${IMAGE_SPEC}" >> $GITHUB_ENV
 
     - name: Build and Publish to DockerHub
-      uses: elgohr/Publish-Docker-Github-Action@2.12
+      uses: elgohr/Publish-Docker-Github-Action@v4
       with:
         name: ${{env.DOCKER_ORG}}/${{ env.IMAGE }}
         username: ${{ secrets.DOCKERHUB_USER }}
@@ -58,7 +58,6 @@ jobs:
 
     - name: Set Job Environment Variables
       run: |
-        CALVER="$( date -u '+%Y.%m.%d' )"
         SHA7="${GITHUB_SHA::7}"
         DOCKER_TAG=$SHA7
         IMAGE_SPEC="${DOCKER_ORG}/${{ matrix.IMAGE }}:${DOCKER_TAG}"
@@ -66,13 +65,26 @@ jobs:
         echo "IMAGE_SPEC=${IMAGE_SPEC}" >> $GITHUB_ENV
 
     - name: Build and Publish to DockerHub
-      uses: elgohr/Publish-Docker-Github-Action@2.12
+      uses: elgohr/Publish-Docker-Github-Action@v4
       with:
         name: ${{env.DOCKER_ORG}}/${{ matrix.IMAGE }}
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
         workdir: ${{ matrix.IMAGE }}
         tags: "master, ${{env.DOCKER_TAG}}"
+
+    - name: Also Push To quay.io
+      id: push-to-quay
+      uses: redhat-actions/push-to-registry@v2
+      with:
+        image: ${{ matrix.IMAGE }}
+        tags:  "master, ${{env.DOCKER_TAG}}"
+        registry: quay.io
+        username: ${{ secrets.QUAY_USERNAME }}
+        password: ${{ secrets.QUAY_PASSWORD }}
+
+    - name: Print image url
+      run: echo "Image pushed to ${{ steps.push-to-quay.outputs.registry-paths }}"
 
     - name: Export Full Conda Environment
       run: |
