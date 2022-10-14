@@ -17,20 +17,21 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Build Base Image
-      run: |
-        cd base-image
-        docker build -t ${DOCKER_ORG}/base-image:PR .
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
-    - name: Save Docker Image
-      run: |
-        docker save ${DOCKER_ORG}/base-image:PR | gzip > base-image.tar.gz
+    - name: Build and export
+      uses: docker/build-push-action@v3
+      with:
+        context: base-image
+        tags: base-image:PR
+        outputs: type=docker,dest=/tmp/base-image.tar
 
-    - name: Upload Base Image
+    - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
         name: base-image
-        path: base-image.tar.gz
+        path: /tmp/base-image.tar
 
   matrix-build:
     needs: base-image
@@ -44,20 +45,30 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Download Base Docker Image
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    
+    - name: Download artifact
       uses: actions/download-artifact@v3
       with:
         name: base-image
-        path: ./artifact
-
-    - name: Load Docker Image
+        path: /tmp
+      
+    - name: Load Base Image
       run: |
-        docker load < ./artifact/base-image.tar.gz
+        docker load --input /tmp/base-image.tar
+        docker image ls -a
 
-    - name: Build Image
-      run: |
-        cd ${{ matrix.IMAGE }}
-        docker build --build-arg  PANGEO_BASE_IMAGE_TAG=PR -t ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR .
+    - name: Build Only
+      uses: docker/build-push-action@v3
+      with:
+        context: ${{ env.IMAGE }}
+        push: false
+        load: true
+        tags: |
+          ${{env.DOCKER_ORG}}/${{ env.IMAGE }}:PR
+        build-args: | 
+          PANGEO_BASE_IMAGE_TAG=PR
 
     - name: Report Image Size and Conda Packages
       run: |
