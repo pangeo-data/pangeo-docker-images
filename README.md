@@ -167,6 +167,7 @@ The runtime environment sets two variables by default
 
 ### Other notes
 
+* Around 2022.10.14, the cuda-nvcc was pinned to 10.6.124, to match the latest cuda version (11.6) that could be installed on the m2lines hubs. This was done to make sure that JAX would work without throwing an error (https://github.com/pangeo-data/pangeo-docker-images/issues/387). 
 * Since 2020.10.16, [mamba](https://github.com/mamba-org/mamba) is installed into the base-image and conda-lock environment and is used by default to solve for a compatible environment (see #146)
 * For a simple list of packages for a given image, you can use a link like this: https://github.com/pangeo-data/pangeo-docker-images/blob/2020.10.08/pangeo-notebook/packages.txt
 * To compare changes between two images, you can use a link like this: https://github.com/pangeo-data/pangeo-docker-images/compare/2020.10.03..2020.10.08
