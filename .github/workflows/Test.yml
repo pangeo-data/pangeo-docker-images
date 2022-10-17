@@ -1,6 +1,10 @@
 # Any PR opened, build images and run tests
 name: Test
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -11,59 +15,53 @@ env:
   GITHUB_REF: ${{ github.ref }}
 
 jobs:
-  base-image:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
-
-    - name: Build Base Image
-      run: |
-        cd base-image
-        docker build -t ${DOCKER_ORG}/base-image:PR .
-
-    - name: Save Docker Image
-      run: |
-        docker save ${DOCKER_ORG}/base-image:PR | gzip > base-image.tar.gz
-
-    - name: Upload Base Image
-      uses: actions/upload-artifact@v3
-      with:
-        name: base-image
-        path: base-image.tar.gz
-
   matrix-build:
-    needs: base-image
     strategy:
       fail-fast: false
       matrix:
         IMAGE: [base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook, forge]
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
+    services:
+      # https://github.com/docker/build-push-action/blob/master/docs/advanced/local-registry.md#local-registry
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
+
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Download Base Docker Image
-      uses: actions/download-artifact@v3
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
       with:
-        name: base-image
-        path: ./artifact
+        driver-opts: network=host
+    
+    - name: Build base-image
+      uses: docker/build-push-action@v3
+      with:
+        context: base-image
+        tags: localhost:5000/pangeo/base-image:PR
+        push: true
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
 
-    - name: Load Docker Image
-      run: |
-        docker load < ./artifact/base-image.tar.gz
-
-    - name: Build Image
-      run: |
-        cd ${{ matrix.IMAGE }}
-        docker build --build-arg  PANGEO_BASE_IMAGE_TAG=PR -t ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR .
+    - name: Build Only
+      uses: docker/build-push-action@v3
+      with:
+        context: ${{ matrix.IMAGE }}
+        push: true
+        tags: localhost:5000/${{env.DOCKER_ORG}}/${{ matrix.IMAGE }}:PR
+        build-args: PANGEO_BASE_IMAGE_TAG=PR
+        build-contexts: |
+          pangeo/base-image:PR=docker-image://localhost:5000/pangeo/base-image:PR
 
     - name: Report Image Size and Conda Packages
       run: |
         docker images
-        docker run ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR conda list --export
+        docker run localhost:5000/${DOCKER_ORG}/${{ matrix.IMAGE }}:PR conda list --export
 
     - name: Test Image
       run: |
-        docker run -u 1000 -w /srv/test -v $PWD:/srv/test ${DOCKER_ORG}/${{ matrix.IMAGE }}:PR ./run_tests.sh ${{ matrix.IMAGE }}
+        docker run -u 1000 -w /srv/test -v $PWD:/srv/test localhost:5000/${DOCKER_ORG}/${{ matrix.IMAGE }}:PR ./run_tests.sh ${{ matrix.IMAGE }}
