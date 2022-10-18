@@ -185,4 +185,5 @@ The primary use of these Docker images is running on Pangeo Cloud deployments wi
 
 ### GPU compatibility
 
+* We recommend using T4 or newer NVIDIA GPUs in order to be compatible with the cudatoolkit>=11 versions installed in pangeo ML images.  
 * Around 2022.10.14, the cuda-nvcc was pinned to 11.6.124, to match cudatoolkit version 11.6. This was done to make sure that JAX would work without throwing an error (https://github.com/pangeo-data/pangeo-docker-images/issues/387). Also discussion in https://github.com/pangeo-data/pangeo-docker-images/issues/390 about version compatability. 
