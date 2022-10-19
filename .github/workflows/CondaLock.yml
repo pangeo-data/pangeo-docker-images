@@ -50,6 +50,11 @@ jobs:
            activate-environment: condalock
            use-only-tar-bz2: true # IMPORTANT: This needs to be set for caching to work properly!
 
+      - name: Specify which architectures to build lockfiles for
+        run: |
+          # space delimited list of architectures to send to conda-lock
+          echo "BUILD_ARCHS='64 aarch64 ppc64le'" > ${GITHUB_ENV}
+
       # Could run as single step in parallel, but would complicate logs...
       - name: Run conda-lock base-notebook
         timeout-minutes: 5
@@ -57,8 +62,10 @@ jobs:
         run: |
           conda clean --all --yes --force-pkgs-dirs
           cd base-notebook
-          conda-lock lock --mamba -k explicit -f environment.yml -p linux-64
-          ../generate-packages-list.py conda-linux-64.lock > packages.txt
+          for ARCH in ${BUILD_ARCHS}; do
+            conda-lock lock --mamba -k explicit -f environment.yml -p linux-${ARCH}
+            ../generate-packages-list.py conda-linux-${ARCH}.lock > packages-${ARCH}.txt
+          done
 
       - name: Run conda-lock pangeo-notebook
         timeout-minutes: 5
@@ -66,8 +73,10 @@ jobs:
         run: |
           conda clean --all --yes --force-pkgs-dirs
           cd pangeo-notebook
-          conda-lock lock --mamba -k explicit -f environment.yml -f ../base-notebook/environment.yml -p linux-64
-          ../generate-packages-list.py conda-linux-64.lock > packages.txt
+          for ARCH in ${BUILD_ARCHS}; do
+            conda-lock lock --mamba -k explicit -f environment.yml -f ../base-notebook/environment.yml -p linux-${ARCH}
+            ../generate-packages-list.py conda-linux-${ARCH}.lock > packages-${ARCH}.txt
+          done
 
       - name: Run conda-lock ml-notebook
         timeout-minutes: 5
@@ -75,8 +84,10 @@ jobs:
         run: |
           conda clean --all --yes --force-pkgs-dirs
           cd ml-notebook
-          conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml  -p linux-64
-          ../generate-packages-list.py conda-linux-64.lock > packages.txt
+          for ARCH in ${BUILD_ARCHS}; do
+            conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml  -p linux-${ARCH}
+            ../generate-packages-list.py conda-linux-${ARCH}.lock > packages-${ARCH}.txt
+          done
 
       - name: Run conda-lock pytorch-notebook
         timeout-minutes: 5
@@ -84,8 +95,10 @@ jobs:
         run: |
           conda clean --all --yes --force-pkgs-dirs
           cd pytorch-notebook
-          conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
-          ../generate-packages-list.py conda-linux-64.lock > packages.txt
+          for ARCH in ${BUILD_ARCHS}; do
+            conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-${ARCH}
+            ../generate-packages-list.py conda-linux-${ARCH}.lock > packages-${ARCH}.txt
+          done
 
       - name: Run conda-lock forge
         timeout-minutes: 5
@@ -93,8 +106,10 @@ jobs:
         run: |
           conda clean --all --yes --force-pkgs-dirs
           cd forge
-          conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
-          ../generate-packages-list.py conda-linux-64.lock > packages.txt
+          for ARCH in ${BUILD_ARCHS}; do
+            conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-${ARCH}
+            ../generate-packages-list.py conda-linux-${ARCH}.lock > packages-${ARCH}.txt
+          done
 
       # Commit the change to the PR branch (currently fails if no modified files)
       - name: Commit condalock files to PR
