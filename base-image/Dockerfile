@@ -139,8 +139,10 @@ ONBUILD USER ${NB_USER}
 # We want to keep our images as reproducible as possible. If a lock
 # file with exact versions of all required packages is present, we use
 # it to install packages. conda-lock (https://github.com/conda-incubator/conda-lock)
-# is used to generate this conda-linux-64.lock file from a given environment.yml
-# file - so we get the exact same versions each time the image is built. This
+# is used to generate this conda-${ARCH_LABEL}.lock file from a given environment.yml
+# file - so we get the exact same versions each time the image is built. Since this is
+# different packages for different CPU architectures, we determine that dynamically so
+# the same dockerfile can be used to build different architecture images. This
 # also lets us see what packages have changed between two images by diffing
 # the contents of the lock file between those image versions.
 # If a lock file is not present, we use the environment.yml file. And
@@ -152,8 +154,10 @@ ONBUILD USER ${NB_USER}
 ONBUILD RUN echo "Checking for 'conda-linux-64.lock' or 'environment.yml'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
-        ; if test -f "conda-linux-64.lock" ; then \
-        mamba create --name ${CONDA_ENV} --file conda-linux-64.lock \
+        ; ARCH=$(uname -m) \
+        ; if [ "${ARCH}" = "x86_64" ] ; then ARCH_LABEL="linux-64"; else ARCH_LABEL="linux-${ARCH}"; fi \
+        ; if test -f "conda-${ARCH_LABEL}.lock" ; then \
+        mamba create --name ${CONDA_ENV} --file conda-${ARCH_LABEL}.lock \
         ; elif test -f "environment.yml" ; then \
         mamba env create --name ${CONDA_ENV} -f environment.yml  \
         ; else echo "No conda-linux-64.lock or environment.yml! *creating default env*" ; \
