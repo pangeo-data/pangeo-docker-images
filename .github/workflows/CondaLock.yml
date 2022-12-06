@@ -60,7 +60,7 @@ jobs:
           
       - name: Update environment
         if: steps.cache.outputs.cache-hit != 'true'
-        run:
+        run: |
           mamba env update -n condalock -f environment-condalock.yml
           conda clean --all --yes --force-pkgs-dirs
 
