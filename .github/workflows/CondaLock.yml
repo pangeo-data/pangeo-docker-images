@@ -12,7 +12,7 @@ jobs:
     timeout-minutes: 15
     defaults:
       run:
-        shell: bash -l {0}
+        shell: bash -el {0}
 
     steps:
       - name: Checkout Repository
@@ -30,16 +30,6 @@ jobs:
           echo "---\nml-notebook:\n---\n" && cat ml-notebook/environment.yml
           echo "---\npytorch-notebook:\n---\n" && cat pytorch-notebook/environment.yml
 
-      - name: Cache conda
-        uses: actions/cache@v3
-        env:
-          # Increase this value to reset cache if etc/example-environment.yml has not changed
-          CACHE_NUMBER: 0
-        with:
-          path: ~/conda_pkgs_dir
-          key:
-            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{hashFiles('environment-condalock.yml') }}
-
       - name: Setup Conda Environment with Mambaforge
         uses: conda-incubator/setup-miniconda@v2
         with:
@@ -48,14 +38,37 @@ jobs:
            miniforge-variant: Mambaforge
            environment-file: environment-condalock.yml
            activate-environment: condalock
-           use-only-tar-bz2: true # IMPORTANT: This needs to be set for caching to work properly!
+           use-mamba: true
+           
+      - name: Get Date
+        id: get-date
+        run: echo "today=$(/bin/date -u '+%Y%m%d')" >> $GITHUB_OUTPUT
+
+      - name: Cache Conda env
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.CONDA }}/envs
+          key:
+            conda-${{ runner.os }}--${{ runner.arch }}--${{
+            steps.get-date.outputs.today }}-${{
+            hashFiles('environment-condalock.yml') }}-${{ env.CACHE_NUMBER
+            }}
+        env:
+          # Increase this value to reset cache if environment-condalock.yml has not changed
+          CACHE_NUMBER: 0
+          
+      - name: Update environment
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          mamba env update -n condalock -f environment-condalock.yml
+          conda clean --all --yes --force-pkgs-dirs
 
       # Could run as single step in parallel, but would complicate logs...
       - name: Run conda-lock base-notebook
         timeout-minutes: 5
         continue-on-error: true
         run: |
-          conda clean --all --yes --force-pkgs-dirs
           cd base-notebook
           conda-lock lock --mamba -k explicit -f environment.yml -p linux-64
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
@@ -64,7 +77,6 @@ jobs:
         timeout-minutes: 5
         continue-on-error: true
         run: |
-          conda clean --all --yes --force-pkgs-dirs
           cd pangeo-notebook
           conda-lock lock --mamba -k explicit -f environment.yml -f ../base-notebook/environment.yml -p linux-64
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
@@ -73,7 +85,6 @@ jobs:
         timeout-minutes: 5
         continue-on-error: true
         run: |
-          conda clean --all --yes --force-pkgs-dirs
           cd ml-notebook
           conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml  -p linux-64
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
@@ -82,7 +93,6 @@ jobs:
         timeout-minutes: 5
         continue-on-error: true
         run: |
-          conda clean --all --yes --force-pkgs-dirs
           cd pytorch-notebook
           conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
@@ -91,7 +101,6 @@ jobs:
         timeout-minutes: 5
         continue-on-error: true
         run: |
-          conda clean --all --yes --force-pkgs-dirs
           cd forge
           conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
