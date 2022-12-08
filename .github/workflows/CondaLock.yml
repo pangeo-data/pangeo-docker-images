@@ -57,7 +57,7 @@ jobs:
             }}
         env:
           # Increase this value to reset cache if environment-condalock.yml has not changed
-          CACHE_NUMBER: 0
+          CACHE_NUMBER: 1
           
       - name: Update environment
         if: steps.cache.outputs.cache-hit != 'true'
