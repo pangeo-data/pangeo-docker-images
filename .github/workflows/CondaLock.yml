@@ -63,7 +63,11 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
           mamba env update -n condalock -f environment-condalock.yml
-          conda clean --all --yes --force-pkgs-dirs
+
+      - name: Display environment and clean up
+        run: |
+          mamba list
+          mamba clean --all --yes --force-pkgs-dirs
 
       # Could run as single step in parallel, but would complicate logs...
       - name: Run conda-lock base-notebook
@@ -80,7 +84,6 @@ jobs:
         continue-on-error: true
         run: |
           cd pangeo-notebook
-          mamba clean --all --yes --force-pkgs-dirs
           conda-lock lock --mamba -f environment.yml -f ../base-notebook/environment.yml -p linux-64 -p osx-64
           conda-lock render -k explicit
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
