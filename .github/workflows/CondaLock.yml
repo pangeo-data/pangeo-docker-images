@@ -85,8 +85,8 @@ jobs:
         run: |
           cd pangeo-notebook
           mamba clean --all --yes --force-pkgs-dirs
-          conda-lock lock -f environment.yml -f ../base-notebook/environment.yml -p linux-64 -p osx-64
-          conda-lock render -k explicit
+          conda-lock lock --mamba -k explicit -f environment.yml -f ../base-notebook/environment.yml -p linux-64
+          # conda-lock render -k explicit
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       - name: Run conda-lock ml-notebook
