@@ -80,7 +80,7 @@ jobs:
         continue-on-error: true
         run: |
           cd pangeo-notebook
-          conda-lock lock -f environment.yml -f ../base-notebook/environment.yml -p linux-64 -p osx-64
+          conda-lock lock --mamba -f environment.yml -f ../base-notebook/environment.yml -p linux-64 -p osx-64
           conda-lock render -k explicit
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
