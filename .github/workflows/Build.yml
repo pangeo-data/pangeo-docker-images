@@ -113,9 +113,10 @@ jobs:
           quay.io/${{env.DOCKER_ORG}}/${{ matrix.IMAGE }}:master
           quay.io/${{env.DOCKER_ORG}}/${{ matrix.IMAGE }}:${{env.DOCKER_TAG}}
 
-    - name: Export Full Conda Environment
+    - name: Inspect Image
       run: |
         docker run ${DOCKER_ORG}/${{ matrix.IMAGE }}:master conda list
+        docker images ls
 
     - name: Test Image
       run: |
