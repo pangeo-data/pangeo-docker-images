@@ -59,8 +59,8 @@ jobs:
 
     - name: Report Image Size and Conda Packages
       run: |
-        docker images
         docker run localhost:5000/${DOCKER_ORG}/${{ matrix.IMAGE }}:PR conda list --export
+        docker images ls
 
     - name: Test Image
       run: |
