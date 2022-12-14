@@ -25,10 +25,11 @@ jobs:
 
       - name: Show environment.ymls
         run: |
-          echo "---\nbase-notebook:\n---\n" && cat base-notebook/environment.yml
-          echo "---\npangeo-notebook:\n---\n" && cat pangeo-notebook/environment.yml
-          echo "---\nml-notebook:\n---\n" && cat ml-notebook/environment.yml
-          echo "---\npytorch-notebook:\n---\n" && cat pytorch-notebook/environment.yml
+          echo -e "---\nbase-notebook:\n---\n" && cat base-notebook/environment.yml
+          echo -e "---\npangeo-notebook:\n---\n" && cat pangeo-notebook/environment.yml
+          echo -e "---\nml-notebook:\n---\n" && cat ml-notebook/environment.yml
+          echo -e "---\npytorch-notebook:\n---\n" && cat pytorch-notebook/environment.yml
+          echo -e "---\nforge:\n---\n" && cat forge/environment.yml
 
       - name: Setup Conda Environment with Mambaforge
         uses: conda-incubator/setup-miniconda@v2
@@ -36,7 +37,6 @@ jobs:
            # Match base-image/Dockerfile version
            miniforge-version: latest
            miniforge-variant: Mambaforge
-           environment-file: environment-condalock.yml
            activate-environment: condalock
            use-mamba: true
            
@@ -44,7 +44,7 @@ jobs:
         id: get-date
         run: echo "today=$(/bin/date -u '+%Y%m%d')" >> $GITHUB_OUTPUT
 
-      - name: Cache Conda env
+      - name: Cache Conda Environment
         id: cache
         uses: actions/cache@v3
         with:
@@ -58,11 +58,14 @@ jobs:
           # Increase this value to reset cache if environment-condalock.yml has not changed
           CACHE_NUMBER: 0
           
-      - name: Update environment
+      - name: Update Conda Environment
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
           mamba env update -n condalock -f environment-condalock.yml
-          conda clean --all --yes --force-pkgs-dirs
+
+      - name: Display Conda Environment
+        run: |
+          mamba list
 
       # Could run as single step in parallel, but would complicate logs...
       - name: Run conda-lock base-notebook
@@ -70,7 +73,8 @@ jobs:
         continue-on-error: true
         run: |
           cd base-notebook
-          conda-lock lock --mamba -k explicit -f environment.yml -p linux-64
+          conda-lock lock -f environment.yml -p linux-64
+          conda-lock render -k explicit
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       - name: Run conda-lock pangeo-notebook
@@ -78,7 +82,8 @@ jobs:
         continue-on-error: true
         run: |
           cd pangeo-notebook
-          conda-lock lock --mamba -k explicit -f environment.yml -f ../base-notebook/environment.yml -p linux-64
+          conda-lock lock -f environment.yml -f ../base-notebook/environment.yml -p linux-64 -p osx-64
+          conda-lock render -k explicit
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       - name: Run conda-lock ml-notebook
@@ -86,7 +91,8 @@ jobs:
         continue-on-error: true
         run: |
           cd ml-notebook
-          conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml  -p linux-64
+          conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
+          conda-lock render -k explicit
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       - name: Run conda-lock pytorch-notebook
@@ -94,7 +100,8 @@ jobs:
         continue-on-error: true
         run: |
           cd pytorch-notebook
-          conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
+          conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
+          conda-lock render -k explicit
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       - name: Run conda-lock forge
@@ -102,7 +109,8 @@ jobs:
         continue-on-error: true
         run: |
           cd forge
-          conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
+          conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
+          conda-lock render -k explicit 
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       # Commit the change to the PR branch (currently fails if no modified files)
@@ -110,7 +118,7 @@ jobs:
         run: |
           git config --global user.name 'pangeo-bot'
           git config --global user.email 'pangeo-bot@users.noreply.github.com'
-          git add */conda-linux-64.lock */packages.txt
+          git add */conda*.lock */conda-lock.yml */packages.txt
           git commit -m "[condalock-command] autogenerated conda-lock files"
           git push
 

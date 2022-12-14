@@ -2,6 +2,8 @@ name: condalock
 channels:
   - conda-forge
 dependencies:
-  - python=3.10
+  - python=3.11
   - conda-lock=1.2
+  # Until https://github.com/conda-incubator/conda-lock/issues/292 resolved
+  - conda<22.11
   - mamba=1

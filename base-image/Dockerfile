@@ -68,6 +68,7 @@ RUN echo "Installing Mambaforge..." \
     && wget --quiet ${URL} -O installer.sh \
     && /bin/bash installer.sh -u -b -p ${CONDA_DIR} \
     && rm installer.sh \
+    && mamba install conda-lock -y \
     && mamba clean -afy \
     # After installing the packages, we cleanup some unnecessary files
     # to try reduce image size - see https://jcristharif.com/conda-docker-tips.html
@@ -149,14 +150,16 @@ ONBUILD USER ${NB_USER}
 # a list of base packages.
 # After installing the packages, we cleanup some unnecessary files
 # to try reduce image size - see https://jcristharif.com/conda-docker-tips.html
-ONBUILD RUN echo "Checking for 'conda-linux-64.lock' or 'environment.yml'..." \
+ONBUILD RUN echo "Checking for 'conda-lock.yml' 'conda-linux-64.lock' or 'environment.yml'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
-        ; if test -f "conda-linux-64.lock" ; then \
+        ; if test -f "conda-lock.yml" ; then \
+        conda-lock install --name ${CONDA_ENV} --file conda-lock.yml \
+        ; elif test -f "conda-linux-64.lock" ; then \
         mamba create --name ${CONDA_ENV} --file conda-linux-64.lock \
         ; elif test -f "environment.yml" ; then \
         mamba env create --name ${CONDA_ENV} -f environment.yml  \
-        ; else echo "No conda-linux-64.lock or environment.yml! *creating default env*" ; \
+        ; else echo "No conda-lock.yml, conda-linux-64.lock, or environment.yml! *creating default env*" ; \
         mamba create --name ${CONDA_ENV} pangeo-notebook \
         ; fi \
         && mamba clean -yaf \
