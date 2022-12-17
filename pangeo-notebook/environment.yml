@@ -8,7 +8,7 @@ dependencies:
  - awscli
  - boto3
  - bottleneck
- - cartopy >= 0.20.0
+ - cartopy
  - cfgrib
  - ciso
  - dask-ml
@@ -59,9 +59,9 @@ dependencies:
  - pandas
  - panel
  - parcels
- - param!=1.11.0
+ - param
  - pop-tools
- - prefect=0.15.13
+ - prefect
  - pyarrow
  - pycamhd
  - pydap
@@ -76,7 +76,7 @@ dependencies:
  - rio-cogeo
  - rioxarray
 # - rise
- - s3fs>0.5
+ - s3fs
  - satpy
  - scikit-image
  - scikit-learn
@@ -103,3 +103,7 @@ dependencies:
  - zarr
  - gh-scoped-creds
  - jupyterlab-git
+ # Note: Enable after https://github.com/conda-incubator/conda-lock/pull/295
+ # Uncomment and remove separate requirements.txt file
+ #- pip:
+ #  - jupyterlab-s3-browser>=0.12

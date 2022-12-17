@@ -154,7 +154,7 @@ ONBUILD RUN echo "Checking for 'conda-lock.yml' 'conda-linux-64.lock' or 'enviro
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
         ; if test -f "conda-lock.yml" ; then \
-        conda-lock install --name ${CONDA_ENV} --file conda-lock.yml \
+        conda-lock install --name ${CONDA_ENV} conda-lock.yml \
         ; elif test -f "conda-linux-64.lock" ; then \
         mamba create --name ${CONDA_ENV} --file conda-linux-64.lock \
         ; elif test -f "environment.yml" ; then \
