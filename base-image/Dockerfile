@@ -74,7 +74,7 @@ RUN echo "Installing Mambaforge..." \
     # to try reduce image size - see https://jcristharif.com/conda-docker-tips.html
     # Although we explicitly do *not* delete .pyc files, as that seems to slow down startup
     # quite a bit unfortunately - see https://github.com/2i2c-org/infrastructure/issues/2047
-    && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
+    && find ${CONDA_DIR} -follow -type f -name '*.a' -delete
 
 EXPOSE 8888
 ENTRYPOINT ["/srv/start"]
