@@ -72,8 +72,9 @@ RUN echo "Installing Mambaforge..." \
     && mamba clean -afy \
     # After installing the packages, we cleanup some unnecessary files
     # to try reduce image size - see https://jcristharif.com/conda-docker-tips.html
+    # Although we explicitly do *not* delete .pyc files, as that seems to slow down startup
+    # quite a bit unfortunately - see https://github.com/2i2c-org/infrastructure/issues/2047
     && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
-    && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete
 
 EXPOSE 8888
 ENTRYPOINT ["/srv/start"]
@@ -164,7 +165,6 @@ ONBUILD RUN echo "Checking for 'conda-lock.yml' 'conda-linux-64.lock' or 'enviro
         ; fi \
         && mamba clean -yaf \
         && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
-        && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete \
         && find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete \
         ; if [ -d ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static ]; then \
         find ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static -follow -type f -name '*.js' ! -name '*.min.js' -delete \
@@ -194,7 +194,6 @@ ONBUILD RUN echo "Checking for 'postBuild'..." \
         && rm -rf ${HOME}/.cache ${HOME}/.npm ${HOME}/.yarn \
         && rm -rf ${NB_PYTHON_PREFIX}/share/jupyter/lab/staging \
         && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
-        && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete \
         && find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete \
         ; fi
 
