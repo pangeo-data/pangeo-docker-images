@@ -102,7 +102,7 @@ Then, in a web browser you should be able to access the Jupyter Notebook by writ
 
 ### Connecting to remote host (VSCode)
 
-If you using VSCode, it is possible to connect to the allocated node directly without forwarding the port.
+If you are using VSCode, it is possible to connect to the allocated node directly without forwarding the port.
 
 Make sure Remote-SSH, Python and Jupyter extensions are installed on VSCode.
 
