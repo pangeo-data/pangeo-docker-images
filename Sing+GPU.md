@@ -4,7 +4,7 @@ If the resources available at Pangeo Cloud are not enough or you wish to use the
 
 Singularity brings containers into traditional HPC use cases and centers. (FYI: It has been moved into the Linux Foundation and renamed Apptainer).
 
-Let's download and use [one of the images created by Pangeo](https://github.com/pangeo-data/pangeo-docker-images). They are all hosted on [Dockerhub](https://hub.docker.com/u/pangeo)
+We first need download and use [one of the images created by Pangeo](https://github.com/pangeo-data/pangeo-docker-images). They are all hosted on [Dockerhub](https://hub.docker.com/u/pangeo)
 
 ## Downloading the image
 
