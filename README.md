@@ -88,6 +88,8 @@ to install `nvidia-docker`, and then start the Docker container like so:
 ```
 docker run -it --rm --gpus all -p 8888:8888 pangeo/pytorch-notebook:master jupyter lab --ip 0.0.0.0
 ```
+### How to launch a Jupyter notebook on a HPC system with one of these images
+If the resources available at Pangeo Cloud are not enough or you wish to use the GPUs on your HPC system, you can still benefit from the prebuild images from Pangeo following [this guide](Sing+GPU.md).
 
 ### How to launch an image with a Cloud provider on your own account
 
