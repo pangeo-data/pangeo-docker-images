@@ -1,4 +1,4 @@
-# Jupyter Notebook + Singularity + GPU support on the HPC System (Ginsburg case)
+# Jupyter Notebook + Singularity + GPU support on the HPC System 
 
 If the resources available at Pangeo Cloud are not enough or you wish to use the GPUs on your HPC system, you can still benefit from the prebuild images from Pangeo.
 
@@ -8,7 +8,7 @@ Let's download and use [one of the images created by Pangeo](https://github.com/
 
 ## Downloading the image
 
-After ssh-ing into Ginsburg (`ssh <UNI>@ginsburg.rcs.columbia.edu`), load Singularity:
+After ssh-ing into your HPC system, load Singularity:
 
 ```
 module load singularity 
@@ -20,7 +20,7 @@ Pull the desired image (for example the ml-notebook which uses TensorFlow and GP
 singularity pull tensorflow.sif docker://pangeo/ml-notebook
 ```
 
-**Note I:** Depending on the size of the image, this could take some time and some warnings to appear. It may be a good idea to do some other work in the meantime.
+**Note I:** Depending on the size of the image, this could take some time and some warnings may appear. It may be a good idea to do some other work in the meantime.
 
 **Note II:** If we were to choose a different image, just change what follows after `docker://` for the name of the image appearing on  [Dockerhub](https://hub.docker.com/u/pangeo).
 
@@ -32,7 +32,7 @@ To request resources and have a Jupyter Notebook running on a computing node it 
 
 To create it run `vi batch_tflw_v100s.sh` and paste the below command text.
 
-<span style="color:red">**Important:**</span> Change `<UNI>` for your actual UNI on 3 different cases
+<span style="color:red">**Important:**</span> Make sure all paths are the relevant to your given case.
 
 ```
 #!/bin/sh
@@ -44,12 +44,12 @@ To create it run `vi batch_tflw_v100s.sh` and paste the below command text.
 #SBATCH --constraint=v100s
 #SBATCH -c 32                    # The number of cpu cores to use.
 #SBATCH --time=0-04:00           # The time the job will take to run in D-HH:MM
-#SBATCH --output=/burg/home/<UNI>/jupyter.log # Important to retrieve the port where the notebook is running, if not included a slurm file with the job-id will be outputted. 
+#SBATCH --output=/home/$USER/jupyter.log # Important to retrieve the port where the notebook is running, if not included a slurm file with the job-id will be outputted. 
 
 module load singularity
 
 cat /etc/hosts
-singularity exec --nv --cleanenv --bind /burg/home/<UNI>:/run/user tensorflow.sif jupyter notebook --notebook-dir=/burg/home/<UNI> --no-browser --ip=0.0.0.0
+singularity exec --nv --cleanenv --bind /home/$USER:/run/user tensorflow.sif jupyter notebook --notebook-dir=/home/$USER --no-browser --ip=0.0.0.0
 ```
 
 To exit the Vi editor, make sure to be in command mode by pressing `ESC`and then `:wq` to write and quit.
@@ -81,7 +81,7 @@ ssh -N -L lochalhost:8080:g051:8888 UNI@ginsburg.rcs.columbia.edu
 ```
 
 This forwards your port `8888` at Ginsburg to your port `8080` on your machine.
-<span style="color:red">**Important**</span> Remember to change the node name and port, as well as your UNI.
+<span style="color:red">**Important**</span> Remember to change the node name and port.
 
 Then, in a web browser you should be able to access the Jupyter Notebook by writing:  
 
@@ -103,23 +103,17 @@ Then, in a web browser you should be able to access the Jupyter Notebook by writ
 
 ### Connecting to remote host (VSCode)
 
-If you use Ginsburg on remote with VSCode, it is possible to connect to the allocated node directly without forwarding the port.
+If you using VSCode, it is possible to connect to the allocated node directly without forwarding the port.
 
 Make sure Remote-SSH, Python and Jupyter extensions are installed on VSCode.
 
-1. Connect to Ginsburg.
-
-![](https://i.imgur.com/AOg42HP.png)
+1. Connect to your HPC system with Remote-SSH in VSCode.
 
 2. Open a Jupyter Notebook.
 
 3. Select the kernel on the top right under the gear wheel and then `Connect to a Jupyter Server`.
 
-![](https://i.imgur.com/TsgtmZY.png)
-
 4. Introduce the URL (`http://g051:8888/`) and select the `Python 3 (ipykernel)`
-
-![](https://i.imgur.com/DESVpce.png)
 
 5. Check for GPUs
 
