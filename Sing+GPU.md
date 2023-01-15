@@ -74,14 +74,13 @@ A line like `[I 15:14:51.868 NotebookApp] http://g051:8888/` should appear. In t
 
 ### Forwarding the Port
 
-In your local computer's terminal, forward the port by running,
+In your local computer's terminal, forward the port by running (change `USER@domain.edu` for your account),
 
 ```
-ssh -N -L lochalhost:8080:g051:8888 UNI@ginsburg.rcs.columbia.edu
+ssh -N -L lochalhost:8080:g051:8888 USER@domain.edu
 ```
 
-This forwards your port `8888` at Ginsburg to your port `8080` on your machine.
-<span style="color:red">**Important**</span> Remember to change the node name and port.
+This forwards your port `8888` from the HPC system to your port `8080` on your machine.
 
 Then, in a web browser you should be able to access the Jupyter Notebook by writing:  
 
