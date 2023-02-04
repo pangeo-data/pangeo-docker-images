@@ -25,7 +25,7 @@ dependencies:
  - gcsfs
  - gh
  - geocube
- - geogif
+ # - geogif
  - geopandas
  - geopy
  - geoviews-core
@@ -56,13 +56,15 @@ dependencies:
  - netcdf4
  - numcodecs
  - numpy
+ - odc-stac
  - pandas
  - panel
  - parcels
  - param
  - pop-tools
- - prefect
- - pyarrow
+ # pyarrow 11 cpu still brings cudatoolkit, pin for now
+ - pyarrow=10
+ # - pyarrow=*=*cpu
  - pycamhd
  - pydap
  - pygeos
