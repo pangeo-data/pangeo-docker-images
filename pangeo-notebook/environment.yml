@@ -62,7 +62,9 @@ dependencies:
  - param
  - pop-tools
  - prefect
- - pyarrow=*=*cpu
+ # pyarrow 11 cpu still brings cudatoolkit, pin for now
+ - pyarrow=10
+ # - pyarrow=*=*cpu
  - pycamhd
  - pydap
  - pygeos
