@@ -8,8 +8,13 @@ on:
 
 jobs:
   condalock:
+    strategy:
+      fail-fast: false
+      matrix: 
+        IMAGE: [base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook, forge]
+    name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     defaults:
       run:
         shell: bash -el {0}
@@ -23,97 +28,49 @@ jobs:
           repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
           ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
-      - name: Show environment.ymls
-        run: |
-          echo -e "---\nbase-notebook:\n---\n" && cat base-notebook/environment.yml
-          echo -e "---\npangeo-notebook:\n---\n" && cat pangeo-notebook/environment.yml
-          echo -e "---\nml-notebook:\n---\n" && cat ml-notebook/environment.yml
-          echo -e "---\npytorch-notebook:\n---\n" && cat pytorch-notebook/environment.yml
-          echo -e "---\nforge:\n---\n" && cat forge/environment.yml
-
-      - name: Setup Conda Environment with Mambaforge
-        uses: conda-incubator/setup-miniconda@v2
+      - name: Install Conda environment with Micromamba
+        uses: mamba-org/provision-with-micromamba@v15
         with:
-           # Match base-image/Dockerfile version
-           miniforge-version: latest
-           miniforge-variant: Mambaforge
-           activate-environment: condalock
-           use-mamba: true
-           
-      - name: Get Date
-        id: get-date
-        run: echo "today=$(/bin/date -u '+%Y%m%d')" >> $GITHUB_OUTPUT
-
-      - name: Cache Conda Environment
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: ${{ env.CONDA }}/envs
-          key:
-            conda-${{ runner.os }}--${{ runner.arch }}--${{
-            steps.get-date.outputs.today }}-${{
-            hashFiles('environment-condalock.yml') }}-${{ env.CACHE_NUMBER
-            }}
-        env:
-          # Increase this value to reset cache if environment-condalock.yml has not changed
-          CACHE_NUMBER: 0
-          
-      - name: Update Conda Environment
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          mamba env update -n condalock -f environment-condalock.yml
-
-      - name: Display Conda Environment
-        run: |
-          mamba list
+          cache-env: true
+          environment-file: environment-condalock.yml
 
       # Could run as single step in parallel, but would complicate logs...
-      - name: Run conda-lock base-notebook
-        timeout-minutes: 5
-        continue-on-error: true
+      - name: Run conda-lock ${{ matrix.IMAGE }}
         run: |
-          cd base-notebook
-          conda-lock lock -f environment.yml -p linux-64
+          cd ${{ matrix.IMAGE }}
+          if [ ${{ matrix.IMAGE }} = "base-notebook" ]; then
+            conda-lock lock -f environment.yml -p linux-64
+          elif [ ${{ matrix.IMAGE }} = "pangeo-notebook" ]; then
+            conda-lock lock -f environment.yml -f ../base-notebook/environment.yml -p linux-64
+          else 
+            conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
+          fi
           conda-lock render -k explicit
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
-      - name: Run conda-lock pangeo-notebook
-        timeout-minutes: 5
-        continue-on-error: true
-        run: |
-          cd pangeo-notebook
-          conda-lock lock -f environment.yml -f ../base-notebook/environment.yml -p linux-64
-          conda-lock render -k explicit
-          ../generate-packages-list.py conda-linux-64.lock > packages.txt
+      - name: Upload lockfiles
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.image }}
+          path: ${{ matrix.image }}
 
-      - name: Run conda-lock ml-notebook
-        timeout-minutes: 5
-        continue-on-error: true
-        run: |
-          cd ml-notebook
-          conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
-          conda-lock render -k explicit
-          ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
-      - name: Run conda-lock pytorch-notebook
-        timeout-minutes: 5
-        continue-on-error: true
-        run: |
-          cd pytorch-notebook
-          conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
-          conda-lock render -k explicit
-          ../generate-packages-list.py conda-linux-64.lock > packages.txt
-
-      - name: Run conda-lock forge
-        timeout-minutes: 5
-        continue-on-error: true
-        run: |
-          cd forge
-          conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
-          conda-lock render -k explicit 
-          ../generate-packages-list.py conda-linux-64.lock > packages.txt
-
-      # Commit the change to the PR branch (currently fails if no modified files)
+  # Each job will commit files, so we know it succeeds based on commits
+  commit-lockfiles:
+    needs: condalock
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PANGEOBOT_TOKEN }}
+          # These lines are critical, otherwise Pangeo-bot pushes changes directly to master from PRs!
+          repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.client_payload.pull_request.head.ref }}
+    
+      # Download all artifacts from previous matrix job
+      - uses: actions/download-artifact@v3
+    
       - name: Commit condalock files to PR
         run: |
           git config --global user.name 'pangeo-bot'
@@ -121,7 +78,7 @@ jobs:
           git add */conda*.lock */conda-lock.yml */packages.txt
           git commit -m "[condalock-command] autogenerated conda-lock files"
           git push
-
+          
       - name: Add reaction
         uses: peter-evans/create-or-update-comment@v2
         with:
@@ -129,3 +86,6 @@ jobs:
           repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
           comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
           reaction-type: hooray
+  #         repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+  #         comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+  #         reaction-type: hooray
