@@ -17,7 +17,7 @@ metadata:
   - url: nodefaults
     used_env_vars: []
   content_hash:
-    linux-64: c90ee9ac01c9bf072bb7779bfdc4a9b1ff934f42e1d83fa241bf1a9c9ea877c5
+    linux-64: b8bcdef44f851448b9f94e99bc1cece7070a7acd4059ed87dd1e3b32b25d9c45
   platforms:
   - linux-64
   sources:
@@ -8389,6 +8389,22 @@ package:
   version: 6.22.0
 - category: main
   dependencies:
+    ipython: '>=6.1.0'
+    jupyterlab_widgets: '>=3.0.4,<4.0.0'
+    python: '>=3.7'
+    traitlets: '>=4.3.1'
+    widgetsnbextension: '>=4.0.4,<5.0.0'
+  hash:
+    md5: ed9af8535633d6657b52cbbcd98cfccd
+    sha256: 327d54bd2bbcf5bf83c27311b983115d3283269cd14f092b1ecd4ba01619f16e
+  manager: conda
+  name: ipywidgets
+  optional: false
+  platform: linux-64
+  url: https://conda.anaconda.org/conda-forge/noarch/ipywidgets-8.0.5-pyhd8ed1ab_0.conda
+  version: 8.0.5
+- category: main
+  dependencies:
     __unix: ''
     alembic: '>=1.4'
     async_generator: '>=1.9'
@@ -8771,22 +8787,59 @@ package:
   version: 1.0.0
 - category: main
   dependencies:
-    ipykernel: '>=4.5.1'
-    ipython: '>=6.1.0'
-    jupyterlab_widgets: '>=3.0.4,<4.0.0'
-    nbformat: '>=4.2.0'
+    branca: '>=0.5.0'
+    ipywidgets: '>=7.6.0,<9'
     python: '>=3.7'
-    traitlets: '>=4.3.1'
-    widgetsnbextension: '>=4.0.4,<5.0.0'
+    traittypes: '>=0.2.1,<0.3.0'
+    xyzservices: '>=2021.8.1'
   hash:
-    md5: 9dea5ab3cc33084f7a3680a98859731e
-    sha256: 9031d725228face250e936d8ed2da8b141170b639b3747994a3bbd40ed4ae303
+    md5: fd8408ecf1e341f6aaafb7d3b5471ccc
+    sha256: a181e24e36fbe11c3ff23a42d53431ecc4dd3e3a8ce0097d012ade44a9e4e916
   manager: conda
-  name: ipywidgets
+  name: ipyleaflet
   optional: false
   platform: linux-64
-  url: https://conda.anaconda.org/conda-forge/noarch/ipywidgets-8.0.4-pyhd8ed1ab_0.conda
-  version: 8.0.4
+  url: https://conda.anaconda.org/conda-forge/noarch/ipyleaflet-0.17.2-pyhd8ed1ab_0.tar.bz2
+  version: 0.17.2
+- category: main
+  dependencies:
+    ipywidgets: '>=7.6.0,<9'
+    python: '>=3.6'
+  hash:
+    md5: cb4c1f334457ef5f88458c94c503f89e
+    sha256: ed6db3b5fbc661036f90397bc04c9f671a54b126d4282e780388aafd04fa0ca6
+  manager: conda
+  name: ipyspin
+  optional: false
+  platform: linux-64
+  url: https://conda.anaconda.org/conda-forge/noarch/ipyspin-1.0.1-pyhd8ed1ab_0.tar.bz2
+  version: 1.0.1
+- category: main
+  dependencies:
+    ipywidgets: '>=7.6.0,<9'
+    python: '>=3.6'
+  hash:
+    md5: 5cc19cec6c4598183f4a8278e2142810
+    sha256: 5045747a2d02ef8595dc2fa9f8e74c6702da41bb656e35f8ca794570dcf2aa93
+  manager: conda
+  name: ipytree
+  optional: false
+  platform: linux-64
+  url: https://conda.anaconda.org/conda-forge/noarch/ipytree-0.2.2-pyhd8ed1ab_0.tar.bz2
+  version: 0.2.2
+- category: main
+  dependencies:
+    ipywidgets: '>=7.0.0'
+    python: '>=3.6'
+  hash:
+    md5: a72d315bc1ed6ddf0b2ace197b10886b
+    sha256: 0497b57c4accded8b5055365d71ad87f7d61b4d9a7b7b6319235d718c44b3660
+  manager: conda
+  name: ipyurl
+  optional: false
+  platform: linux-64
+  url: https://conda.anaconda.org/conda-forge/noarch/ipyurl-0.1.2-pyh3684270_1.tar.bz2
+  version: 0.1.2
 - category: main
   dependencies:
     anyio: '>=3.1.0,<4'
@@ -9126,61 +9179,6 @@ package:
   platform: linux-64
   url: https://conda.anaconda.org/conda-forge/noarch/holoviews-1.15.4-pyhd8ed1ab_0.conda
   version: 1.15.4
-- category: main
-  dependencies:
-    branca: '>=0.5.0'
-    ipywidgets: '>=7.6.0,<9'
-    python: '>=3.7'
-    traittypes: '>=0.2.1,<0.3.0'
-    xyzservices: '>=2021.8.1'
-  hash:
-    md5: fd8408ecf1e341f6aaafb7d3b5471ccc
-    sha256: a181e24e36fbe11c3ff23a42d53431ecc4dd3e3a8ce0097d012ade44a9e4e916
-  manager: conda
-  name: ipyleaflet
-  optional: false
-  platform: linux-64
-  url: https://conda.anaconda.org/conda-forge/noarch/ipyleaflet-0.17.2-pyhd8ed1ab_0.tar.bz2
-  version: 0.17.2
-- category: main
-  dependencies:
-    ipywidgets: '>=7.6.0,<9'
-    python: '>=3.6'
-  hash:
-    md5: cb4c1f334457ef5f88458c94c503f89e
-    sha256: ed6db3b5fbc661036f90397bc04c9f671a54b126d4282e780388aafd04fa0ca6
-  manager: conda
-  name: ipyspin
-  optional: false
-  platform: linux-64
-  url: https://conda.anaconda.org/conda-forge/noarch/ipyspin-1.0.1-pyhd8ed1ab_0.tar.bz2
-  version: 1.0.1
-- category: main
-  dependencies:
-    ipywidgets: '>=7.6.0,<9'
-    python: '>=3.6'
-  hash:
-    md5: 5cc19cec6c4598183f4a8278e2142810
-    sha256: 5045747a2d02ef8595dc2fa9f8e74c6702da41bb656e35f8ca794570dcf2aa93
-  manager: conda
-  name: ipytree
-  optional: false
-  platform: linux-64
-  url: https://conda.anaconda.org/conda-forge/noarch/ipytree-0.2.2-pyhd8ed1ab_0.tar.bz2
-  version: 0.2.2
-- category: main
-  dependencies:
-    ipywidgets: '>=7.0.0'
-    python: '>=3.6'
-  hash:
-    md5: a72d315bc1ed6ddf0b2ace197b10886b
-    sha256: 0497b57c4accded8b5055365d71ad87f7d61b4d9a7b7b6319235d718c44b3660
-  manager: conda
-  name: ipyurl
-  optional: false
-  platform: linux-64
-  url: https://conda.anaconda.org/conda-forge/noarch/ipyurl-0.1.2-pyh3684270_1.tar.bz2
-  version: 0.1.2
 - category: main
   dependencies:
     jupyter_server: '>=1.0.0,<3'
@@ -9707,14 +9705,14 @@ package:
     python: '>=3.7'
     ypy-websocket: '>=0.8.2,<0.9.0'
   hash:
-    md5: 5e7c218ead368b3c9fffa57a35c16446
-    sha256: 15b2fb5eb03b511c6bfa32cc3f1ea90fef647379bb4a920f9ddbcfe3ae0db6e8
+    md5: 780280d42fbcb2eaf654a6ba7a3e5bb5
+    sha256: 13dff47cd1ecd3337271f16e65d1376e148f8d18c4cbb87e4aab603d5be628c9
   manager: conda
   name: jupyter_server_ydoc
   optional: false
   platform: linux-64
-  url: https://conda.anaconda.org/conda-forge/noarch/jupyter_server_ydoc-0.6.1-pyhd8ed1ab_0.conda
-  version: 0.6.1
+  url: https://conda.anaconda.org/conda-forge/noarch/jupyter_server_ydoc-0.8.0-pyhd8ed1ab_0.conda
+  version: 0.8.0
 - category: main
   dependencies:
     networkx: ''
@@ -10487,8 +10485,8 @@ package:
     jinja2: '>=2.1'
     jupyter_core: ''
     jupyter_server: '>=1.16.0,<3'
-    jupyter_server_ydoc: '>=0.6.0,<0.7.0'
-    jupyter_ydoc: '>=0.2.2,<0.3'
+    jupyter_server_ydoc: '>=0.8.0,<0.9.0'
+    jupyter_ydoc: '>=0.2.3,<0.3'
     jupyterlab_server: '>=2.19,<3'
     nbclassic: ''
     notebook: <7
@@ -10497,14 +10495,14 @@ package:
     tomli: ''
     tornado: '>=6.1.0'
   hash:
-    md5: c7de31a5b57a9fc1aa4d3fb9993819c6
-    sha256: 8f7d234af44356633f8d418ed3001e814215ff09cedbec9583e3fb10fb7cc5e2
+    md5: e5e06687a15cbe543a679a2e812601d7
+    sha256: 17213c7cf954677c5a1e12e1a792e89af4aa76599ced639d00553b1b225c74d8
   manager: conda
   name: jupyterlab
   optional: false
   platform: linux-64
-  url: https://conda.anaconda.org/conda-forge/noarch/jupyterlab-3.6.1-pyhd8ed1ab_0.conda
-  version: 3.6.1
+  url: https://conda.anaconda.org/conda-forge/noarch/jupyterlab-3.6.2-pyhd8ed1ab_0.conda
+  version: 3.6.2
 - category: main
   dependencies:
     jupyter_server: '>=1.10.1'
@@ -10635,19 +10633,19 @@ package:
 - category: main
   dependencies:
     dask-labextension: 6.1.0.*
-    ipywidgets: 8.0.4.*
+    ipywidgets: 8.0.5.*
     jupyter-server-proxy: 3.2.2.*
     jupyterhub-singleuser: 3.1.1.*
-    jupyterlab: 3.6.1.*
+    jupyterlab: 3.6.2.*
     nbgitpuller: 1.1.1.*
     pangeo-dask: 2023.03.11.*
   hash:
-    md5: 9e4d3e6524af970ff0a68617eb6da9a0
-    sha256: a02bf90dc9805c9a1c8bc78a62b0e2a15c3e30c1e19e3e53d41ddc2402ebffda
+    md5: fa064f6f3274d06e6db394ab405e4397
+    sha256: 557cfb64dbb0f77d928982e724e4bf86691a439d0d095b884bf71bb48f84b332
   manager: conda
   name: pangeo-notebook
   optional: false
   platform: linux-64
-  url: https://conda.anaconda.org/conda-forge/noarch/pangeo-notebook-2023.03.15-hd8ed1ab_0.conda
-  version: 2023.03.15
+  url: https://conda.anaconda.org/conda-forge/noarch/pangeo-notebook-2023.03.28-hd8ed1ab_0.conda
+  version: 2023.03.28
 version: 1
