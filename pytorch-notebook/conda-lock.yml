@@ -17,7 +17,7 @@ metadata:
   - url: nodefaults
     used_env_vars: []
   content_hash:
-    linux-64: 65aafa7422b0c8d28883c608bfb2bdc072291293b954d4df963d57ec0d027518
+    linux-64: 40a0b02c083d99585a9a125d04106c1565a3ada45460af9c0f7782ce9ac0ed31
   platforms:
   - linux-64
   sources:
@@ -3886,6 +3886,18 @@ package:
   platform: linux-64
   url: https://conda.anaconda.org/conda-forge/noarch/pyjwt-2.7.0-pyhd8ed1ab_0.conda
   version: 2.7.0
+- category: main
+  dependencies:
+    python: '>=3.5'
+  hash:
+    md5: 64a3a75456a514985eca4ee42b585094
+    sha256: e4635b76ce64934cf1e411f574a45626fe26902d1b28746a394676b361542b10
+  manager: conda
+  name: pynvml
+  optional: false
+  platform: linux-64
+  url: https://conda.anaconda.org/conda-forge/noarch/pynvml-11.5.0-pyhd8ed1ab_0.conda
+  version: 11.5.0
 - category: main
   dependencies:
     python: '>=3.6'
@@ -11374,6 +11386,23 @@ package:
   platform: linux-64
   url: https://conda.anaconda.org/conda-forge/noarch/jupyterhub-singleuser-4.0.0-pyh2a2186d_0.conda
   version: 4.0.0
+- category: main
+  dependencies:
+    bokeh: '>2.1'
+    jupyter-server-proxy: '>=1.3.2'
+    jupyterlab: '>=3.0.0,<4'
+    psutil: ''
+    pynvml: ''
+    python: '>=3.7'
+  hash:
+    md5: 69ad6dd0cbc8529f12e1900bf204b62c
+    sha256: f40f4a52c2401ac3596cca17708b484a3b21f55f87bb6325bfb2dabe05f91e4b
+  manager: conda
+  name: jupyterlab-nvdashboard
+  optional: false
+  platform: linux-64
+  url: https://conda.anaconda.org/conda-forge/noarch/jupyterlab-nvdashboard-0.8.0-pyhc268e32_0.conda
+  version: 0.8.0
 - category: main
   dependencies:
     dask-labextension: 6.1.0.*
