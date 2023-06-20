@@ -5,7 +5,7 @@ channels:
  - conda-forge
  - nodefaults
 dependencies:
- - google-auth-oauthlib=0.5.3 # Pinning this because of https://github.com/fsspec/gcsfs/issues/505
+ - google-auth-oauthlib>=1.0.0
  - pangeo-forge-recipes>=0.9.4
  # The version used here *must* match the tag of the Dockerfile we COPY
  # the beam-boot program from in the accompanying Dockerfile.
