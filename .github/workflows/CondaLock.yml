@@ -38,6 +38,7 @@ jobs:
       - name: Run conda-lock ${{ matrix.IMAGE }}
         run: |
           cd ${{ matrix.IMAGE }}
+          rm conda-lock.yml
           if [ ${{ matrix.IMAGE }} = "base-notebook" ]; then
             conda-lock lock -f environment.yml -p linux-64
           elif [ ${{ matrix.IMAGE }} = "pangeo-notebook" ]; then
