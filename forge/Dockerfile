@@ -23,7 +23,7 @@ FROM pangeo/base-image:${PANGEO_BASE_IMAGE_TAG}
 # the entire python package they build there. We install the python bits ourselves.
 # The version used here *must* match the version of `apache-beam[gcp]` in the
 # accompanying `environment.yml` file
-COPY --from=apache/beam_python3.10_sdk:2.43.0 /opt/apache/beam/boot /opt/apache/beam/boot
+COPY --from=apache/beam_python3.10_sdk:2.48.0 /opt/apache/beam/boot /opt/apache/beam/boot
 
 # Unfortunately, it looks like GCP DataFlow requires containers be run as root -
 # it mounts some folders into /var/opt/ and expects them to be writeable as root :(
