@@ -6,7 +6,7 @@
 
 The images defined in this repository capture reproducible computing environments used by [Pangeo Cloud](https://pangeo.io/cloud.html). They build on top of the Ubuntu operating system and include [conda environments](https://conda.io/projects/conda) with a curated set of Python packages for geospatial analysis. While intended for Pangeo Cloud, they can be used outside of Pangeo infrastructure too!
 
-Images are hosted on DockerHub: https://hub.docker.com/u/pangeo and on Quay.io: https://quay.io/organization/pangeo
+Images are hosted on [DockerHub](https://hub.docker.com/u/pangeo) and on [Quay.io](https://quay.io/organization/pangeo)
 
 | Image           | Description                                   |  Size | Pulls |
 |-----------------|-----------------------------------------------|--------------|-------------|
@@ -39,26 +39,15 @@ A major use-case for these images is running an ephemeral server on the Cloud wi
 
 * https://mybinder.org/v2/gh/pangeo-data/pangeo-docker-images/HEAD?urlpath=lab
 
-Users who need the special features offered by [Pangeo binder](https://binder.pangeo.io/) can use the following links for running in GCP us-central1 or AWS us-west-2 respectively:
-
-* https://binder.pangeo.io/v2/gh/pangeo-data/pangeo-docker-images/HEAD?urlpath=lab
-* https://aws-uswest2-binder.pangeo.io/v2/gh/pangeo-data/pangeo-docker-images/HEAD?urlpath=lab
-
-NOTE: the links above resolve to the [`pangeo-notebook` image](https://github.com/pangeo-data/pangeo-docker-images/tree/master/pangeo-notebook) and not `base-notebook`, `ml-notebook` or `pytorch-notebook` that are also defined in this repository. Currently BinderHubs map to a single image definition per repository.
+NOTE: the link above resolves to the [`pangeo-notebook` image](https://github.com/pangeo-data/pangeo-docker-images/tree/master/pangeo-notebook) and not `base-notebook`, `ml-notebook` or `pytorch-notebook` that are also defined in this repository. Currently BinderHubs map to a single image definition per repository.
 
 #### Use nbgitpuller to automatically load content
 
-The links above will launch Jupyterlab without any notebooks or other content. From Jupyterlab you can then upload notebooks or run `git pull` commands to retrieve content in another GitHub repository. However, it can be very useful to pre-load content when a server launches. [nbgitpuller link generator](https://jupyterhub.github.io/nbgitpuller/link) is very useful for this!
+The binder link above will launch Jupyterlab without any notebooks or other content. From Jupyterlab you can then upload notebooks or run `git pull` commands to retrieve content in another GitHub repository. However, it can be very useful to pre-load content when a server launches. [nbgitpuller link generator](https://jupyterhub.github.io/nbgitpuller/link) is very useful for this!
 
 Below is a link to illustrate launching [`pangeo-notebook/2021.09.30`](https://github.com/pangeo-data/pangeo-docker-images/blob/2021.09.30/pangeo-notebook/packages.txt) and automatically pulling the notebooks housed in https://github.com/pangeo-data/cog-best-practices.
 
-* https://aws-uswest2-binder.pangeo.io/v2/gh/pangeo-data/pangeo-docker-images/2021.09.30?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fpangeo-data%252Fcog-best-practices%26urlpath%3Dlab%252Ftree%252Fcog-best-practices%252F%26branch%3Dmain
-
-Those links get a bit long and complicated to look at, so it's common use a markdown button to hide them:
-
-| AWS  | GCP |
-| ------------- | ------------- |
-[![badge](https://img.shields.io/static/v1.svg?logo=Jupyter&label=PangeoBinder&message=AWS+us-west-2&color=orange)](https://aws-uswest2-binder.pangeo.io/v2/gh/pangeo-data/pangeo-docker-images/2021.09.30?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fpangeo-data%252Fcog-best-practices%26urlpath%3Dlab%252Ftree%252Fcog-best-practices%252F%26branch%3Dmain) | [![badge](https://img.shields.io/static/v1.svg?logo=Jupyter&label=PangeoBinder&message=GCP+us-central1&color=blue)](https://binder.pangeo.io/v2/gh/pangeo-data/pangeo-docker-images/2021.09.30?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fpangeo-data%252Fcog-best-practices%26urlpath%3Dlab%252Ftree%252Fcog-best-practices%252F%26branch%3Dmain)  |
+* https://mybinder.org/v2/gh/pangeo-data/pangeo-docker-images/2021.09.30?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252Fpangeo-data%252Fcog-best-practices%26urlpath%3Dlab%252Ftree%252Fcog-best-practices%252F%26branch%3Dmain
 
 #### Customize your environment
 Advanced users may want a highly customized environment that still works on Pangeo BinderHubs. You can do that by building off the pangeo `base-image` following our [template repository example](https://github.com/pangeo-data/pangeo-binder-template). Further documentation on the configuration files in the `binder` subfolder can be found in the [repo2docker documentation](https://repo2docker.readthedocs.io/en/latest/config_files.html#configuration-files).
@@ -98,6 +87,13 @@ check out these docs for running containers on the cloud via Docker Compose:
 - [Amazon Elastic Container Service (ECS)](https://docs.docker.com/cloud/ecs-integration)
 - [Azure Container Instances (ACI)](https://docs.docker.com/cloud/aci-integration)
 
+#### GitHub Codespaces (Azure)
+
+You can launch the pangeo-notebook environment via [GitHub Codespaces](https://github.com/features/codespaces) with this button:
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/pangeo-data/pangeo-docker-images?quickstart=1)
+
+
 ### How to install just the conda environment
 
 If you're used to managing conda environments on your personal computer, or running a hosted JupyterLab service like [Google Colab](https://colab.research.google.com) or [AWS SageMaker Studio Lab](https://studiolab.sagemaker.aws), you can exactly match a tagged pangeo-notebook conda environment. For example, below we install the `pangeo-notebook` environment tagged on `2021.12.02`:
@@ -105,7 +101,7 @@ If you're used to managing conda environments on your personal computer, or runn
 ```
 %conda create -n pangeo-notebook --file https://raw.githubusercontent.com/pangeo-data/pangeo-docker-images/2021.12.02/pangeo-notebook/conda-linux-64.lock
 ```
-Note that this will only work on linux environments, since the conda lockfile is specific to linux.
+Note that this will only work on linux environments, since `conda-linux-64.lock` is specific to linux.
 
 ### Image tagging and "continuous building"
 This repository uses [GitHub Actions](https://help.github.com/en/actions) to build images, run tests, and push images to [DockerHub](https://hub.docker.com/orgs/pangeo).
