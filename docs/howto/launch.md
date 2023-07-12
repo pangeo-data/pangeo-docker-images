@@ -37,7 +37,7 @@ docker run -it --rm pangeo/base-notebook:2021.09.30 /bin/bash
 
 If you're doing Machine Learning and want to use NVIDIA GPUs,
 follow the instructions at https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
-to install `nvidia-docker`, and then start the Docker container like so:
+to install `nvidia-container-toolkit`, and then start the Docker container like so:
 
 ```
 docker run -it --rm --gpus all -p 8888:8888 pangeo/pytorch-notebook:master jupyter lab --ip 0.0.0.0
