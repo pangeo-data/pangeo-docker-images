@@ -1,6 +1,6 @@
 # Pangeo Docker Images
 
-[![Documentation build status](https://img.shields.io/readthedocs/pangeo-docker-stacks?logo=read-the-docs)](https://pangeo-docker-stacks.readthedocs.org/en/latest/)
+[![Documentation build status](https://img.shields.io/readthedocs/pangeo-docker-images?logo=read-the-docs)](https://pangeo-docker-images.readthedocs.org/en/latest/)
 ![Build Status](https://github.com/pangeo-data/pangeo-docker-images/workflows/Build/badge.svg)
 ![Publish Status](https://github.com/pangeo-data/pangeo-docker-images/workflows/Publish/badge.svg)
 ![DockerHub Version](https://img.shields.io/docker/v/pangeo/base-image?sort=date)
