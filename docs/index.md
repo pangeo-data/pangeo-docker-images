@@ -19,4 +19,5 @@ contributing.md
 
 ```{toctree}
 topic/design.md
+topic/environment-variables.md
 ```
