@@ -9,6 +9,7 @@ Curated sets of docker images for doing earth data analysis!
 # How do I...?
 
 ```{toctree}
+:maxdepth: 2
 howto/launch.md
 howto/custom-image.md
 howto/conda-env.md
@@ -18,6 +19,7 @@ contributing.md
 # Topic explainers
 
 ```{toctree}
+:maxdepth: 2
 topic/design.md
 topic/environment-variables.md
 ```
