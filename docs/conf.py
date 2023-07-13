@@ -10,6 +10,7 @@ extensions = [
 myst_enable_extensions = [
     "deflist",
     "colon_fence",
+    "linkify",
 ]
 
 source_suffix = [".rst", ".md"]
