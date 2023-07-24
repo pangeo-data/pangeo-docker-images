@@ -52,9 +52,9 @@ Using GitHub the web site, the list of select a particular tag from the branches
 
 Each image has an `packages.txt` file that lists exactly which packages and versions installed in the image.
 
-### Using GitHub website
+### Using GitHub UI
 
-Using GitHub the web [site](https://github.com/pangeo-data/pangeo-docker-images), select a particular tag from the branches/tag drop down menu.  Navigate to the image and select the `packages.txt` file.
+On GitHub's website, you can look up any image tag using https://github.com/pangeo-data/pangeo-docker-images/tags . Navigate to the image tag of intereste and select the `packages.txt` file.
 
 ### Using the command line with Bash
 
