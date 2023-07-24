@@ -4,11 +4,11 @@ For deployments of Pangeo Docker Images using JupyterHub or Binder it can be som
 
 | Image           | Description                                   | 
 |-----------------|-----------------------------------------------|
-| [base-notebook](base-notebook/packages.txt) | minimally functional image for pangeo hubs | 
-| [pangeo-notebook](pangeo-notebook/packages.txt) | base-notebook + core earth science analysis packages |
-| [pytorch-notebook](pytorch-notebook/packages.txt) | pangeo-notebook + GPU-enabled pytorch |
-| [ml-notebook](ml-notebook/packages.txt) | pangeo-notebook + GPU-enabled tensorflow2 | 
-| [forge](ml-notebook/packages.txt) | pangeo-notebook + [Apache Beam](https://beam.apache.org/) support| 
+| [base-notebook](https://github.com/pangeo-data/pangeo-docker-images/blob/master/base-notebook/packages.txt) | minimally functional image for pangeo hubs | 
+| [pangeo-notebook](https://github.com/pangeo-data/pangeo-docker-images/blob/master/pangeo-notebook/packages.txt) | base-notebook + core earth science analysis packages |
+| [pytorch-notebook](https://github.com/pangeo-data/pangeo-docker-images/blob/master/pytorch-notebook/packages.txt) | pangeo-notebook + GPU-enabled pytorch |
+| [ml-notebook](https://github.com/pangeo-data/pangeo-docker-images/blob/master/ml-notebook/packages.txt) | pangeo-notebook + GPU-enabled tensorflow2 | 
+| [forge](https://github.com/pangeo-data/pangeo-docker-images/blob/master/forge/packages.txt) | pangeo-notebook + [Apache Beam](https://beam.apache.org/) support| 
 
 *Click on the image name in the table above for a current list of installed packages and versions for the most recent tag of each image*
 
