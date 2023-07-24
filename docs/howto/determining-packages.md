@@ -108,6 +108,17 @@ and
 
 to determine which packages were changed, added, or removed?
 
+### Using the GitHub UI
+
+You can compare tags within the GitHub UI by:
+
+1. Finding the release for the tag, from https://github.com/pangeo-data/pangeo-docker-images/tags
+2. Select the tag, so you get something like https://github.com/pangeo-data/pangeo-docker-images/tags
+3. Use the 'compare' dropdown on the left to select another tag to compare it against
+4. Look at the `packages.txt` of the appropriate image.
+
+The link https://docs.github.com/en/pull-requests/committing-changes-to-your-project/viewing-and-comparing-commits/comparing-commits#comparing-tags has additional info.
+
 ### Using the command line with Bash
 
 ```bash
