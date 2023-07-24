@@ -10,43 +10,40 @@ For deployments of Pangeo Docker Images using JupyterHub or Binder it can be som
 | [ml-notebook](ml-notebook/packages.txt) | pangeo-notebook + GPU-enabled tensorflow2 | 
 | [forge](ml-notebook/packages.txt) | pangeo-notebook + [Apache Beam](https://beam.apache.org/) support| 
 
-Each image is also assigned a tag of the form `YYYY.MM.DD` indicating when it was last updated.
-
 *Click on the image name in the table above for a current list of installed packages and versions for the most recent tag of each image*
 
 ## How to find my current image tag
 
 The environment variable `JUPYTER_IMAGE_SPEC` will tell you what Pangeo Docker Image is currently in use.
 
-### Using the command line with Bash
+In a terminal the command
 
-```bash
-echo JUPYTER_IMAGE_SPEC: $JUPYTER_IMAGE_SPEC
-
-tmp_array=($(echo $JUPYTER_IMAGE_SPEC | tr "/:" "\n"))
-image_name=${tmp_array[1]}
-image_tag=${tmp_array[2]}
-
-echo image_name: $image_name
-echo image_tag: $image_tag
+```
+echo $JUPYTER_IMAGE_SPEC
 ```
 
-### Using a Jupyter notebook with Python
+will work. Within a Jupyter notebook, use
 
-```python
-import os
-image_spec = os.environ['JUPYTER_IMAGE_SPEC']
-print('JUPYTER_IMAGE_SPEC:', image_spec)
-
-_, image_name, image_tag = image_spec.replace('/',':').split(':')
-
-print('image_name:', image_name)
-print('image_tag:', image_tag)
 ```
+!echo $JUPYTER_IMAGE_SPEC
+```
+
+The image tag may be one of the forms:
+
+- `docker.io/pangeo-data/pangeo-notebook:tag`
+- `pangeo-data/pangeo-notebook:tag`
+- `quay.io/pangeo-data/pangeo-notebook:tag`
+
+The first part is the registry (`docker.io`, which is often omitted, to mean DockerHub or `quay.io`).
+
+The next part the repository of the image itself (e.g. `pangeo-data/pangeo-notebook`)
+
+The tag is the last part. Each image is also assigned a tag of the form `YYYY.MM.DD` indicating when it was last updated.
+
 
 ## How to find the list of available image tags:
 
-Using GitHub the web site, the list of select a particular tag from the branches/tag drop down menu.
+Using GitHub [Pangeo Docker Images repo](https://github.com/pangeo-data/pangeo-docker-images), the list of select a particular tag from the branches/tag drop down menu. You can also get there directly using https://github.com/pangeo-data/pangeo-docker-images/tags .
 
 ## How to finding list of packages in any given tag
 
