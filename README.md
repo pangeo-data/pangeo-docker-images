@@ -18,7 +18,6 @@ Images are hosted on [DockerHub](https://hub.docker.com/u/pangeo) and on [Quay.i
 | [pangeo-notebook](pangeo-notebook/packages.txt) | base-notebook + core earth science analysis packages | ![](https://img.shields.io/docker/image-size/pangeo/pangeo-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/pangeo-notebook?sort=date)
 | [pytorch-notebook](pytorch-notebook/packages.txt) | pangeo-notebook + GPU-enabled pytorch | ![](https://img.shields.io/docker/image-size/pangeo/pytorch-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/pytorch-notebook?sort=date)
 | [ml-notebook](ml-notebook/packages.txt) | pangeo-notebook + GPU-enabled tensorflow2 | ![](https://img.shields.io/docker/image-size/pangeo/ml-notebook?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/ml-notebook?sort=date)
-| [forge](ml-notebook/packages.txt) | pangeo-notebook + [Apache Beam](https://beam.apache.org/) support| ![](https://img.shields.io/docker/image-size/pangeo/forge?sort=date) | ![](https://img.shields.io/docker/pulls/pangeo/forge?sort=date)
 
 *Click on the image name in the table above for a current list of installed packages and versions*
 
