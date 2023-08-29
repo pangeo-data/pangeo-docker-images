@@ -57,6 +57,9 @@ RUN echo "Installing Apt-get packages..." \
     && apt-get install -y apt-utils wget zip tzdata > /dev/null \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# Add TZ configuration - https://github.com/PrefectHQ/prefect/issues/3061
+ENV TZ UTC
 # ========================
 
 USER ${NB_USER}
