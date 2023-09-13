@@ -27,13 +27,11 @@ graph TD;
     base-notebook-->pangeo-notebook;
     pangeo-notebook-->pytorch-notebook;
     pangeo-notebook-->ml-notebook;
-    pangeo-notebook-->forge;
     click base-image "https://hub.docker.com/r/pangeo/base-image" "Open this in a new tab" _blank
     click base-notebook "https://hub.docker.com/r/pangeo/base-notebook" "Open this in a new tab" _blank
     click pangeo-notebook "https://hub.docker.com/r/pangeo/pangeo-notebook" "Open this in a new tab" _blank
     click pytorch-notebook "https://hub.docker.com/r/pangeo/pytorch-notebook" "Open this in a new tab" _blank
     click ml-notebook "https://hub.docker.com/r/pangeo/ml-notebook" "Open this in a new tab" _blank
-    click forge "https://hub.docker.com/r/pangeo/forge" "Open this in a new tab" _blank
 ```
 
 
