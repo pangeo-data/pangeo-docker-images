@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        IMAGE: [base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook, forge]
+        IMAGE: [base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook]
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     services:
@@ -33,11 +33,20 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
+    # https://github.com/actions/runner-images/issues/2840#issuecomment-790492173
+    - name: Free up disk space
+      run: |
+        df -h
+        docker image ls
+        sudo apt clean
+        sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc
+        df -h
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
       with:
         driver-opts: network=host
-    
+
     - name: Build base-image
       uses: docker/build-push-action@v3
       with:
