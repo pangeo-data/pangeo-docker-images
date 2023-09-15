@@ -66,9 +66,12 @@ jobs:
         build-contexts: |
           pangeo/base-image:PR=docker-image://localhost:5000/pangeo/base-image:PR
 
-    - name: Report Image Size and Conda Packages
+    - name: List Conda Packages
       run: |
         docker run localhost:5000/${DOCKER_ORG}/${{ matrix.IMAGE }}:PR conda list --export
+
+    - name: Report Image Size
+      run: |
         docker image ls
 
     - name: Test Image
