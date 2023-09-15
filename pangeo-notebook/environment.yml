@@ -4,7 +4,6 @@ channels:
  - nodefaults
 dependencies:
  - adlfs
- - argopy
  - awscli
  - boto3
  - bottleneck
@@ -26,8 +25,8 @@ dependencies:
  - gcm_filters
  - gcsfs
  - gh
+ - gh-scoped-creds
  - geocube
- # - geogif
  - geopandas
  - geopy
  - geoviews-core
@@ -42,7 +41,7 @@ dependencies:
  - intake-geopandas
  - intake-stac
  - intake-xarray
- - ipykernel>=6.21.2
+ - ipykernel
  - ipyleaflet
  - ipytree
  - ipywidgets
@@ -68,7 +67,6 @@ dependencies:
  - pyarrow
  - pycamhd
  - pydap
- - pygeos
  - pystac
  - pystac-client
  - python-blosc
@@ -78,7 +76,6 @@ dependencies:
  - rechunker
  - rio-cogeo
  - rioxarray
-# - rise
  - s3fs
  - satpy
  - scikit-image
@@ -98,7 +95,6 @@ dependencies:
  - xbatcher
  - xcape
  - xclim
- # - xcube>=0.9.1
  - xesmf
  - xgboost
  - xgcm
@@ -109,9 +105,6 @@ dependencies:
  - xrft
  - xskillscore
  - zarr
- - gh-scoped-creds
- - jupyterlab-git
- # Note: Enable after https://github.com/conda-incubator/conda-lock/pull/295
- # Uncomment and remove separate requirements.txt file
- #- pip:
- #  - jupyterlab-s3-browser>=0.12
+ - pip:
+   # get from conda-forge after https://github.com/conda-forge/argopy-feedstock/issues/15
+   - argopy
