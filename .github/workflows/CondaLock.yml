@@ -29,9 +29,9 @@ jobs:
           ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
       - name: Install Conda environment with Micromamba
-        uses: mamba-org/provision-with-micromamba@v15
+        uses: mamba-org/setup-micromamba@v1
         with:
-          cache-env: true
+          cache-environment: true
           environment-file: environment-condalock.yml
 
       # Could run as single step in parallel, but would complicate logs...
