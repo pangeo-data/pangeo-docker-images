@@ -13,7 +13,7 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: 1112504f263e3f01abd9b7b3f46c03b5062ec68f3ec8a6a77e6dbd8150a0173a
+    linux-64: df2c981657dd9b04b80be6c5988c1f5506f277e9048264e39d2e7c6931d520bb
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -113,14 +113,14 @@ package:
   category: main
   optional: false
 - name: gh
-  version: 2.34.0
+  version: 2.35.0
   manager: conda
   platform: linux-64
   dependencies: {}
-  url: https://conda.anaconda.org/conda-forge/linux-64/gh-2.34.0-ha8f183a_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/gh-2.35.0-ha8f183a_0.conda
   hash:
-    md5: f604822b608637cc233f330bb79197e0
-    sha256: a31acb38cbef18615493434e6dfbf8249d6248c46c39fe64d57578a72ce4d8cb
+    md5: fe001878d3a04a5e20a6313e940beb8f
+    sha256: e460b559eb3cc7b83d3e82a8ff43c231066b52de020a85883427b6857ee8e43f
   category: main
   optional: false
 - name: git-lfs
@@ -3579,15 +3579,15 @@ package:
   category: main
   optional: false
 - name: pyasn1
-  version: 0.4.8
+  version: 0.5.0
   manager: conda
   platform: linux-64
   dependencies:
-    python: ''
-  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-0.4.8-py_0.tar.bz2
+    python: '!=3.0,!=3.1,!=3.2,!=3.3,!=3.4,!=3.5'
+  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-0.5.0-pyhd8ed1ab_0.conda
   hash:
-    md5: 06d04c9f8f72ac77911db942eda24fb9
-    sha256: b2c1bb18ab7bf36263e0b3f29bd2991a108ec1957051f9f5d925efeaf7ed1344
+    md5: 4b1c0db24e212190be1969b0aa490ad8
+    sha256: 259b1107ae7d6983a8fdebe1717b67005fdf5328e827f33d38a9df43dee5ef82
   category: main
   optional: false
 - name: pycparser
@@ -3639,15 +3639,15 @@ package:
   category: main
   optional: false
 - name: pyparsing
-  version: 3.0.9
+  version: 3.1.1
   manager: conda
   platform: linux-64
   dependencies:
     python: '>=3.6'
-  url: https://conda.anaconda.org/conda-forge/noarch/pyparsing-3.0.9-pyhd8ed1ab_0.tar.bz2
+  url: https://conda.anaconda.org/conda-forge/noarch/pyparsing-3.1.1-pyhd8ed1ab_0.conda
   hash:
-    md5: e8fbc1b54b25f4b08281467bc13b70cc
-    sha256: 4acc7151cef5920d130f2e0a7615559cce8bfb037aeecb14d4d359ae3d9bc51b
+    md5: 176f7d56f0cfe9008bdf1bccd7de02fb
+    sha256: 4a1332d634b6c2501a973655d68f08c9c42c0bd509c349239127b10572b8354b
   category: main
   optional: false
 - name: pyshp
@@ -5192,16 +5192,16 @@ package:
   category: main
   optional: false
 - name: pyasn1-modules
-  version: 0.2.7
+  version: 0.3.0
   manager: conda
   platform: linux-64
   dependencies:
-    pyasn1: '>=0.4.6,<0.5.0'
-    python: ''
-  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-modules-0.2.7-py_0.tar.bz2
+    pyasn1: '>=0.4.6,<0.6.0'
+    python: '>=3.6'
+  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-modules-0.3.0-pyhd8ed1ab_0.conda
   hash:
-    md5: ad1e886d09700b2304975335f714bd9c
-    sha256: 21f5d8ebf36ad2841028b7358b6b316441493d923045156e9c0e07eb62780e44
+    md5: 26db749166cdca55e5ef1ffdc7767d0e
+    sha256: 7867ba43b6ef1e66054ca6b70f59bbef4cdb0cc761f0be3b66d79d15bd43143b
   category: main
   optional: false
 - name: pyct-core
@@ -5995,7 +5995,7 @@ package:
   category: main
   optional: false
 - name: sqlalchemy
-  version: 2.0.20
+  version: 2.0.21
   manager: conda
   platform: linux-64
   dependencies:
@@ -6004,10 +6004,10 @@ package:
     python: '>=3.11,<3.12.0a0'
     python_abi: 3.11.*
     typing-extensions: '>=4.2.0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/sqlalchemy-2.0.20-py311h459d7ec_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/sqlalchemy-2.0.21-py311h459d7ec_0.conda
   hash:
-    md5: 684bd4f9426c69b0c43ba0ceb08ce151
-    sha256: 821064f8b9877ef77fec63ef81c4aa3cbb5932b102c14540b9b95a98a2b05a44
+    md5: d850dd55a9b634a439d79eee5a16c2a9
+    sha256: 8a048d43b3e1c10731a281a396c45e4133522b43c5e2953b33f58033c9ca34c0
   category: main
   optional: false
 - name: stack_data
@@ -7334,7 +7334,7 @@ package:
   category: main
   optional: false
 - name: matplotlib-base
-  version: 3.7.2
+  version: 3.8.0
   manager: conda
   platform: linux-64
   dependencies:
@@ -7349,15 +7349,15 @@ package:
     numpy: '>=1.23.5,<2.0a0'
     packaging: '>=20.0'
     pillow: '>=6.2.0'
-    pyparsing: '>=2.3.1,<3.1'
+    pyparsing: '>=2.3.1'
     python: '>=3.11,<3.12.0a0'
     python-dateutil: '>=2.7'
     python_abi: 3.11.*
     tk: '>=8.6.12,<8.7.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/matplotlib-base-3.7.2-py311h54ef318_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/matplotlib-base-3.8.0-py311h54ef318_0.conda
   hash:
-    md5: 2631a9e423855fb586c05f8a5ee8b177
-    sha256: 9029779788461098618aa9b3ef01dc61d8561686abb97a7ddf310d89b68365e6
+    md5: b67672c2f39ef2912a1814e29e42c7ca
+    sha256: 4ba93bb1a7468e3f6e0e42d901ca636bfe32d3027884dbd98d8d5c2a98132bc1
   category: main
   optional: false
 - name: nbformat
@@ -7554,17 +7554,17 @@ package:
   category: main
   optional: false
 - name: tifffile
-  version: 2023.8.30
+  version: 2023.9.18
   manager: conda
   platform: linux-64
   dependencies:
     imagecodecs: '>=2023.8.12'
     numpy: '>=1.19.2'
     python: '>=3.9'
-  url: https://conda.anaconda.org/conda-forge/noarch/tifffile-2023.8.30-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/tifffile-2023.9.18-pyhd8ed1ab_0.conda
   hash:
-    md5: 529b803c040449392bc480614f41d522
-    sha256: 951627154c02364bcdcd012d877074a188947d85b1e09ea6ae2f6e18c1a37619
+    md5: c24d705dfe38f0a7a5cfa51b40c3d906
+    sha256: 69b5da9336683c12dfa5ab2f46c5c33970cfdf47a1cbb14d62f4294eeecc170c
   category: main
   optional: false
 - name: timezonefinder
@@ -7652,7 +7652,7 @@ package:
   category: main
   optional: false
 - name: awscli
-  version: 2.13.10
+  version: 2.13.19
   manager: conda
   platform: linux-64
   dependencies:
@@ -7670,10 +7670,10 @@ package:
     ruamel.yaml: '>=0.15.0,<=0.17.21'
     ruamel.yaml.clib: '>=0.2.0,<=0.2.7'
     urllib3: '>=1.25.4,<1.27'
-  url: https://conda.anaconda.org/conda-forge/linux-64/awscli-2.13.10-py311h38be061_1.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/awscli-2.13.19-py311h38be061_0.conda
   hash:
-    md5: 2ed1f537c8ef3d039c186cccc0c0ff53
-    sha256: d71d70a3333cc0b696269e5eff25fb68d11e1cb07c81e3ce90baddad317fa22e
+    md5: 573bdf1adaf44e1d1b0b90589c28e778
+    sha256: ea0682a0e60e2fc77c0ce6af66e46045cc511ec7fb56fd25bc87fb38ca22cd6f
   category: main
   optional: false
 - name: botocore
@@ -8307,6 +8307,28 @@ package:
     sha256: d929df4d8f6353dcdeca87589be214dd507ec3da81f11a38e58b6ffb53328db1
   category: main
   optional: false
+- name: argopy
+  version: 0.1.13
+  manager: conda
+  platform: linux-64
+  dependencies:
+    aiohttp: '>=3.7'
+    erddapy: '>=0.7'
+    fsspec: '>=0.8'
+    netcdf4: '>=1.5.3'
+    packaging: '>=20.4'
+    python: '>=3.6'
+    requests: '>=2.28'
+    scipy: '>=1.5'
+    setuptools: '>=42'
+    toolz: '>=0.8.2'
+    xarray: '>=0.18'
+  url: https://conda.anaconda.org/conda-forge/noarch/argopy-0.1.13-pyhd8ed1ab_1.conda
+  hash:
+    md5: 97f41da7a011cdd0c8b140dd2ecc50f0
+    sha256: 66a97ace4e60174b4d33c848e690be7065a8c3a3e212256a0a4b1e39586d9410
+  category: main
+  optional: false
 - name: azure-core
   version: 1.29.4
   manager: conda
@@ -8777,7 +8799,7 @@ package:
   category: main
   optional: false
 - name: xesmf
-  version: 0.8.1
+  version: 0.8.2
   manager: conda
   platform: linux-64
   dependencies:
@@ -8789,10 +8811,10 @@ package:
     shapely: ''
     sparse: '>=0.8.0'
     xarray: '>=0.16.2'
-  url: https://conda.anaconda.org/conda-forge/noarch/xesmf-0.8.1-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/xesmf-0.8.2-pyhd8ed1ab_0.conda
   hash:
-    md5: 8c2810704a9bac2743402b1ca22ec312
-    sha256: 3ba3311d4a2191287c4d416574c11fca6a1bcc38d987579da3835d262a901076
+    md5: 8e765a0eca0ce1cfa889cd9af82a23a8
+    sha256: a5d6cc552c4a3fe3f554ad0fc235d4802c4732ec83ef091ce0ed0c2a6df9c37f
   category: main
   optional: false
 - name: xgboost
@@ -10316,23 +10338,5 @@ package:
   hash:
     md5: 624f3976a27c4f13dd5e2c6b8e53ff86
     sha256: a07e4220661c417fad1d078af535b759bfeb906ea25ac7cfad831f594e427132
-  category: main
-  optional: false
-- name: argopy
-  version: 0.1.13
-  manager: pip
-  platform: linux-64
-  dependencies:
-    xarray: '>=0.16'
-    scipy: '>=1.5'
-    netcdf4: '>=1.5.3'
-    toolz: '>=0.8.2'
-    erddapy: '>=0.7'
-    fsspec: '>=0.8'
-    aiohttp: '>=3.7'
-    packaging: '>=20.4'
-  url: https://files.pythonhosted.org/packages/2e/13/e88a7f7c59556e8b038ae49042f9a32031714c19b667d8673975f45adec2/argopy-0.1.13-py3-none-any.whl
-  hash:
-    sha256: 9dfd44ba28f8cc530dbae6a70bf6613f66fa5569832d90cb3db0b7832b642acc
   category: main
   optional: false
