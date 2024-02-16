@@ -43,7 +43,7 @@ jobs:
           elif [ ${{ matrix.IMAGE }} = "pangeo-notebook" ]; then
             conda-lock lock -f environment.yml -f ../base-notebook/environment.yml -p linux-64
           else
-            conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
+            conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64 --with-cuda=12.0
           fi
           conda-lock render -k explicit
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
