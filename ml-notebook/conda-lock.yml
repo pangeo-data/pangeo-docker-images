@@ -1664,15 +1664,16 @@ package:
   platform: linux-64
   dependencies:
     __cuda: ''
+    __glibc: '>=2.17,<3.0.a0'
     _openmp_mutex: '>=4.5'
     cuda-version: '>=11.2,<12'
     libgcc-ng: '>=12'
     libstdcxx-ng: '>=12'
-    nccl: '>=2.19.4.1,<3.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libxgboost-2.0.3-cuda118_hd3b444d_1.conda
+    nccl: '>=2.20.5.1,<3.0a0'
+  url: https://conda.anaconda.org/conda-forge/linux-64/libxgboost-2.0.3-cuda118_ha4a090a_3.conda
   hash:
-    md5: 5a03d2c691df2f689f919b5a3693af0b
-    sha256: c9334e43563fcf27b5ab9752de372b79d504ac27115c0f6f2a6f75f9427e3512
+    md5: a7576cd08b673651ca143b30f10fd248
+    sha256: 9e58e062f8a6ad661137df517debaead43d6ab77ba4ddfc786bbccdb5ae9a9e9
   category: main
   optional: false
 - name: libxml2
@@ -6481,17 +6482,17 @@ package:
   category: main
   optional: false
 - name: starlette
-  version: 0.36.3
+  version: 0.37.2
   manager: conda
   platform: linux-64
   dependencies:
     anyio: <5,>=3.4.0
     python: '>=3.8'
     typing_extensions: '>=3.10.0'
-  url: https://conda.anaconda.org/conda-forge/noarch/starlette-0.36.3-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/starlette-0.37.2-pyhd8ed1ab_0.conda
   hash:
-    md5: a5abb99f4c89c4c81e0f24715af8b17a
-    sha256: ecc5b6100a1b2c54d3186c975d5a5b2e3a6a7b195fabe7d8f91c7da2ff05b0ba
+    md5: 7e5550dfa3ed2c2019988cbb9f8302ea
+    sha256: de3c43075fdc33c90cd8034e440638904268c46023dc2b14921a8355415dc40e
   category: main
   optional: false
 - name: uvicorn
@@ -7821,19 +7822,19 @@ package:
   category: main
   optional: false
 - name: fastapi
-  version: 0.110.0
+  version: 0.110.1
   manager: conda
   platform: linux-64
   dependencies:
     anyio: '>=3.7.1,<4.0.0'
     pydantic: '>=1.7.4,!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0'
     python: '>=3.8'
-    starlette: '>=0.36.3,<0.37.0'
+    starlette: '>=0.37.2,<0.38.0'
     typing-extensions: '>=4.8.0'
-  url: https://conda.anaconda.org/conda-forge/noarch/fastapi-0.110.0-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/fastapi-0.110.1-pyhd8ed1ab_0.conda
   hash:
-    md5: b26c3fc8756e981abd44062ac2f6a264
-    sha256: 382bdc5fbd9e5060ecd4b1f0daa16803d2dbd9f241cd5528ebc3235c904430be
+    md5: 20a9743921dd9272bc3775cdf4b68318
+    sha256: 0a4bc5723522f7de6aa71bb1ec969f34b6c09df93d47c7ac4b562958fad0816f
   category: main
   optional: false
 - name: fastjmd95
@@ -9107,10 +9108,10 @@ package:
     python: ''
     scikit-learn: ''
     scipy: ''
-  url: https://conda.anaconda.org/conda-forge/noarch/py-xgboost-2.0.3-cuda118_pyhedeaf28_1.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/py-xgboost-2.0.3-cuda118_pyh103b7b7_3.conda
   hash:
-    md5: f56da7b20ce1701d239cb82a4f91109f
-    sha256: f49a3c5b684c9f07209375779b88bf511bc865d5d07f971d035435f6f0405799
+    md5: 98996c2591744d8f099679b0146d9036
+    sha256: f11ccc9025485c95ed7e35ef443ad801c550f3b6e7945f2251622f4764b0bb1b
   category: main
   optional: false
 - name: python-eccodes
@@ -9148,7 +9149,7 @@ package:
   category: main
   optional: false
 - name: rioxarray
-  version: 0.15.1
+  version: 0.15.2
   manager: conda
   platform: linux-64
   dependencies:
@@ -9159,10 +9160,10 @@ package:
     rasterio: '>=1.3'
     scipy: ''
     xarray: '>=2022.3.0'
-  url: https://conda.anaconda.org/conda-forge/noarch/rioxarray-0.15.1-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/rioxarray-0.15.2-pyhd8ed1ab_0.conda
   hash:
-    md5: 1ee15f68451f316e24e76b48f2b98aeb
-    sha256: 534c4792376ca1face1f51e0d386c9d84ac5f511631373276531addc423215cc
+    md5: 15773c3c2a6f28450d0c579b43490abd
+    sha256: 7655eae6c1560ec881f50693f934eb0e2c18e44493a1764c37c997f125a6a57c
   category: main
   optional: false
 - name: scikit-image
@@ -9372,7 +9373,7 @@ package:
   category: main
   optional: false
 - name: metpy
-  version: 1.6.1
+  version: 1.6.2
   manager: conda
   platform: linux-64
   dependencies:
@@ -9387,10 +9388,10 @@ package:
     scipy: '>=1.8.0'
     traitlets: '>=5.0.5'
     xarray: '>=0.21.0'
-  url: https://conda.anaconda.org/conda-forge/noarch/metpy-1.6.1-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/metpy-1.6.2-pyhd8ed1ab_0.conda
   hash:
-    md5: fdfc73cf6c37e3af737b8169418699db
-    sha256: f805285d3a468bd40844be7fc2b28642e120818fdc09372adc737db9d4531a79
+    md5: 010a1f3a049326943d9448d1df58cb99
+    sha256: a18f9b1d15f2cd20510a8d992a88b31cb907b9411b0aa8224e333264275b157c
   category: main
   optional: false
 - name: nbconvert-core
@@ -9488,7 +9489,7 @@ package:
   category: main
   optional: false
 - name: rio-cogeo
-  version: 5.2.0
+  version: 5.3.0
   manager: conda
   platform: linux-64
   dependencies:
@@ -9498,10 +9499,10 @@ package:
     pydantic: '>=2.0,<3.dev0'
     python: '>=3.8'
     rasterio: '>=1.3.3'
-  url: https://conda.anaconda.org/conda-forge/noarch/rio-cogeo-5.2.0-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/rio-cogeo-5.3.0-pyhd8ed1ab_0.conda
   hash:
-    md5: fba66248ba149dcde45de4c5e79340c8
-    sha256: c3edc68e12458a484a2a5363b9ade99c992a42a96b0e4d39bc0342208760bba3
+    md5: 49fcd62f89423b28da0f0900254a1d52
+    sha256: 45589615236a704eb12a7bed0edf73a21a96b579088df0b9c38f178bc04d7211
   category: main
   optional: false
 - name: seaborn
@@ -9612,10 +9613,10 @@ package:
     __cuda: ''
     py-xgboost: 2.0.3
     python: ''
-  url: https://conda.anaconda.org/conda-forge/noarch/xgboost-2.0.3-cuda118_pyh5ebfdf7_1.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/xgboost-2.0.3-cuda118_pyh7984362_3.conda
   hash:
-    md5: 9ca04fca5cb67e6f2e51d0eb0277cf67
-    sha256: 463d7be77f991cdd197f690e09b793017e9fca3af40e747cea902ee143dd0cfc
+    md5: b5628bd802e85f4a02e50f7684117348
+    sha256: c742444e9824c8ce1ea8badb3d11e01f1a1bda099e4c08452db5a98d4297ac0c
   category: main
   optional: false
 - name: xmip
