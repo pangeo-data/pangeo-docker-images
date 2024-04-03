@@ -49,7 +49,7 @@ jobs:
         password: ${{ secrets.QUAY_TOKEN }}
 
     - name: Build and push
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v5
       with:
         context: ${{ env.IMAGE }}
         push: true
@@ -103,7 +103,7 @@ jobs:
         password: ${{ secrets.QUAY_TOKEN }}
 
     - name: Build and push
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v5
       with:
         context: ${{ matrix.IMAGE }}
         push: true
