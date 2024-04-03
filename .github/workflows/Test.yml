@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        IMAGE: [base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook, forge]
+        IMAGE: [base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook]
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     services:
@@ -31,15 +31,24 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
+
+    # https://github.com/actions/runner-images/issues/2840#issuecomment-790492173
+    - name: Free up disk space
+      run: |
+        df -h
+        docker image ls
+        sudo apt clean
+        sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc
+        df -h
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+      uses: docker/setup-buildx-action@v3
       with:
         driver-opts: network=host
-    
+
     - name: Build base-image
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v5
       with:
         context: base-image
         tags: localhost:5000/pangeo/base-image:PR
@@ -48,7 +57,7 @@ jobs:
         cache-to: type=gha,mode=max
 
     - name: Build Only
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v5
       with:
         context: ${{ matrix.IMAGE }}
         push: true
@@ -57,10 +66,13 @@ jobs:
         build-contexts: |
           pangeo/base-image:PR=docker-image://localhost:5000/pangeo/base-image:PR
 
-    - name: Report Image Size and Conda Packages
+    - name: List Conda Packages
       run: |
         docker run localhost:5000/${DOCKER_ORG}/${{ matrix.IMAGE }}:PR conda list --export
-        docker images ls
+
+    - name: Report Image Size
+      run: |
+        docker image ls
 
     - name: Test Image
       run: |

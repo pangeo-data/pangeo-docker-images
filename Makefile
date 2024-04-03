@@ -1,6 +1,6 @@
 # Makefile for convenience, (doesn't look for command outputs)
 .PHONY: all
-all: base-image base-notebook pangeo-notebook ml-notebook pytorch-notebook forge
+all: base-image base-notebook pangeo-notebook ml-notebook pytorch-notebook
 TESTDIR=/srv/test
 
 .PHONY: base-image
@@ -39,11 +39,3 @@ pytorch-notebook : base-image
 	../generate-packages-list.py conda-linux-64.lock > packages.txt; \
 	docker build -t pangeo/pytorch-notebook:master . ; \
 	docker run -w $(TESTDIR) -v $(PWD):$(TESTDIR) pangeo/pytorch-notebook:master ./run_tests.sh pytorch-notebook
-
-.PHONY: forge
-forge : base-image
-	cd forge; \
-	conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64; \
-	../generate-packages-list.py conda-linux-64.lock > packages.txt; \
-	docker build -t pangeo/forge:master . ; \
-	docker run -w $(TESTDIR) -v $(PWD):$(TESTDIR) pangeo/forge:master ./run_tests.sh forge
