@@ -1,6 +1,5 @@
 # Jupyter Notebook + Singularity + GPU support on the HPC System 
 
-If the resources available at Pangeo Cloud are not enough or you wish to use the GPUs on your HPC system, you can still benefit from the prebuild images from Pangeo.
 
 Singularity brings containers into traditional HPC use cases and centers. (FYI: It has been moved into the Linux Foundation and renamed Apptainer).
 
