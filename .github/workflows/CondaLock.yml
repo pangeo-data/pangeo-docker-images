@@ -69,7 +69,7 @@ jobs:
           ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
       # Download all artifacts from previous matrix job
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
 
       - name: Commit condalock files to PR
         run: |
