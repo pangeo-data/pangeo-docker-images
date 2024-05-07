@@ -28,7 +28,7 @@ jobs:
         id: find_replace
         uses: jacobtomlinson/gha-find-replace@3.0.2
         with:
-          include: "environment.yml"
+          include: "base-notebook/environment.yml"
           find: "pangeo-notebook=.*"
           replace: "pangeo-notebook=${{ steps.latest_version.outputs.version }}"
 
