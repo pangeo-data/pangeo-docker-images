@@ -49,7 +49,7 @@ jobs:
           else
             RESULT=False
           fi
-          echo "::set-output name=exists::${RESULT}"
+          echo "exists=${RESULT}" >> $GITHUB_OUTPUT
 
       # Skip following commands if PR already exists or pangeo-notebook version matches current master
       - name: Create Pull Request
