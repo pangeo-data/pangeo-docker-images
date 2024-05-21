@@ -13,7 +13,7 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: 134df772e8cbce7121bfeea8df655ac221b6670a167aaeacb955f0e8a2ab01dc
+    linux-64: 86959d9716a4682a940febc4e91098adcadb7c04b4eeda41b5a26231bd58cf23
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -53,10 +53,10 @@ package:
   manager: conda
   platform: linux-64
   dependencies: {}
-  url: https://conda.anaconda.org/conda-forge/linux-64/_py-xgboost-mutex-2.0-cpu_0.tar.bz2
+  url: https://conda.anaconda.org/conda-forge/linux-64/_py-xgboost-mutex-2.0-gpu_0.tar.bz2
   hash:
-    md5: 23b8f98a355030331f40d0245492f715
-    sha256: 504b46c85d81269b24e7b22309064886cfc873955e77daf0eb794d8e7ec8cc06
+    md5: 7702188077361f43a4d61e64c694f850
+    sha256: ef6bccb4e2114a7be586416f5e1a8656ffa11c6fddef926b5c6d5ff5179157fa
   category: main
   optional: false
 - name: adal
@@ -1619,14 +1619,45 @@ package:
   category: main
   optional: false
 - name: cuda-version
-  version: '12.0'
+  version: '11.8'
   manager: conda
   platform: linux-64
   dependencies: {}
-  url: https://conda.anaconda.org/conda-forge/noarch/cuda-version-12.0-hffde075_3.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/cuda-version-11.8-h70ddcb2_3.conda
   hash:
-    md5: 2e05a13ff61e58f502b6f71856f8b10e
-    sha256: 4d91be1f40086a466bb79a7003a47285973994c336283d89d0d10bc9cb99f0fe
+    md5: 670f0e1593b8c1d84f57ad5fe5256799
+    sha256: 53e0ffc14ea2f2b8c12320fd2aa38b01112763eba851336ff5953b436ae61259
+  category: main
+  optional: false
+- name: cudatoolkit
+  version: 11.8.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+    libgcc-ng: '>=12'
+    libstdcxx-ng: '>=12'
+  url: https://conda.anaconda.org/conda-forge/linux-64/cudatoolkit-11.8.0-h4ba93d1_13.conda
+  hash:
+    md5: eb43f5f1f16e2fad2eba22219c3e499b
+    sha256: 1797bacaf5350f272413c7f50787c01aef0e8eb955df0f0db144b10be2819752
+  category: main
+  optional: false
+- name: cudnn
+  version: 8.9.7.29
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+    cuda-version: '>=11.0,<12.0a0'
+    cudatoolkit: 11.*
+    libgcc-ng: '>=12'
+    libstdcxx-ng: '>=12'
+    libzlib: '>=1.2.13,<1.3.0a0'
+  url: https://conda.anaconda.org/conda-forge/linux-64/cudnn-8.9.7.29-hbc23b4c_3.conda
+  hash:
+    md5: 4a2d5fab2871d95544de4e1752948d0f
+    sha256: c553234d447d9938556f067aba7a4686c8e5427e03e740e67199da3782cc420c
   category: main
   optional: false
 - name: cycler
@@ -5615,6 +5646,43 @@ package:
     sha256: 225cc7c3b20ac1db1bdb37fa18c95bf8aecef4388e984ab2f7540a9f4382106a
   category: main
   optional: false
+- name: libmagma
+  version: 2.7.2
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17'
+    _openmp_mutex: '>=4.5'
+    cudatoolkit: '>=11.8,<12'
+    libblas: '>=3.9.0,<4.0a0'
+    libgcc-ng: '>=12'
+    liblapack: '>=3.9.0,<4.0a0'
+    libstdcxx-ng: '>=12'
+  url: https://conda.anaconda.org/conda-forge/linux-64/libmagma-2.7.2-h09b5827_2.conda
+  hash:
+    md5: f6de79234f35c2fcc2e49dc66436601d
+    sha256: 4dd54775f2cfa9c09f4b4cc58a6db00bad50b30e65adf62ffe4213a30d962766
+  category: main
+  optional: false
+- name: libmagma_sparse
+  version: 2.7.2
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17'
+    _openmp_mutex: '>=4.5'
+    cudatoolkit: '>=11.8,<12'
+    libblas: '>=3.9.0,<4.0a0'
+    libgcc-ng: '>=12'
+    liblapack: '>=3.9.0,<4.0a0'
+    libmagma: '>=2.7.2,<2.7.3.0a0'
+    libstdcxx-ng: '>=12'
+  url: https://conda.anaconda.org/conda-forge/linux-64/libmagma_sparse-2.7.2-h09b5827_3.conda
+  hash:
+    md5: 53157a5777c664896654d8dbc9fd6bf9
+    sha256: ee4a2367446763e6a4ef6d2fa5aea06adfd4ff44853f7390a02b0da77c6f129c
+  category: main
+  optional: false
 - name: libnetcdf
   version: 4.9.2
   manager: conda
@@ -6208,17 +6276,22 @@ package:
   dependencies:
     __glibc: '>=2.17,<3.0.a0'
     _openmp_mutex: '>=4.5'
+    cudatoolkit: '>=11.8,<12'
+    cudnn: '>=8.9.7.29,<9.0a0'
     libcblas: '>=3.9.0,<4.0a0'
     libgcc-ng: '>=12'
+    libmagma: '>=2.7.2,<2.7.3.0a0'
+    libmagma_sparse: '>=2.7.2,<2.7.3.0a0'
     libprotobuf: '>=4.25.3,<4.25.4.0a0'
     libstdcxx-ng: '>=12'
     libuv: '>=1.48.0,<2.0a0'
     mkl: '>=2023.2.0,<2024.0a0'
+    nccl: '>=2.21.5.1,<3.0a0'
     sleef: '>=3.5.1,<4.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libtorch-2.3.0-cpu_mkl_hff68eba_100.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/libtorch-2.3.0-cuda118_hb1906df_300.conda
   hash:
-    md5: 37c09fab4d27a1fc9f1b00df204c0510
-    sha256: ae99a38871bae39e28eb2fff8e8c04ae538ad403c74967f88d822a5888d70106
+    md5: 2099b9eea64471b11ca68079b920d792
+    sha256: 2c2d8fcef18902ea6881ff46b970beb3ca36ac5696a688c8c2e16af3e8399d9e
   category: main
   optional: false
 - name: libunistring
@@ -6358,14 +6431,17 @@ package:
   manager: conda
   platform: linux-64
   dependencies:
+    __cuda: ''
     __glibc: '>=2.17,<3.0.a0'
     _openmp_mutex: '>=4.5'
+    cuda-version: '>=11.2,<12'
     libgcc-ng: '>=12'
     libstdcxx-ng: '>=12'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libxgboost-2.0.3-cpu_h7afb2cf_4.conda
+    nccl: '>=2.21.5.1,<3.0a0'
+  url: https://conda.anaconda.org/conda-forge/linux-64/libxgboost-2.0.3-cuda118_h09a87be_4.conda
   hash:
-    md5: 6aa4fefb4e9f9b4e853d15642e521c5e
-    sha256: 1d5344fdd23b9fbef287bf45fe1b494f00b3f6bb362953cd4f4ed225a1a0adb6
+    md5: bfaf927bc7665d327ff5b8e5b8dbf2df
+    sha256: 930470ec9b257fb5bb31cf523229b0f549481f2dea1306cb5f8e2f07cf209500
   category: main
   optional: false
 - name: libxml2
@@ -7262,6 +7338,20 @@ package:
   hash:
     md5: 281b58948bf60a2582de9e548bcc5369
     sha256: 345d51b39f603a6717e43a998adaac35764467a4cf2bfec8f1963b9a7ced2a36
+  category: main
+  optional: false
+- name: nccl
+  version: 2.21.5.1
+  manager: conda
+  platform: linux-64
+  dependencies:
+    cuda-version: '>=11.8,<12.0a0'
+    libgcc-ng: '>=12'
+    libstdcxx-ng: '>=12'
+  url: https://conda.anaconda.org/conda-forge/linux-64/nccl-2.21.5.1-h6103f9b_0.conda
+  hash:
+    md5: 05381b62b2faed9609fb68b27cd575aa
+    sha256: 64d0992b9e442f6e92c0fed7584c68bf48d43c741bb589d4afee450d41f805ca
   category: main
   optional: false
 - name: ncurses
@@ -8378,16 +8468,17 @@ package:
   manager: conda
   platform: linux-64
   dependencies:
+    __cuda: ''
     _py-xgboost-mutex: '2.0'
     libxgboost: '>=2.0.3,<2.0.4.0a0'
     numpy: ''
     python: ''
     scikit-learn: ''
     scipy: ''
-  url: https://conda.anaconda.org/conda-forge/noarch/py-xgboost-2.0.3-cpu_pyh995e691_4.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/py-xgboost-2.0.3-cuda120_pyh3ef1b53_4.conda
   hash:
-    md5: 44b233589a7448fe2a12344d6fd5ddbc
-    sha256: af20d96a90d214ba0050b9806d35315c4774fbdab0ac498f6b91368fb596e07d
+    md5: 101b6519015db5451632163bc6fed36a
+    sha256: 7b85e05d4e771183c76fe3d793695d313d6d9f13fc2fd63ba4e929bcb298c431
   category: main
   optional: false
 - name: pyarrow
@@ -9118,18 +9209,24 @@ package:
   manager: conda
   platform: linux-64
   dependencies:
+    __cuda: ''
     __glibc: '>=2.17,<3.0.a0'
     _openmp_mutex: '>=4.5'
+    cudatoolkit: '>=11.8,<12'
+    cudnn: '>=8.9.7.29,<9.0a0'
     filelock: ''
     fsspec: ''
     jinja2: ''
     libcblas: '>=3.9.0,<4.0a0'
     libgcc-ng: '>=12'
+    libmagma: '>=2.7.2,<2.7.3.0a0'
+    libmagma_sparse: '>=2.7.2,<2.7.3.0a0'
     libprotobuf: '>=4.25.3,<4.25.4.0a0'
     libstdcxx-ng: '>=12'
     libtorch: 2.3.0.*
     libuv: '>=1.48.0,<2.0a0'
     mkl: '>=2023.2.0,<2024.0a0'
+    nccl: '>=2.21.5.1,<3.0a0'
     networkx: ''
     numpy: '>=1.23.5,<2.0a0'
     python: '>=3.11,<3.12.0a0'
@@ -9137,10 +9234,10 @@ package:
     sleef: '>=3.5.1,<4.0a0'
     sympy: ''
     typing_extensions: ''
-  url: https://conda.anaconda.org/conda-forge/linux-64/pytorch-2.3.0-cpu_mkl_py311h9835ca6_100.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/pytorch-2.3.0-cuda118_py311h6c9cb27_300.conda
   hash:
-    md5: 146a20d6e63b931f4095c798eed7d3bc
-    sha256: 609c9c8944093d995d922a89a1b7f4bddf31fe06c7095127c0e21503a330de5a
+    md5: 78355037e83b5eaa0f0df6c7bfa72042
+    sha256: b7a00b85926f7fcc2c35f75942787930e4bb33a58a7f4d6e5224aad92d930b21
   category: main
   optional: false
 - name: pytorch-lightning
@@ -10368,6 +10465,8 @@ package:
   platform: linux-64
   dependencies:
     __glibc: '>=2.17,<3.0.a0'
+    cudatoolkit: '>=11.8,<12'
+    cudnn: '>=8.9.7.29,<9.0a0'
     libgcc-ng: '>=12'
     libjpeg-turbo: '>=3.0.0,<4.0a0'
     libpng: '>=1.6.43,<1.7.0a0'
@@ -10379,10 +10478,10 @@ package:
     python_abi: 3.11.*
     pytorch: '>=2.3.0,<2.4.0a0'
     requests: ''
-  url: https://conda.anaconda.org/conda-forge/linux-64/torchvision-0.18.0-cpu_py311h44bce4d_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/torchvision-0.18.0-cuda118py311hf53cd17_0.conda
   hash:
-    md5: 27863fe3a34aa3f65d0c780ba8a25692
-    sha256: abb19716b7c41cf494d21f0ce57b6c160feed077811ea326e8fca45a40b2472b
+    md5: 866f2c25aa9a6dcd913dcdb6ffde6e1e
+    sha256: a3d6360707712169f007b796db3d5194938cf6cfb92fa81e3efda24c31b81b26
   category: main
   optional: false
 - name: tornado
@@ -11050,12 +11149,13 @@ package:
   manager: conda
   platform: linux-64
   dependencies:
+    __cuda: ''
     py-xgboost: 2.0.3
     python: ''
-  url: https://conda.anaconda.org/conda-forge/noarch/xgboost-2.0.3-cpu_pyhb8f9a19_4.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/xgboost-2.0.3-cuda120_pyh68bd8d9_4.conda
   hash:
-    md5: 6d841f6e43095e98843e9ee49bd7c700
-    sha256: 353a299a6758a748e286c7beda4b8d6640bb25062031862f3ae0c5dde590f1cb
+    md5: aaaadc3a408067943ebc10299393a7c3
+    sha256: 70643fbdeb7d9a78331899812f468040546969efaeaef6c91a9c9f2424f4bb86
   category: main
   optional: false
 - name: xgcm
