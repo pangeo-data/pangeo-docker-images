@@ -13,7 +13,7 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: c052a92372abac12259b6051dc0a84ac2be614ca2b18b9b62c0c97515145bccc
+    linux-64: 27cc9d6db1a56a60ea66cca49882fab6a3b485a3be984e3b8eb5ce88425c1d07
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -209,6 +209,22 @@ package:
   hash:
     md5: ac95aa8ed65adfdde51132595c79aade
     sha256: 86aca4a31c09f9b4dbdb332cd9a6a7dbab62ca734d3f832651c0ab59c6a7f52e
+  category: main
+  optional: false
+- name: anywidget
+  version: 0.9.11
+  manager: conda
+  platform: linux-64
+  dependencies:
+    ipywidgets: ''
+    psygnal: ''
+    python: '>=3.7'
+    typing_extensions: ''
+    watchfiles: ''
+  url: https://conda.anaconda.org/conda-forge/noarch/anywidget-0.9.11-pyhd8ed1ab_0.conda
+  hash:
+    md5: d345b16aee0abf396a82f73f59970aae
+    sha256: 1a956e410fbd450ae5226d51dd4b7143b23e4a2c6177e415a123d6ca4c609ead
   category: main
   optional: false
 - name: aom
@@ -6275,6 +6291,25 @@ package:
     sha256: 9afe0b5cfa418e8bdb30d8917c5a6cec10372b037924916f1f85b9f4899a67a6
   category: main
   optional: false
+- name: lonboard
+  version: 0.9.2
+  manager: conda
+  platform: linux-64
+  dependencies:
+    anywidget: '>=0.9.0'
+    geopandas: '>=0.13'
+    matplotlib-base: '>=3.7.0,<4.0.0'
+    palettable: '>=3.3.3,<4.0.0'
+    pandas: '>=2.0.0'
+    pyarrow: '>=14.0.1'
+    python: '>=3.8.0,<4.0.0'
+    shapely: '>=2.0.0,<3.0.0'
+  url: https://conda.anaconda.org/conda-forge/noarch/lonboard-0.9.2-pyh80e38bb_0.conda
+  hash:
+    md5: a4c881fa634d6f3e25c6e01677dffbb7
+    sha256: a85e1fc49ec2139c992bef21c0b89dbd51b75468782fabd5b56e0d3bb2ecf65a
+  category: main
+  optional: false
 - name: lsprotocol
   version: 2023.0.1
   manager: conda
@@ -7264,6 +7299,18 @@ package:
     sha256: a390182d74c31dfd713c16db888c92c277feeb6d1fe96ff9d9c105f9564be48a
   category: main
   optional: false
+- name: palettable
+  version: 3.3.3
+  manager: conda
+  platform: linux-64
+  dependencies:
+    python: '>=3.7'
+  url: https://conda.anaconda.org/conda-forge/noarch/palettable-3.3.3-pyhd8ed1ab_0.conda
+  hash:
+    md5: 23326336f3384f28551668bf3ccd982e
+    sha256: fb57824c2ef8e1fde904f7dd4f5d54903fe14cf08870d373801b8ae0aeafe301
+  category: main
+  optional: false
 - name: pamela
   version: 1.1.0
   manager: conda
@@ -7861,6 +7908,20 @@ package:
   hash:
     md5: 9bc62d25dcf64eec484974a3123c9d57
     sha256: 467788418a2c71fb3df9ac0a6282ae693d1070a6cb47cb59bdb529b53acaee1c
+  category: main
+  optional: false
+- name: psygnal
+  version: 0.11.1
+  manager: conda
+  platform: linux-64
+  dependencies:
+    python: '>=3.8'
+    typing_extensions: ''
+    wrapt: ''
+  url: https://conda.anaconda.org/conda-forge/noarch/psygnal-0.11.1-pyhd8ed1ab_0.conda
+  hash:
+    md5: b49c6ca5e5661b5473f91ac01782e487
+    sha256: fc12b32c36c522d263bf24dbced4c755925198fa153bbddd7181b68e3443a468
   category: main
   optional: false
 - name: pthread-stubs
@@ -10023,6 +10084,21 @@ package:
   hash:
     md5: e5fd02e8d7d893bc8f3bbd12742c7821
     sha256: 959635d4a5aa49d57592f9426a4b63d35fbb0776cefa4e3e19caf4617dfbf1cb
+  category: main
+  optional: false
+- name: watchfiles
+  version: 0.21.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    anyio: '>=3.0.0'
+    libgcc-ng: '>=12'
+    python: '>=3.11,<3.12.0a0'
+    python_abi: 3.11.*
+  url: https://conda.anaconda.org/conda-forge/linux-64/watchfiles-0.21.0-py311h46250e7_0.conda
+  hash:
+    md5: a09a506aee55efbf1d455e25c2233efe
+    sha256: fcacaf84e6ef05f216f8b89c8ac26ec34bf0d18117977fdebd03c80bfd74923d
   category: main
   optional: false
 - name: watermark
