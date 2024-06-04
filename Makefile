@@ -11,7 +11,7 @@ base-image :
 .PHONY: base-notebook
 base-notebook : base-image
 	cd base-notebook ; \
-	conda-lock lock -p linux-64 -p linux-aarch64 -p osx-64 -p osx-arm64
+	conda-lock lock -p linux-64 -p linux-aarch64 -p osx-64 -p osx-arm64; \
 	conda-lock render -k explicit -p linux-64; \
 	../generate-packages-list.py conda-linux-64.lock > packages.txt; \
 	docker build -t pangeo/base-notebook:master . ; \
@@ -22,7 +22,7 @@ pangeo-notebook : base-image
 	cd pangeo-notebook ; \
 	conda-lock lock -f environment.yml -f ../base-notebook/environment.yml -p linux-64 -p linux-aarch64 -p osx-64 -p osx-arm64; \
 	conda-lock render -k explicit -p linux-64; \
-	../generate-packages-list.py conda-linux-64.lock > packages-64.txt; \
+	../generate-packages-list.py conda-linux-64.lock > packages.txt; \
 	docker build -t pangeo/pangeo-notebook:master . ; \
 	docker run -w $(TESTDIR) -v $(PWD):$(TESTDIR) pangeo/pangeo-notebook:master ./run_tests.sh pangeo-notebook
 
@@ -31,7 +31,7 @@ ml-notebook : base-image
 	cd ml-notebook ; \
 	conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64 -p linux-aarch64 -p osx-64 -p osx-arm64; \
 	conda-lock render -k explicit -p linux-64; \
-	../generate-packages-list.py conda-linux-64.lock > packages-64.txt; \
+	../generate-packages-list.py conda-linux-64.lock > packages.txt; \
 	docker build -t pangeo/ml-notebook:master . ; \
 	docker run -w $(TESTDIR) -v $(PWD):$(TESTDIR) pangeo/ml-notebook:master ./run_tests.sh ml-notebook
 
@@ -40,6 +40,6 @@ pytorch-notebook : base-image
 	cd pytorch-notebook ; \
 	conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64 -p linux-aarch64 -p osx-64 -p osx-arm64; \
 	conda-lock render -k explicit -p linux-64; \
-	../generate-packages-list.py conda-linux-64.lock > packages-64.txt; \
+	../generate-packages-list.py conda-linux-64.lock > packages.txt; \
 	docker build -t pangeo/pytorch-notebook:master . ; \
 	docker run -w $(TESTDIR) -v $(PWD):$(TESTDIR) pangeo/pytorch-notebook:master ./run_tests.sh pytorch-notebook
