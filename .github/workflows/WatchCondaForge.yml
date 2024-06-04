@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get Latest pangeo-notebook Metapackage Version
         id: latest_version
@@ -26,9 +26,9 @@ jobs:
 
       - name: Find and Replace pangeo-notebook
         id: find_replace
-        uses: jacobtomlinson/gha-find-replace@0.1.1
+        uses: jacobtomlinson/gha-find-replace@3.0.2
         with:
-          include: "environment.yml"
+          include: "base-notebook/environment.yml"
           find: "pangeo-notebook=.*"
           replace: "pangeo-notebook=${{ steps.latest_version.outputs.version }}"
 
@@ -49,13 +49,13 @@ jobs:
           else
             RESULT=False
           fi
-          echo "::set-output name=exists::${RESULT}"
+          echo "exists=${RESULT}" >> $GITHUB_OUTPUT
 
       # Skip following commands if PR already exists or pangeo-notebook version matches current master
       - name: Create Pull Request
         if: steps.check_branch.outputs.exists == 'False' && steps.find_replace.outputs.modifiedFiles > 0
         id: cpr
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v6
         with:
           committer: Pangeo Bot <pangeo-bot@users.noreply.github.com>
           token: ${{ secrets.PANGEOBOT_TOKEN }}

@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Add BinderHub Links
-      uses: peter-evans/create-or-update-comment@v2
+      uses: peter-evans/create-or-update-comment@v4
       env:
         PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
         PR_HEAD_USERREPO: ${{ github.event.pull_request.head.repo.full_name }}
@@ -20,5 +20,3 @@ jobs:
          reactions: rocket
          body: |
           [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/${{env.PR_HEAD_USERREPO}}/${{env.PR_HEAD_REF}}) :point_left: Try on Mybinder.org!
-          [![Binder](https://img.shields.io/static/v1.svg?logo=Jupyter&label=Pangeo+Binder&message=GCE+us-central1&color=blue)](https://binder.pangeo.io/v2/gh/${{env.PR_HEAD_USERREPO}}/${{env.PR_HEAD_REF}}) :point_left: Try on Pangeo GCP Binder!
-          [![Binder](https://img.shields.io/static/v1.svg?logo=Jupyter&label=Pangeo+Binder&message=AWS+us-west-2&color=orange)](https://aws-uswest2-binder.pangeo.io/v2/gh/${{env.PR_HEAD_USERREPO}}/${{env.PR_HEAD_REF}}) :point_left: Try on Pangeo AWS Binder!

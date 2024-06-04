@@ -8,122 +8,82 @@ on:
 
 jobs:
   condalock:
+    strategy:
+      fail-fast: false
+      matrix:
+        IMAGE: [base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook]
+    name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 180
     defaults:
       run:
-        shell: bash -l {0}
+        shell: bash -el {0}
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.PANGEOBOT_TOKEN }}
           # These lines are critical, otherwise Pangeo-bot pushes changes directly to master from PRs!
           repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
           ref: ${{ github.event.client_payload.pull_request.head.ref }}
 
-      - name: Show environment.ymls
-        run: |
-          echo "---\nbase-notebook:\n---\n" && cat base-notebook/environment.yml
-          echo "---\npangeo-notebook:\n---\n" && cat pangeo-notebook/environment.yml
-          echo "---\nml-notebook:\n---\n" && cat ml-notebook/environment.yml
-          echo "---\npytorch-notebook:\n---\n" && cat pytorch-notebook/environment.yml
-
-      - name: Cache conda
-        uses: actions/cache@v3
-        env:
-          # Increase this value to reset cache if etc/example-environment.yml has not changed
-          CACHE_NUMBER: 0
+      - name: Install Conda environment with Micromamba
+        uses: mamba-org/setup-micromamba@v1
         with:
-          path: ~/conda_pkgs_dir
-          key:
-            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{hashFiles('environment-condalock.yml') }}
-
-      - name: Setup Conda Environment with Mambaforge
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-           # Match base-image/Dockerfile version
-           miniforge-version: latest
-           miniforge-variant: Mambaforge
-           environment-file: environment-condalock.yml
-           activate-environment: condalock
-           use-only-tar-bz2: true # IMPORTANT: This needs to be set for caching to work properly!
-
-      - name: Specify which architectures to build lockfiles for
-        run: |
-          # space delimited list of architectures to send to conda-lock
-          echo "BUILD_ARCHS='64 aarch64 ppc64le'" > ${GITHUB_ENV}
+          cache-environment: true
+          environment-file: environment-condalock.yml
 
       # Could run as single step in parallel, but would complicate logs...
-      - name: Run conda-lock base-notebook
-        timeout-minutes: 5
-        continue-on-error: true
+      - name: Run conda-lock ${{ matrix.IMAGE }}
         run: |
-          conda clean --all --yes --force-pkgs-dirs
           cd base-notebook
-          for ARCH in ${BUILD_ARCHS}; do
-            conda-lock lock --mamba -k explicit -f environment.yml -p linux-${ARCH}
-            ../generate-packages-list.py conda-linux-${ARCH}.lock > packages-${ARCH}.txt
-          done
+          conda-lock lock -p linux-64 -p linux-aarch64 -p osx-64 -p osx-arm64
+	        conda-lock render -k explicit -p linux-64
+	        ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       - name: Run conda-lock pangeo-notebook
         timeout-minutes: 5
         continue-on-error: true
         run: |
-          conda clean --all --yes --force-pkgs-dirs
           cd pangeo-notebook
-          for ARCH in ${BUILD_ARCHS}; do
-            conda-lock lock --mamba -k explicit -f environment.yml -f ../base-notebook/environment.yml -p linux-${ARCH}
-            ../generate-packages-list.py conda-linux-${ARCH}.lock > packages-${ARCH}.txt
-          done
+          conda-lock lock -f environment.yml -f ../base-notebook/environment.yml -p linux-64 -p linux-aarch64 -p osx-64 -p osx-arm64
+          conda-lock render -k explicit -p linux-64
+          ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       - name: Run conda-lock ml-notebook
         timeout-minutes: 5
         continue-on-error: true
         run: |
-          conda clean --all --yes --force-pkgs-dirs
           cd ml-notebook
-          for ARCH in ${BUILD_ARCHS}; do
-            conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml  -p linux-${ARCH}
-            ../generate-packages-list.py conda-linux-${ARCH}.lock > packages-${ARCH}.txt
-          done
+          conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64 -p linux-aarch64 -p osx-64 -p osx-arm64
+          conda-lock render -k explicit -p linux-64
+          ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       - name: Run conda-lock pytorch-notebook
         timeout-minutes: 5
         continue-on-error: true
         run: |
-          conda clean --all --yes --force-pkgs-dirs
           cd pytorch-notebook
-          for ARCH in ${BUILD_ARCHS}; do
-            conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-${ARCH}
-            ../generate-packages-list.py conda-linux-${ARCH}.lock > packages-${ARCH}.txt
-          done
+          conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64 -p linux-aarch64 -p osx-64 -p osx-arm64
+          conda-lock render -k explicit -p linux-64
+          ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
-      - name: Run conda-lock forge
-        timeout-minutes: 5
-        continue-on-error: true
-        run: |
-          conda clean --all --yes --force-pkgs-dirs
-          cd forge
-          for ARCH in ${BUILD_ARCHS}; do
-            conda-lock lock --mamba -k explicit -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-${ARCH}
-            ../generate-packages-list.py conda-linux-${ARCH}.lock > packages-${ARCH}.txt
-          done
-
-      # Commit the change to the PR branch (currently fails if no modified files)
       - name: Commit condalock files to PR
         run: |
           git config --global user.name 'pangeo-bot'
           git config --global user.email 'pangeo-bot@users.noreply.github.com'
-          git add */conda-linux-64.lock */packages.txt
+          git add */conda*.lock */conda-lock.yml */packages.txt
           git commit -m "[condalock-command] autogenerated conda-lock files"
           git push
 
       - name: Add reaction
-        uses: peter-evans/create-or-update-comment@v2
+        uses: peter-evans/create-or-update-comment@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
           comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
           reaction-type: hooray
+  #         repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+  #         comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+  #         reaction-type: hooray

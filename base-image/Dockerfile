@@ -57,6 +57,9 @@ RUN echo "Installing Apt-get packages..." \
     && apt-get install -y apt-utils wget zip tzdata > /dev/null \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# Add TZ configuration - https://github.com/PrefectHQ/prefect/issues/3061
+ENV TZ UTC
 # ========================
 
 USER ${NB_USER}
@@ -68,11 +71,13 @@ RUN echo "Installing Mambaforge..." \
     && wget --quiet ${URL} -O installer.sh \
     && /bin/bash installer.sh -u -b -p ${CONDA_DIR} \
     && rm installer.sh \
+    && mamba install conda-lock -y \
     && mamba clean -afy \
     # After installing the packages, we cleanup some unnecessary files
     # to try reduce image size - see https://jcristharif.com/conda-docker-tips.html
-    && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
-    && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete
+    # Although we explicitly do *not* delete .pyc files, as that seems to slow down startup
+    # quite a bit unfortunately - see https://github.com/2i2c-org/infrastructure/issues/2047
+    && find ${CONDA_DIR} -follow -type f -name '*.a' -delete
 
 EXPOSE 8888
 ENTRYPOINT ["/srv/start"]
@@ -151,7 +156,7 @@ ONBUILD USER ${NB_USER}
 # a list of base packages.
 # After installing the packages, we cleanup some unnecessary files
 # to try reduce image size - see https://jcristharif.com/conda-docker-tips.html
-ONBUILD RUN echo "Checking for 'conda-linux-64.lock' or 'environment.yml'..." \
+ONBUILD RUN echo "Checking for 'conda-lock.yml' 'conda-linux-64.lock' or 'environment.yml'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
         ; ARCH=$(uname -m) \
@@ -160,14 +165,13 @@ ONBUILD RUN echo "Checking for 'conda-linux-64.lock' or 'environment.yml'..." \
         mamba create --name ${CONDA_ENV} --file conda-${ARCH_LABEL}.lock \
         ; elif test -f "environment.yml" ; then \
         mamba env create --name ${CONDA_ENV} -f environment.yml  \
-        ; else echo "No conda-linux-64.lock or environment.yml! *creating default env*" ; \
+        ; else echo "No conda-lock.yml, conda-linux-64.lock, or environment.yml! *creating default env*" ; \
         mamba create --name ${CONDA_ENV} pangeo-notebook \
         ; fi \
         && mamba clean -yaf \
         && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
-        && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete \
         && find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete \
-        ; if [ -d ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static ]; then \
+        ; if ls ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static > /dev/null 2>&1; then \
         find ${NB_PYTHON_PREFIX}/lib/python*/site-packages/bokeh/server/static -follow -type f -name '*.js' ! -name '*.min.js' -delete \
         ; fi
 
@@ -195,7 +199,6 @@ ONBUILD RUN echo "Checking for 'postBuild'..." \
         && rm -rf ${HOME}/.cache ${HOME}/.npm ${HOME}/.yarn \
         && rm -rf ${NB_PYTHON_PREFIX}/share/jupyter/lab/staging \
         && find ${CONDA_DIR} -follow -type f -name '*.a' -delete \
-        && find ${CONDA_DIR} -follow -type f -name '*.pyc' -delete \
         && find ${CONDA_DIR} -follow -type f -name '*.js.map' -delete \
         ; fi
 
