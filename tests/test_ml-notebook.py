@@ -1,6 +1,5 @@
 import pytest
 import importlib
-import sys
 import os
 
 packages = [
@@ -30,3 +29,27 @@ def test_jax_tf_together():
     import tensorflow, jax
     assert int(tensorflow.__version__[0]) >= 2
     assert int(jax.__version__[0]) >= 0
+
+
+def test_jax_random_number_generator():
+    """
+    Ensure that initializing a random number generator on JaX works.
+
+    Regression test for checking that JaX and cuda-nvcc are installed and compatible on
+    GPU devices, see https://github.com/pangeo-data/pangeo-docker-images/issues/438.
+    """
+    import jax
+    import numpy as np
+    from jax import random
+
+    # Test running on CPU
+    with jax.default_device(jax.devices("cpu")[0]):
+        key = random.key(seed=42)
+        x = random.normal(key=key)
+        np.testing.assert_allclose(x, -0.18471177)
+
+    # Test running on GPU
+    with jax.default_device(jax.devices("gpu")[0]):
+        key = random.key(seed=24)
+        x = random.normal(key=key)
+        np.testing.assert_allclose(x, -1.168644)
