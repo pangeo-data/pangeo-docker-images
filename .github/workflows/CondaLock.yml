@@ -39,8 +39,8 @@ jobs:
         run: |
           cd base-notebook
           conda-lock lock -p linux-64 -p linux-aarch64 -p osx-64 -p osx-arm64
-	        conda-lock render -k explicit -p linux-64
-	        ../generate-packages-list.py conda-linux-64.lock > packages.txt
+          conda-lock render -k explicit -p linux-64
+          ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       - name: Run conda-lock pangeo-notebook
         timeout-minutes: 5
