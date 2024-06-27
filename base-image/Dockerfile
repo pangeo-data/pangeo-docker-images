@@ -66,8 +66,8 @@ USER ${NB_USER}
 WORKDIR ${HOME}
 
 # Install latest mambaforge in ${CONDA_DIR}
-RUN echo "Installing Mambaforge..." \
-    && URL="https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-$(uname -m).sh" \
+RUN echo "Installing Miniforge..." \
+    && URL="https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-$(uname -m).sh" \
     && wget --quiet ${URL} -O installer.sh \
     && /bin/bash installer.sh -u -b -p ${CONDA_DIR} \
     && rm installer.sh \
