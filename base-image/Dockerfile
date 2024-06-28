@@ -157,7 +157,7 @@ ONBUILD USER ${NB_USER}
 # a list of base packages.
 # After installing the packages, we cleanup some unnecessary files
 # to try reduce image size - see https://jcristharif.com/conda-docker-tips.html
-ONBUILD RUN echo "Checking for 'conda-lock.yml' 'conda-linux-64.lock' or 'environment.yml'..." \
+ONBUILD RUN echo "Checking for 'conda-lock.yml' or 'environment.yml'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
         ; if test -f "conda-lock.yml" ; then echo "Using conda-lock.yml" & \
