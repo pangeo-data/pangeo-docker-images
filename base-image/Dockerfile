@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 # Dockerfile for base image of all pangeo images
 FROM ubuntu:22.04
 # build file for pangeo images
@@ -59,7 +60,7 @@ RUN echo "Installing Apt-get packages..." \
     && rm -rf /var/lib/apt/lists/*
 
 # Add TZ configuration - https://github.com/PrefectHQ/prefect/issues/3061
-ENV TZ UTC
+ENV TZ=UTC
 # ========================
 
 USER ${NB_USER}
