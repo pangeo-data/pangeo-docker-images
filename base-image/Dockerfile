@@ -145,8 +145,8 @@ ONBUILD USER ${NB_USER}
 # file with exact versions of all required packages is present, we use
 # it to install packages. conda-lock (https://github.com/conda-incubator/conda-lock)
 # is used to generate this conda-lock.yml file from a given environment.yml
-# file - so we get the exact same versions each time the image is built. Since this is
-# different packages for different CPU architectures
+# file - so we get the exact same versions each time the image is built. Note that
+# different packages may be used for different CPU architectures, but still,
 # the same dockerfile can be used to build different architecture images. This
 # also lets us see what packages have changed between two images by diffing
 # the contents of the lock file between those image versions.
