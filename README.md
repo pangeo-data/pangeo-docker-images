@@ -57,8 +57,9 @@ The primary use of these Docker images is running on Pangeo Cloud deployments wi
 * As of 2024.05.21, the `ml-notebook` and `pytorch-notebook` docker images contain
   machine learning libraries built with CUDA 12. In previous versions, we have suggested
   `ml-notebook` users to install `cuda-nvcc` manually to obtain JAX and/or TensorFlow
-  with XLA optimization, but this workaround should no longer be needed if you are using
-  `ml-notebook` 2024.06.02 or newer that comes with `cuda-nvcc` pre-installed.
+  with [XLA](https://openxla.org/xla) optimization, but this workaround should no longer
+  be needed if you are using `ml-notebook` 2024.06.02 or newer that comes with
+  `cuda-nvcc` pre-installed.
 * There used to be a `pangeo/forge` image, built for use with [pangeo-forge](https://pangeo-forge.org/). It is
   no longer actively maintained or used, but you can still use the [historical tags](https://quay.io/repository/pangeo/forge?tab=tags)
   if you wish.
