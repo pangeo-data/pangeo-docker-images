@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 # Dockerfile for base image of all pangeo images
 FROM ubuntu:22.04
 # build file for pangeo images
@@ -59,7 +60,7 @@ RUN echo "Installing Apt-get packages..." \
     && rm -rf /var/lib/apt/lists/*
 
 # Add TZ configuration - https://github.com/PrefectHQ/prefect/issues/3061
-ENV TZ UTC
+ENV TZ=UTC
 # ========================
 
 USER ${NB_USER}
@@ -67,7 +68,7 @@ WORKDIR ${HOME}
 
 # Install latest mambaforge in ${CONDA_DIR}
 RUN echo "Installing Miniforge..." \
-    && URL="https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh" \
+    && URL="https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-$(uname -m).sh" \
     && wget --quiet ${URL} -O installer.sh \
     && /bin/bash installer.sh -u -b -p ${CONDA_DIR} \
     && rm installer.sh \
@@ -144,8 +145,10 @@ ONBUILD USER ${NB_USER}
 # We want to keep our images as reproducible as possible. If a lock
 # file with exact versions of all required packages is present, we use
 # it to install packages. conda-lock (https://github.com/conda-incubator/conda-lock)
-# is used to generate this conda-linux-64.lock file from a given environment.yml
-# file - so we get the exact same versions each time the image is built. This
+# is used to generate this conda-lock.yml file from a given environment.yml
+# file - so we get the exact same versions each time the image is built. Note that
+# different packages may be used for different CPU architectures, but still,
+# the same dockerfile can be used to build different architecture images. This
 # also lets us see what packages have changed between two images by diffing
 # the contents of the lock file between those image versions.
 # If a lock file is not present, we use the environment.yml file. And
@@ -154,16 +157,14 @@ ONBUILD USER ${NB_USER}
 # a list of base packages.
 # After installing the packages, we cleanup some unnecessary files
 # to try reduce image size - see https://jcristharif.com/conda-docker-tips.html
-ONBUILD RUN echo "Checking for 'conda-lock.yml' 'conda-linux-64.lock' or 'environment.yml'..." \
+ONBUILD RUN echo "Checking for 'conda-lock.yml' or 'environment.yml'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
-        ; if test -f "conda-lock.yml" ; then \
-        conda-lock install --name ${CONDA_ENV} conda-lock.yml \
-        ; elif test -f "conda-linux-64.lock" ; then \
-        mamba create --name ${CONDA_ENV} --file conda-linux-64.lock \
-        ; elif test -f "environment.yml" ; then \
+        ; if test -f "conda-lock.yml" ; then echo "Using conda-lock.yml" & \
+        conda-lock install --name ${CONDA_ENV} \
+        ; elif test -f "environment.yml" ; then echo "Using environment.yml" & \
         mamba env create --name ${CONDA_ENV} -f environment.yml  \
-        ; else echo "No conda-lock.yml, conda-linux-64.lock, or environment.yml! *creating default env*" ; \
+        ; else echo "No conda-lock.yml or environment.yml! *creating default env*" ; \
         mamba create --name ${CONDA_ENV} pangeo-notebook \
         ; fi \
         && mamba clean -yaf \
