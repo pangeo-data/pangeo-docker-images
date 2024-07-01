@@ -51,7 +51,7 @@ jobs:
         driver-opts: network=host
 
     - name: Build base-image
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: base-image
         platforms: linux/amd64,linux/arm64
@@ -61,7 +61,7 @@ jobs:
         cache-to: type=gha,mode=max
 
     - name: Build Only
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: ${{ matrix.IMAGE }}
         platforms: linux/amd64,linux/arm64
