@@ -17,6 +17,15 @@ jobs:
       fail-fast: false
       matrix:
         IMAGE: [base-image, base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook]
+        platform: [linux/amd64]
+      # Extra CPU architectures for specific images
+      include:
+        - IMAGE: "base-image"
+          platform: "linux/arm64"
+        - IMAGE: "base-notebook"
+          platform: "linux/arm64"
+        - IMAGE: "pangeo-notebook"
+          platform: "linux/arm64"
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     steps:
@@ -57,7 +66,7 @@ jobs:
 
     - name: Pull Image for Corresponding GitHub Commit
       run: |
-        docker pull ${DOCKER_ORG}/${{ matrix.IMAGE }}:${SHA7}
+        docker pull --platform ${{ matrix.platform }} ${DOCKER_ORG}/${{ matrix.IMAGE }}:${SHA7}
 
     - name: Retag Images
       run: |
@@ -68,10 +77,10 @@ jobs:
 
     - name: Push Tags to Docker Hub
       run: |
-        docker push ${DOCKER_ORG}/${{ matrix.IMAGE }}:latest
-        docker push ${DOCKER_ORG}/${{ matrix.IMAGE }}:${TAG}
+        docker push --platform ${{ matrix.platform }} ${DOCKER_ORG}/${{ matrix.IMAGE }}:latest
+        docker push --platform ${{ matrix.platform }} ${DOCKER_ORG}/${{ matrix.IMAGE }}:${TAG}
 
     - name: Push Tags To Quay.io
       run: |
-        docker push quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:latest
-        docker push quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:${TAG}
+        docker push --platform ${{ matrix.platform }} quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:latest
+        docker push --platform ${{ matrix.platform }} quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:${TAG}
