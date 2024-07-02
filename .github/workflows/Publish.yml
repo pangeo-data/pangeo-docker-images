@@ -18,14 +18,14 @@ jobs:
       matrix:
         IMAGE: [base-image, base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook]
         platform: [linux/amd64]
-      # Extra CPU architectures for specific images
-      include:
-        - IMAGE: "base-image"
-          platform: "linux/arm64"
-        - IMAGE: "base-notebook"
-          platform: "linux/arm64"
-        - IMAGE: "pangeo-notebook"
-          platform: "linux/arm64"
+        # Extra CPU architectures for specific images
+        include:
+          - IMAGE: "base-image"
+            platform: "linux/arm64"
+          - IMAGE: "base-notebook"
+            platform: "linux/arm64"
+          - IMAGE: "pangeo-notebook"
+            platform: "linux/arm64"
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     steps:
