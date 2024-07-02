@@ -1,5 +1,5 @@
-# Re-tag staging SHA-tagged image with git tag and 'latest'
-# tags can be anything, but typically calver string (2020.06.10)
+# Re-tag current image:master with image:TAG and image:latest
+# tags can be anything, but typically calver string (2024.07.02)
 name: Publish
 on:
   push:
@@ -8,7 +8,6 @@ on:
 
 env:
   DOCKER_ORG: pangeo
-  GITHUB_SHA: ${{ github.sha }}
   GITHUB_REF: ${{ github.ref }}
 
 jobs:
@@ -20,23 +19,9 @@ jobs:
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
-
-    # https://github.com/actions/runner-images/issues/2840#issuecomment-790492173
-    - name: Free up disk space
-      run: |
-        df -h
-        docker image ls
-        sudo apt clean
-        sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc
-        df -h
-
     - name: Set Job Environment Variables
       run: |
-        SHA7="${GITHUB_SHA::7}"
         TAG="${GITHUB_REF##*/}"
-        echo "SHA7=${SHA7}" >> $GITHUB_ENV
         echo "TAG=${TAG}" >> $GITHUB_ENV
 
     - name: Set up Docker Buildx
@@ -57,12 +42,12 @@ jobs:
 
     - name: Create New DockerHub Tags
       run: |
-        docker buildx imagetools create ${DOCKER_ORG}/${{ matrix.IMAGE }}:${SHA7} \
+        docker buildx imagetools create ${DOCKER_ORG}/${{ matrix.IMAGE }}:master \
           -t ${DOCKER_ORG}/${{ matrix.IMAGE }}:latest \
           -t ${DOCKER_ORG}/${{ matrix.IMAGE }}:${TAG}
 
     - name: Create New Quay.io Tags
       run: |
-        docker buildx imagetools create quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:${SHA7} \
+        docker buildx imagetools create quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:master \
           -t quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:latest \
           -t quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:${TAG}
