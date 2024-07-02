@@ -17,15 +17,6 @@ jobs:
       fail-fast: false
       matrix:
         IMAGE: [base-image, base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook]
-        platform: [linux/amd64]
-        # Extra CPU architectures for specific images
-        include:
-          - IMAGE: "base-image"
-            platform: "linux/arm64"
-          - IMAGE: "base-notebook"
-            platform: "linux/arm64"
-          - IMAGE: "pangeo-notebook"
-            platform: "linux/arm64"
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     steps:
@@ -64,23 +55,14 @@ jobs:
         username: ${{ secrets.QUAY_USER }}
         password: ${{ secrets.QUAY_TOKEN }}
 
-    - name: Pull Image for Corresponding GitHub Commit
+    - name: Create New DockerHub Tags
       run: |
-        docker pull --platform ${{ matrix.platform }} ${DOCKER_ORG}/${{ matrix.IMAGE }}:${SHA7}
+        docker buildx imagetools create ${DOCKER_ORG}/${{ matrix.IMAGE }}:${SHA7} \
+          -t ${DOCKER_ORG}/${{ matrix.IMAGE }}:latest \
+          -t ${DOCKER_ORG}/${{ matrix.IMAGE }}:${TAG}
 
-    - name: Retag Images
+    - name: Create New Quay.io Tags
       run: |
-        docker tag ${DOCKER_ORG}/${{ matrix.IMAGE }}:${SHA7} ${DOCKER_ORG}/${{ matrix.IMAGE }}:latest
-        docker tag ${DOCKER_ORG}/${{ matrix.IMAGE }}:${SHA7} ${DOCKER_ORG}/${{ matrix.IMAGE }}:${TAG}
-        docker tag ${DOCKER_ORG}/${{ matrix.IMAGE }}:${SHA7} quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:latest
-        docker tag ${DOCKER_ORG}/${{ matrix.IMAGE }}:${SHA7} quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:${TAG}
-
-    - name: Push Tags to Docker Hub
-      run: |
-        docker push --platform ${{ matrix.platform }} ${DOCKER_ORG}/${{ matrix.IMAGE }}:latest
-        docker push --platform ${{ matrix.platform }} ${DOCKER_ORG}/${{ matrix.IMAGE }}:${TAG}
-
-    - name: Push Tags To Quay.io
-      run: |
-        docker push --platform ${{ matrix.platform }} quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:latest
-        docker push --platform ${{ matrix.platform }} quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:${TAG}
+        docker buildx imagetools create quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:${SHA7} \
+          -t quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:latest \
+          -t quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:${TAG}
