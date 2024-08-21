@@ -1,0 +1,27 @@
+# /etc/skel files should have been copied to a user's home directory, but if the
+# user's home directory is mounted for example it may not contain files initially
+# copied from /etc/skel. This can lead to terminals without colors etc.
+#
+# This script is made to be sourced from the end of /etc/bash.bashrc in order to
+# default to source files from /etc/skel as a fallback to missing files in the
+# home directory.
+#
+# ref: https://github.com/pangeo-data/pangeo-docker-images/issues/574.
+#
+
+# ~/.bash_profile, ~/.bash_login, or ~/.profile are defined, it doesn't make
+# sense to fallback to /etc/skel/.profile, so then return.
+[ -f "$HOME/.bash_profile" ] && return
+[ -f "$HOME/.bash_login" ] && return
+[ -f "$HOME/.profile" ] && return
+
+# /etc/skel/.profile directly sources ~/.bashrc if defined, so we first check if
+# it isn't, and then sources /etc/skel/.bashrc instead.
+#
+if [ ! -f "$HOME/.bashrc" ]; then
+    . /etc/skel/.bashrc
+fi
+
+
+# Now run /etc/skel/.profile as it wasn't in the user's home directory.
+. /etc/skel/.profile
