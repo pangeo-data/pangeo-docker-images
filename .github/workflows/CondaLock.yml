@@ -35,7 +35,7 @@ jobs:
           environment-file: environment-condalock.yml
 
       - name: Run conda-lock ${{ matrix.IMAGE }}
-        timeout-minutes: 10
+        timeout-minutes: 20
         run: |
           cd ${{ matrix.IMAGE }}
           if [ ${{ matrix.IMAGE }} = "base-notebook" ]; then
