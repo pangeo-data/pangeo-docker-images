@@ -13,10 +13,10 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: 51567f8e5eee5de35aa13f0d251e755fd02533616aae6ac7de17f2bd0944db71
-    linux-aarch64: 4e3924cd82f523df5b67774f5ae82d47e77187f18e6d3eb912e4d56e17471a83
-    osx-64: b67632af3b9f173d6f4eee7dc17e9f6a2220afaf7a8914a793a5ae4aa2579ea5
-    osx-arm64: 63d90a379c95b58f8c05c17c426f32523de8731a9d2c7b977195863ded424c1b
+    linux-64: f7a914ab5ebe8cc73ce318aaa209f7a1b81f65439a7826ddcc9496fc7ba97e71
+    linux-aarch64: 81e6736fe1c38d273490d8ff25c1f2cfc850466b7fb4a8c6e891568ce36082a6
+    osx-64: e44c27cab20365e65f18bc86c218bc3aa6b20f7277373c74d1295c16d7caaa89
+    osx-arm64: 36f3a3c76d0697eadb79c688984f63b479f782e8e072d4d6694939c3da8e7a9d
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -8430,6 +8430,63 @@ package:
     sha256: 93185f9494e4461c852ca4ad19059acc6b34e7ebbb28bd01a6d4fcc99d7dc26c
   category: main
   optional: false
+- name: duckdb-cli
+  version: 1.1.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+    libduckdb: 1.1.0
+    libgcc: '>=13'
+    libstdcxx: '>=13'
+  url: https://conda.anaconda.org/conda-forge/linux-64/duckdb-cli-1.1.0-h5888daf_0.conda
+  hash:
+    md5: 1461fe53a8947984e9dba26f7ebce0d5
+    sha256: e60c595442cbe18fe9657fbbfaa850f555a466fb43dc1fbf74557dc130daea40
+  category: main
+  optional: false
+- name: duckdb-cli
+  version: 1.1.0
+  manager: conda
+  platform: linux-aarch64
+  dependencies:
+    libduckdb: 1.1.0
+    libgcc: '>=13'
+    libstdcxx: '>=13'
+  url: https://conda.anaconda.org/conda-forge/linux-aarch64/duckdb-cli-1.1.0-h5ad3122_0.conda
+  hash:
+    md5: 3daa51437ee2b5c462e8402352f2e874
+    sha256: dd931ed6ea3b7956cf275a15f37aa320358e2a42bb3d7490837e0604b611c52c
+  category: main
+  optional: false
+- name: duckdb-cli
+  version: 1.1.0
+  manager: conda
+  platform: osx-64
+  dependencies:
+    __osx: '>=10.13'
+    libcxx: '>=17'
+    libduckdb: 1.1.0
+  url: https://conda.anaconda.org/conda-forge/osx-64/duckdb-cli-1.1.0-hac325c4_0.conda
+  hash:
+    md5: 6e0c6b4aff77de762e68dc39c9510c2f
+    sha256: 8fd9654a8a5c9338517043e87ede0b40176c88c7d4f39fe97e5608be62fc543c
+  category: main
+  optional: false
+- name: duckdb-cli
+  version: 1.1.0
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    __osx: '>=11.0'
+    libcxx: '>=17'
+    libduckdb: 1.1.0
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/duckdb-cli-1.1.0-hf9b8971_0.conda
+  hash:
+    md5: 83c448cbd06f7c891ee11c121abac29a
+    sha256: e5eea3e72e6ac1ad7cbe85d4c1faa5f6b9d3497bd2985b93afca7872357000dc
+  category: main
+  optional: false
 - name: earthaccess
   version: 0.10.0
   manager: conda
@@ -13066,10 +13123,10 @@ package:
     libstdcxx: '>=13'
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/linux-64/greenlet-3.1.0-py312h2ec8cdc_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/greenlet-3.1.0-py312h2ec8cdc_1.conda
   hash:
-    md5: ce1fc17270b22a6c4303fa14902afdca
-    sha256: ae1fb21a65b2f30a2e76388c35220edc0f2a26e3025fe0236311bd6c96fa2e74
+    md5: f388b36d2d0f4b1c0b737d39e604e62f
+    sha256: a530029a497f878e56d2e998173003f6526cc7f228e436c68f7893664f3f463c
   category: main
   optional: false
 - name: greenlet
@@ -13081,10 +13138,10 @@ package:
     libstdcxx: '>=13'
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/linux-aarch64/greenlet-3.1.0-py312h6f74592_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-aarch64/greenlet-3.1.0-py312h6f74592_1.conda
   hash:
-    md5: 6c5c471e7c22a01c6caae578bda78340
-    sha256: 4ea505e63ffe761412531c82fd0d1eb8df43576c19219cca2436aa70e41562b6
+    md5: 720f245cc38758c240c5978379d2dd98
+    sha256: cd46116f09cd95beaae06a1b67597f1f8df29c410123efb80dede632b1b7793a
   category: main
   optional: false
 - name: greenlet
@@ -13096,10 +13153,10 @@ package:
     libcxx: '>=17'
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/osx-64/greenlet-3.1.0-py312h5861a67_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-64/greenlet-3.1.0-py312h5861a67_1.conda
   hash:
-    md5: 01fdcc5e12955c4397363a500d8ee2ce
-    sha256: 953f39e7098033327bb610de238c02f3b669602fce3426db6d4eec64f2a5eeeb
+    md5: f0c6b9e60f501a085f4f5da30f65773e
+    sha256: 8476e0d94b23a70b7e4cecaa78dcb97c2ec6a21ecc00bd07f5894ab1a8a0bd10
   category: main
   optional: false
 - name: greenlet
@@ -13111,10 +13168,10 @@ package:
     libcxx: '>=17'
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/greenlet-3.1.0-py312hde4cb15_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/greenlet-3.1.0-py312hde4cb15_1.conda
   hash:
-    md5: ce072dcd9e791c540c5c4d36d79bd2a6
-    sha256: 187f301071c753ce5dc20d492b8ef10cf4b4ea9bef5860ba5f82a89d5cdd8851
+    md5: 89227c4501f674037e53e5df88ed61d1
+    sha256: d2c400ba7276b1ac7c14bcb0ae51d0edb7c0148da32a1ea231595c733678c7e3
   category: main
   optional: false
 - name: grpcio
@@ -20141,6 +20198,63 @@ package:
   hash:
     md5: ee605e794bdc14e2b7f84c4faa0d8c2c
     sha256: 5f274243fc7480b721a4ed6623c72d07b86a508a1363a85f0f16451ab655ace8
+  category: main
+  optional: false
+- name: libduckdb
+  version: 1.1.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+    libgcc: '>=13'
+    libstdcxx: '>=13'
+    openssl: '>=3.3.2,<4.0a0'
+  url: https://conda.anaconda.org/conda-forge/linux-64/libduckdb-1.1.0-h1b44611_0.conda
+  hash:
+    md5: 7871171c8dee7ac183c012ee06058181
+    sha256: 72cfcb965fd9baac3c183c4cabbeacb25f56f753c269d98cc3574baa86fb9b86
+  category: main
+  optional: false
+- name: libduckdb
+  version: 1.1.0
+  manager: conda
+  platform: linux-aarch64
+  dependencies:
+    libgcc: '>=13'
+    libstdcxx: '>=13'
+    openssl: '>=3.3.2,<4.0a0'
+  url: https://conda.anaconda.org/conda-forge/linux-aarch64/libduckdb-1.1.0-h8fb0607_0.conda
+  hash:
+    md5: accf76b858252782961be413bb8aac0a
+    sha256: cb37b251400db3bd065f4895eb18d9d39df2dcbe83442a8eab6fdb32191acabc
+  category: main
+  optional: false
+- name: libduckdb
+  version: 1.1.0
+  manager: conda
+  platform: osx-64
+  dependencies:
+    __osx: '>=10.13'
+    libcxx: '>=17'
+    openssl: '>=3.3.2,<4.0a0'
+  url: https://conda.anaconda.org/conda-forge/osx-64/libduckdb-1.1.0-he7e0a8f_0.conda
+  hash:
+    md5: 53192c65b3b95c59ea22f7ec6a325570
+    sha256: 1ebe72b1d48852eed9b0ccc45d56926ff63dbbf7991c27c7ff3fea7a8f81aea7
+  category: main
+  optional: false
+- name: libduckdb
+  version: 1.1.0
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    __osx: '>=11.0'
+    libcxx: '>=17'
+    openssl: '>=3.3.2,<4.0a0'
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/libduckdb-1.1.0-h79e4ea6_0.conda
+  hash:
+    md5: c8d31e1d716d3f3a66f5b4ccc67ebfd9
+    sha256: df0d7f425250f361e90cc57030928c15f7b547e24b9334c4d23b200c1830e27a
   category: main
   optional: false
 - name: libedit
@@ -34825,6 +34939,67 @@ package:
     sha256: 2d4c80364f03315d606a50eddd493dbacc078e21412c2462c0f781eec49b572c
   category: main
   optional: false
+- name: python-duckdb
+  version: 1.0.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+    libgcc-ng: '>=12'
+    libstdcxx-ng: '>=12'
+    python: '>=3.12,<3.13.0a0'
+    python_abi: 3.12.*
+  url: https://conda.anaconda.org/conda-forge/linux-64/python-duckdb-1.0.0-py312hca68cad_0.conda
+  hash:
+    md5: c5a10575bfc53423fb57f5f707d5e99f
+    sha256: ee174c6bdf6f5b107d70326b687311ce8763f81a57c556573b15af47108d4ecc
+  category: main
+  optional: false
+- name: python-duckdb
+  version: 1.0.0
+  manager: conda
+  platform: linux-aarch64
+  dependencies:
+    libgcc-ng: '>=12'
+    libstdcxx-ng: '>=12'
+    python: '>=3.12,<3.13.0a0'
+    python_abi: 3.12.*
+  url: https://conda.anaconda.org/conda-forge/linux-aarch64/python-duckdb-1.0.0-py312h7f10901_0.conda
+  hash:
+    md5: 7b926a877f3f66a5fa6ac920c331a4f2
+    sha256: 5fbbb3093000e7162b91ea9668db3595bb72d0c04cbfa53e84a183ba6af782bf
+  category: main
+  optional: false
+- name: python-duckdb
+  version: 1.0.0
+  manager: conda
+  platform: osx-64
+  dependencies:
+    __osx: '>=10.13'
+    libcxx: '>=16'
+    python: '>=3.12,<3.13.0a0'
+    python_abi: 3.12.*
+  url: https://conda.anaconda.org/conda-forge/osx-64/python-duckdb-1.0.0-py312h28f332c_0.conda
+  hash:
+    md5: 54d66ec33ad5afb5f9f3af956da41a04
+    sha256: d16fe5ba6dc99458252d9ad7a16fc5fdbc699c49408721e1fa493265ab71ece5
+  category: main
+  optional: false
+- name: python-duckdb
+  version: 1.0.0
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    __osx: '>=11.0'
+    libcxx: '>=16'
+    python: '>=3.12,<3.13.0a0'
+    python_abi: 3.12.*
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/python-duckdb-1.0.0-py312h5c2e7bc_0.conda
+  hash:
+    md5: 718f3bdf4dfaf27dd9de4ef33d59ed6b
+    sha256: a7c0440513de0ecfd0e503cda07b45ba79cb4fc3b4f688d5ed28e030965b69e0
+  category: main
+  optional: false
 - name: python-eccodes
   version: 2.37.0
   manager: conda
@@ -35680,51 +35855,51 @@ package:
   category: main
   optional: false
 - name: pytz
-  version: '2024.1'
+  version: '2024.2'
   manager: conda
   platform: linux-64
   dependencies:
     python: '>=3.7'
-  url: https://conda.anaconda.org/conda-forge/noarch/pytz-2024.1-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/pytz-2024.2-pyhd8ed1ab_0.conda
   hash:
-    md5: 3eeeeb9e4827ace8c0c1419c85d590ad
-    sha256: 1a7d6b233f7e6e3bbcbad054c8fd51e690a67b129a899a056a5e45dd9f00cb41
+    md5: 260009d03c9d5c0f111904d851f053dc
+    sha256: 81c16d9183bb4a6780366ce874e567ee5fc903722f85b2f8d1d9479ef1dafcc9
   category: main
   optional: false
 - name: pytz
-  version: '2024.1'
+  version: '2024.2'
   manager: conda
   platform: linux-aarch64
   dependencies:
     python: '>=3.7'
-  url: https://conda.anaconda.org/conda-forge/noarch/pytz-2024.1-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/pytz-2024.2-pyhd8ed1ab_0.conda
   hash:
-    md5: 3eeeeb9e4827ace8c0c1419c85d590ad
-    sha256: 1a7d6b233f7e6e3bbcbad054c8fd51e690a67b129a899a056a5e45dd9f00cb41
+    md5: 260009d03c9d5c0f111904d851f053dc
+    sha256: 81c16d9183bb4a6780366ce874e567ee5fc903722f85b2f8d1d9479ef1dafcc9
   category: main
   optional: false
 - name: pytz
-  version: '2024.1'
+  version: '2024.2'
   manager: conda
   platform: osx-64
   dependencies:
     python: '>=3.7'
-  url: https://conda.anaconda.org/conda-forge/noarch/pytz-2024.1-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/pytz-2024.2-pyhd8ed1ab_0.conda
   hash:
-    md5: 3eeeeb9e4827ace8c0c1419c85d590ad
-    sha256: 1a7d6b233f7e6e3bbcbad054c8fd51e690a67b129a899a056a5e45dd9f00cb41
+    md5: 260009d03c9d5c0f111904d851f053dc
+    sha256: 81c16d9183bb4a6780366ce874e567ee5fc903722f85b2f8d1d9479ef1dafcc9
   category: main
   optional: false
 - name: pytz
-  version: '2024.1'
+  version: '2024.2'
   manager: conda
   platform: osx-arm64
   dependencies:
     python: '>=3.7'
-  url: https://conda.anaconda.org/conda-forge/noarch/pytz-2024.1-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/pytz-2024.2-pyhd8ed1ab_0.conda
   hash:
-    md5: 3eeeeb9e4827ace8c0c1419c85d590ad
-    sha256: 1a7d6b233f7e6e3bbcbad054c8fd51e690a67b129a899a056a5e45dd9f00cb41
+    md5: 260009d03c9d5c0f111904d851f053dc
+    sha256: 81c16d9183bb4a6780366ce874e567ee5fc903722f85b2f8d1d9479ef1dafcc9
   category: main
   optional: false
 - name: pyu2f
