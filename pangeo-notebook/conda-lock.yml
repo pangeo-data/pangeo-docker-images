@@ -13,10 +13,10 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: 5b8c7d70402fbaa01cff73644bd21359f1576e69aab9da9846b3939b55f79889
-    linux-aarch64: 671b332c63634d00f67420f72972478c946fd6f7a8dc95a9c78c998c54ba7eec
-    osx-64: b8835ec7dd575121d6611762d87f4e955906529a2462251df8bd6a38885d5d3a
-    osx-arm64: 0407a9676aea9d4201cd765c5a2cfbd0f5bfd7e5b22645232031671a801c537b
+    linux-64: de17b0e5f4ccdd4111e20331d27e524f5a928a6b1b04169cae188aff60ae7d9c
+    linux-aarch64: 74827aa9660bbfca4c707421d5e46531069b5299b08e597695ecc7751459217d
+    osx-64: 42a653b63bc97496b767a784e328ed847429e9033bcf65d5c54a65bbb9be0a17
+    osx-arm64: 84fccb0013ec55e63951b331ff6126f7a047812f888aa5be4f99caee8f6f15b2
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -8434,52 +8434,61 @@ package:
     sha256: 93185f9494e4461c852ca4ad19059acc6b34e7ebbb28bd01a6d4fcc99d7dc26c
   category: main
   optional: false
-- name: duckdb
-  version: 1.0.0
+- name: duckdb-cli
+  version: 1.1.0
   manager: conda
   platform: linux-64
   dependencies:
-    python-duckdb: '>=1.0.0,<1.0.1.0a0'
-  url: https://conda.anaconda.org/conda-forge/noarch/duckdb-1.0.0-hd8ed1ab_0.conda
+    __glibc: '>=2.17,<3.0.a0'
+    libduckdb: 1.1.0
+    libgcc: '>=13'
+    libstdcxx: '>=13'
+  url: https://conda.anaconda.org/conda-forge/linux-64/duckdb-cli-1.1.0-h5888daf_0.conda
   hash:
-    md5: 4ff8d9fb8309f6305d5f9c651fa25bf3
-    sha256: 368dab03b51ac9a084c79918449652deaef59029a5f4d942d9bf7101ad1f9f55
+    md5: 1461fe53a8947984e9dba26f7ebce0d5
+    sha256: e60c595442cbe18fe9657fbbfaa850f555a466fb43dc1fbf74557dc130daea40
   category: main
   optional: false
-- name: duckdb
-  version: 1.0.0
+- name: duckdb-cli
+  version: 1.1.0
   manager: conda
   platform: linux-aarch64
   dependencies:
-    python-duckdb: '>=1.0.0,<1.0.1.0a0'
-  url: https://conda.anaconda.org/conda-forge/noarch/duckdb-1.0.0-hd8ed1ab_0.conda
+    libduckdb: 1.1.0
+    libgcc: '>=13'
+    libstdcxx: '>=13'
+  url: https://conda.anaconda.org/conda-forge/linux-aarch64/duckdb-cli-1.1.0-h5ad3122_0.conda
   hash:
-    md5: 4ff8d9fb8309f6305d5f9c651fa25bf3
-    sha256: 368dab03b51ac9a084c79918449652deaef59029a5f4d942d9bf7101ad1f9f55
+    md5: 3daa51437ee2b5c462e8402352f2e874
+    sha256: dd931ed6ea3b7956cf275a15f37aa320358e2a42bb3d7490837e0604b611c52c
   category: main
   optional: false
-- name: duckdb
-  version: 1.0.0
+- name: duckdb-cli
+  version: 1.1.0
   manager: conda
   platform: osx-64
   dependencies:
-    python-duckdb: '>=1.0.0,<1.0.1.0a0'
-  url: https://conda.anaconda.org/conda-forge/noarch/duckdb-1.0.0-hd8ed1ab_0.conda
+    __osx: '>=10.13'
+    libcxx: '>=17'
+    libduckdb: 1.1.0
+  url: https://conda.anaconda.org/conda-forge/osx-64/duckdb-cli-1.1.0-hac325c4_0.conda
   hash:
-    md5: 4ff8d9fb8309f6305d5f9c651fa25bf3
-    sha256: 368dab03b51ac9a084c79918449652deaef59029a5f4d942d9bf7101ad1f9f55
+    md5: 6e0c6b4aff77de762e68dc39c9510c2f
+    sha256: 8fd9654a8a5c9338517043e87ede0b40176c88c7d4f39fe97e5608be62fc543c
   category: main
   optional: false
-- name: duckdb
-  version: 1.0.0
+- name: duckdb-cli
+  version: 1.1.0
   manager: conda
   platform: osx-arm64
   dependencies:
-    python-duckdb: '>=1.0.0,<1.0.1.0a0'
-  url: https://conda.anaconda.org/conda-forge/noarch/duckdb-1.0.0-hd8ed1ab_0.conda
+    __osx: '>=11.0'
+    libcxx: '>=17'
+    libduckdb: 1.1.0
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/duckdb-cli-1.1.0-hf9b8971_0.conda
   hash:
-    md5: 4ff8d9fb8309f6305d5f9c651fa25bf3
-    sha256: 368dab03b51ac9a084c79918449652deaef59029a5f4d942d9bf7101ad1f9f55
+    md5: 83c448cbd06f7c891ee11c121abac29a
+    sha256: e5eea3e72e6ac1ad7cbe85d4c1faa5f6b9d3497bd2985b93afca7872357000dc
   category: main
   optional: false
 - name: earthaccess
@@ -20193,6 +20202,63 @@ package:
   hash:
     md5: ee605e794bdc14e2b7f84c4faa0d8c2c
     sha256: 5f274243fc7480b721a4ed6623c72d07b86a508a1363a85f0f16451ab655ace8
+  category: main
+  optional: false
+- name: libduckdb
+  version: 1.1.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+    libgcc: '>=13'
+    libstdcxx: '>=13'
+    openssl: '>=3.3.2,<4.0a0'
+  url: https://conda.anaconda.org/conda-forge/linux-64/libduckdb-1.1.0-h1b44611_0.conda
+  hash:
+    md5: 7871171c8dee7ac183c012ee06058181
+    sha256: 72cfcb965fd9baac3c183c4cabbeacb25f56f753c269d98cc3574baa86fb9b86
+  category: main
+  optional: false
+- name: libduckdb
+  version: 1.1.0
+  manager: conda
+  platform: linux-aarch64
+  dependencies:
+    libgcc: '>=13'
+    libstdcxx: '>=13'
+    openssl: '>=3.3.2,<4.0a0'
+  url: https://conda.anaconda.org/conda-forge/linux-aarch64/libduckdb-1.1.0-h8fb0607_0.conda
+  hash:
+    md5: accf76b858252782961be413bb8aac0a
+    sha256: cb37b251400db3bd065f4895eb18d9d39df2dcbe83442a8eab6fdb32191acabc
+  category: main
+  optional: false
+- name: libduckdb
+  version: 1.1.0
+  manager: conda
+  platform: osx-64
+  dependencies:
+    __osx: '>=10.13'
+    libcxx: '>=17'
+    openssl: '>=3.3.2,<4.0a0'
+  url: https://conda.anaconda.org/conda-forge/osx-64/libduckdb-1.1.0-he7e0a8f_0.conda
+  hash:
+    md5: 53192c65b3b95c59ea22f7ec6a325570
+    sha256: 1ebe72b1d48852eed9b0ccc45d56926ff63dbbf7991c27c7ff3fea7a8f81aea7
+  category: main
+  optional: false
+- name: libduckdb
+  version: 1.1.0
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    __osx: '>=11.0'
+    libcxx: '>=17'
+    openssl: '>=3.3.2,<4.0a0'
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/libduckdb-1.1.0-h79e4ea6_0.conda
+  hash:
+    md5: c8d31e1d716d3f3a66f5b4ccc67ebfd9
+    sha256: df0d7f425250f361e90cc57030928c15f7b547e24b9334c4d23b200c1830e27a
   category: main
   optional: false
 - name: libedit
@@ -32862,103 +32928,103 @@ package:
   category: main
   optional: false
 - name: pyasn1
-  version: 0.6.0
+  version: 0.6.1
   manager: conda
   platform: linux-64
   dependencies:
     python: '!=3.0,!=3.1,!=3.2,!=3.3,!=3.4,!=3.5'
-  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-0.6.0-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-0.6.1-pyhd8ed1ab_0.conda
   hash:
-    md5: d528d00a110a974e75aa6db6a4f04dc7
-    sha256: 9b54bf52c76bb7365ceb36315258011b8c603fe00f568d4bbff8bc77c7ffcfdb
+    md5: 6d3cd3f41e36fbc5b77fce9b0cd3a69f
+    sha256: a84a00a07e364768ceb748cd22600abdac385849a87564e7a37266e57920e3a9
   category: main
   optional: false
 - name: pyasn1
-  version: 0.6.0
+  version: 0.6.1
   manager: conda
   platform: linux-aarch64
   dependencies:
     python: '!=3.0,!=3.1,!=3.2,!=3.3,!=3.4,!=3.5'
-  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-0.6.0-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-0.6.1-pyhd8ed1ab_0.conda
   hash:
-    md5: d528d00a110a974e75aa6db6a4f04dc7
-    sha256: 9b54bf52c76bb7365ceb36315258011b8c603fe00f568d4bbff8bc77c7ffcfdb
+    md5: 6d3cd3f41e36fbc5b77fce9b0cd3a69f
+    sha256: a84a00a07e364768ceb748cd22600abdac385849a87564e7a37266e57920e3a9
   category: main
   optional: false
 - name: pyasn1
-  version: 0.6.0
+  version: 0.6.1
   manager: conda
   platform: osx-64
   dependencies:
     python: '!=3.0,!=3.1,!=3.2,!=3.3,!=3.4,!=3.5'
-  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-0.6.0-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-0.6.1-pyhd8ed1ab_0.conda
   hash:
-    md5: d528d00a110a974e75aa6db6a4f04dc7
-    sha256: 9b54bf52c76bb7365ceb36315258011b8c603fe00f568d4bbff8bc77c7ffcfdb
+    md5: 6d3cd3f41e36fbc5b77fce9b0cd3a69f
+    sha256: a84a00a07e364768ceb748cd22600abdac385849a87564e7a37266e57920e3a9
   category: main
   optional: false
 - name: pyasn1
-  version: 0.6.0
+  version: 0.6.1
   manager: conda
   platform: osx-arm64
   dependencies:
     python: '!=3.0,!=3.1,!=3.2,!=3.3,!=3.4,!=3.5'
-  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-0.6.0-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-0.6.1-pyhd8ed1ab_0.conda
   hash:
-    md5: d528d00a110a974e75aa6db6a4f04dc7
-    sha256: 9b54bf52c76bb7365ceb36315258011b8c603fe00f568d4bbff8bc77c7ffcfdb
+    md5: 6d3cd3f41e36fbc5b77fce9b0cd3a69f
+    sha256: a84a00a07e364768ceb748cd22600abdac385849a87564e7a37266e57920e3a9
   category: main
   optional: false
 - name: pyasn1-modules
-  version: 0.4.0
+  version: 0.4.1
   manager: conda
   platform: linux-64
   dependencies:
     pyasn1: '>=0.4.6,<0.7.0'
     python: '>=3.8'
-  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-modules-0.4.0-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-modules-0.4.1-pyhd8ed1ab_0.conda
   hash:
-    md5: 8e40d7b2b3bdf9f3cab88d93d7dfaf3b
-    sha256: dcd5b96adf56cf9b26045bc845f8ca50ede4c4c5f8654cfa58ece2ba29cf9a67
+    md5: f781c31cdff5c086909f8037ed0b0472
+    sha256: 2dd9d70e055cdc51b5b2dcf3f0e9c0c44599b6155928033886f4efebfdda03f3
   category: main
   optional: false
 - name: pyasn1-modules
-  version: 0.4.0
+  version: 0.4.1
   manager: conda
   platform: linux-aarch64
   dependencies:
     python: '>=3.8'
     pyasn1: '>=0.4.6,<0.7.0'
-  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-modules-0.4.0-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-modules-0.4.1-pyhd8ed1ab_0.conda
   hash:
-    md5: 8e40d7b2b3bdf9f3cab88d93d7dfaf3b
-    sha256: dcd5b96adf56cf9b26045bc845f8ca50ede4c4c5f8654cfa58ece2ba29cf9a67
+    md5: f781c31cdff5c086909f8037ed0b0472
+    sha256: 2dd9d70e055cdc51b5b2dcf3f0e9c0c44599b6155928033886f4efebfdda03f3
   category: main
   optional: false
 - name: pyasn1-modules
-  version: 0.4.0
+  version: 0.4.1
   manager: conda
   platform: osx-64
   dependencies:
     python: '>=3.8'
     pyasn1: '>=0.4.6,<0.7.0'
-  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-modules-0.4.0-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-modules-0.4.1-pyhd8ed1ab_0.conda
   hash:
-    md5: 8e40d7b2b3bdf9f3cab88d93d7dfaf3b
-    sha256: dcd5b96adf56cf9b26045bc845f8ca50ede4c4c5f8654cfa58ece2ba29cf9a67
+    md5: f781c31cdff5c086909f8037ed0b0472
+    sha256: 2dd9d70e055cdc51b5b2dcf3f0e9c0c44599b6155928033886f4efebfdda03f3
   category: main
   optional: false
 - name: pyasn1-modules
-  version: 0.4.0
+  version: 0.4.1
   manager: conda
   platform: osx-arm64
   dependencies:
     python: '>=3.8'
     pyasn1: '>=0.4.6,<0.7.0'
-  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-modules-0.4.0-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/pyasn1-modules-0.4.1-pyhd8ed1ab_0.conda
   hash:
-    md5: 8e40d7b2b3bdf9f3cab88d93d7dfaf3b
-    sha256: dcd5b96adf56cf9b26045bc845f8ca50ede4c4c5f8654cfa58ece2ba29cf9a67
+    md5: f781c31cdff5c086909f8037ed0b0472
+    sha256: 2dd9d70e055cdc51b5b2dcf3f0e9c0c44599b6155928033886f4efebfdda03f3
   category: main
   optional: false
 - name: pycairo
