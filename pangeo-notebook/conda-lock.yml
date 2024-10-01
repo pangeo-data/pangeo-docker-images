@@ -13,10 +13,10 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: 9dffa212710f3f9eec45e19dabd166bbd3481c50e45c05d879d2da1a8e6ea76c
-    linux-aarch64: 27ced19935e8a5cc93a08a59831f2b42f9f23ccf2269f0a21229405ff6fd40cf
-    osx-64: 29288ac0ff74af28c8c6d417d73f5edd52f87bb860bdaa6e857eaa3fb1cc4086
-    osx-arm64: 28160ee04de29e53aaba3d979e8c08389275ae086158033768896106046bfc9e
+    linux-64: b1426800cfb494f93c15aaf00bfcd30f3316533ed49ec6b9f6c63845e9445525
+    linux-aarch64: 38c73c2556af3da9469b3ac2846ac168933f220ed929b2a8d2adbc604ad1dca0
+    osx-64: b643c142008a007033a5649460ff01deb063d6a0074f75bc143d1d4f4ac98de4
+    osx-arm64: de05002b715e9868522d84d78477e87d82769102617d42780264db3a8d201c7d
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -11016,6 +11016,83 @@ package:
   hash:
     md5: 9faf4d0464e39cce82a5282f800db8a2
     sha256: 108926b074d535defd705e53760ed9254c59d4998df70d2d39c76882d6280c5e
+  category: main
+  optional: false
+- name: gdal
+  version: 3.9.2
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+    libgcc: '>=13'
+    libgdal-core: 3.9.2.*
+    libkml: '>=1.3.0,<1.4.0a0'
+    libstdcxx: '>=13'
+    libxml2: '>=2.12.7,<3.0a0'
+    numpy: '>=1.19,<3'
+    python: '>=3.12,<3.13.0a0'
+    python_abi: 3.12.*
+  url: https://conda.anaconda.org/conda-forge/linux-64/gdal-3.9.2-py312h1299960_5.conda
+  hash:
+    md5: d78741e25e4564aa3a10c2bd3426fb9b
+    sha256: f76b93285580349e8fc4831dd82f832bd094f0e7f2acb320b212f0eb267d17a2
+  category: main
+  optional: false
+- name: gdal
+  version: 3.9.2
+  manager: conda
+  platform: linux-aarch64
+  dependencies:
+    libgcc: '>=13'
+    libgdal-core: 3.9.2.*
+    libkml: '>=1.3.0,<1.4.0a0'
+    libstdcxx: '>=13'
+    libxml2: '>=2.12.7,<3.0a0'
+    numpy: '>=1.19,<3'
+    python: '>=3.12,<3.13.0a0'
+    python_abi: 3.12.*
+  url: https://conda.anaconda.org/conda-forge/linux-aarch64/gdal-3.9.2-py312h3008244_5.conda
+  hash:
+    md5: 13e3210022f4c3bab3b658ea246b8e79
+    sha256: 581c4bea0e71604bf8655f58ca730d276c3892ba22d7839db3cdf39fc4909bec
+  category: main
+  optional: false
+- name: gdal
+  version: 3.9.2
+  manager: conda
+  platform: osx-64
+  dependencies:
+    __osx: '>=10.13'
+    libcxx: '>=17'
+    libgdal-core: 3.9.2.*
+    libkml: '>=1.3.0,<1.4.0a0'
+    libxml2: '>=2.12.7,<3.0a0'
+    numpy: '>=1.19,<3'
+    python: '>=3.12,<3.13.0a0'
+    python_abi: 3.12.*
+  url: https://conda.anaconda.org/conda-forge/osx-64/gdal-3.9.2-py312h365dfcf_5.conda
+  hash:
+    md5: 2b47694df0259ef0a8c07d4161ddc253
+    sha256: dedb1946e891bffaf2982b633a22c1ee3645af25dad9d0d452470022b4d189c8
+  category: main
+  optional: false
+- name: gdal
+  version: 3.9.2
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    __osx: '>=11.0'
+    libcxx: '>=17'
+    libgdal-core: 3.9.2.*
+    libkml: '>=1.3.0,<1.4.0a0'
+    libxml2: '>=2.12.7,<3.0a0'
+    numpy: '>=1.19,<3'
+    python: '>=3.12,<3.13.0a0'
+    python_abi: 3.12.*
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/gdal-3.9.2-py312h936c49d_5.conda
+  hash:
+    md5: 6a2dbca85f58d04c442227726d48b053
+    sha256: 3d944672ea56b5228dc50944af8f18eecad0a4ee751052537966e538216b4d67
   category: main
   optional: false
 - name: gdk-pixbuf
