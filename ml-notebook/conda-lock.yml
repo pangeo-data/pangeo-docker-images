@@ -13,7 +13,7 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: d3b087434cf6a96ab2b2583d311e2e1639523e55821dc27a1d1093c74ef5e2fe
+    linux-64: 26c65afd1c57a63d5bee951fab56261f6545336f8e7d2afe18a4fa3bc425f0b2
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -1475,23 +1475,6 @@ package:
   hash:
     md5: 1870fe8c9bd8967429e227be28ab94d2
     sha256: fca594ecc55659a47f03111d2a13a5a7b8d341465b01efedd529a68ccf183297
-  category: main
-  optional: false
-- name: cfitsio
-  version: 4.4.1
-  manager: conda
-  platform: linux-64
-  dependencies:
-    bzip2: '>=1.0.8,<2.0a0'
-    libcurl: '>=8.8.0,<9.0a0'
-    libgcc-ng: '>=12'
-    libgfortran-ng: ''
-    libgfortran5: '>=12.3.0'
-    libzlib: '>=1.3.1,<2.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/cfitsio-4.4.1-hf8ad068_0.conda
-  hash:
-    md5: 1b7a01fd02d11efe0eb5a676842a7b7d
-    sha256: 74ed4d8b327fa775d9c87e476a7221b74fb913aadcef207622596a99683c8faf
   category: main
   optional: false
 - name: cftime
@@ -3288,26 +3271,6 @@ package:
     sha256: 108926b074d535defd705e53760ed9254c59d4998df70d2d39c76882d6280c5e
   category: main
   optional: false
-- name: gdal
-  version: 3.9.2
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    libgcc: '>=13'
-    libgdal-core: 3.9.2.*
-    libkml: '>=1.3.0,<1.4.0a0'
-    libstdcxx: '>=13'
-    libxml2: '>=2.12.7,<3.0a0'
-    numpy: '>=1.19,<3'
-    python: '>=3.12,<3.13.0a0'
-    python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/linux-64/gdal-3.9.2-py312h1299960_5.conda
-  hash:
-    md5: d78741e25e4564aa3a10c2bd3426fb9b
-    sha256: f76b93285580349e8fc4831dd82f832bd094f0e7f2acb320b212f0eb267d17a2
-  category: main
-  optional: false
 - name: gdk-pixbuf
   version: 2.42.12
   manager: conda
@@ -3322,28 +3285,6 @@ package:
   hash:
     md5: 201db6c2d9a3c5e46573ac4cb2e92f4f
     sha256: d5283b95a8d49dcd88d29b360d8b38694aaa905d968d156d72ab71d32b38facb
-  category: main
-  optional: false
-- name: geocube
-  version: 0.6.0
-  manager: conda
-  platform: linux-64
-  dependencies:
-    appdirs: ''
-    click: '>=6.0'
-    geopandas: '>=1'
-    numpy: '>=1.20,<2'
-    odc-geo: ''
-    pyproj: '>=2'
-    python: '>=3.10'
-    rasterio: '>=1.3'
-    rioxarray: '>=0.4'
-    scipy: ''
-    xarray: '>=0.17'
-  url: https://conda.anaconda.org/conda-forge/noarch/geocube-0.6.0-pyhd8ed1ab_0.conda
-  hash:
-    md5: 97e716a169bc4414e965ec9542266341
-    sha256: de205caee8da208ba2b21d4c034c339ddc5a4dc043ed3a107890ac33c68a9add
   category: main
   optional: false
 - name: geographiclib
@@ -5211,21 +5152,6 @@ package:
     sha256: 48fcf1da7147661cb87e550f00d137d4679802bea4b10b66f1a0250d74f92741
   category: main
   optional: false
-- name: kealib
-  version: 1.5.3
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    hdf5: '>=1.14.3,<1.14.4.0a0'
-    libgcc: '>=13'
-    libstdcxx: '>=13'
-  url: https://conda.anaconda.org/conda-forge/linux-64/kealib-1.5.3-hf8d3e68_2.conda
-  hash:
-    md5: ffe68c611ae0ccfda4e7a605195e22b3
-    sha256: a45cb038fce2b6fa154cf0c71485a75b59cb1d8d6b0465bdcb23736aca6bf2ac
-  category: main
-  optional: false
 - name: keras
   version: 3.5.0
   manager: conda
@@ -6000,30 +5926,6 @@ package:
     sha256: b0fa27d4d09fb24750c04e89dbd0aee898dc028bde99e62621065a9bde43efe8
   category: main
   optional: false
-- name: libgdal
-  version: 3.9.2
-  manager: conda
-  platform: linux-64
-  dependencies:
-    libgdal-core: 3.9.2.*
-    libgdal-fits: 3.9.2.*
-    libgdal-grib: 3.9.2.*
-    libgdal-hdf4: 3.9.2.*
-    libgdal-hdf5: 3.9.2.*
-    libgdal-jp2openjpeg: 3.9.2.*
-    libgdal-kea: 3.9.2.*
-    libgdal-netcdf: 3.9.2.*
-    libgdal-pdf: 3.9.2.*
-    libgdal-pg: 3.9.2.*
-    libgdal-postgisraster: 3.9.2.*
-    libgdal-tiledb: 3.9.2.*
-    libgdal-xls: 3.9.2.*
-  url: https://conda.anaconda.org/conda-forge/linux-64/libgdal-3.9.2-ha770c72_5.conda
-  hash:
-    md5: 4c700975d7fb317fe27451f72a3a09d5
-    sha256: 646931878ba2ff2219f103419ed5ccd589210702830e1da9d54f82baf1215f14
-  category: main
-  optional: false
 - name: libgdal-core
   version: 3.9.2
   manager: conda
@@ -6064,219 +5966,6 @@ package:
   hash:
     md5: d55f807a6b84e0367fe42228c5191625
     sha256: 7f416efd1e5755e33373415696a1d7816996ca1d7c4dd148da1099dfd7249adb
-  category: main
-  optional: false
-- name: libgdal-fits
-  version: 3.9.2
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    cfitsio: '>=4.4.1,<4.4.2.0a0'
-    libgcc: '>=13'
-    libgdal-core: '>=3.9'
-    libkml: '>=1.3.0,<1.4.0a0'
-    libstdcxx: '>=13'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libgdal-fits-3.9.2-h2db6552_5.conda
-  hash:
-    md5: b64714ea5ec65071e735b649e924cc6f
-    sha256: e870ca48e9836c5161fcfc8b88901acb7799e02e5a81097fc578a5562108e9be
-  category: main
-  optional: false
-- name: libgdal-grib
-  version: 3.9.2
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    libaec: '>=1.1.3,<2.0a0'
-    libgcc: '>=13'
-    libgdal-core: '>=3.9'
-    libkml: '>=1.3.0,<1.4.0a0'
-    libstdcxx: '>=13'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libgdal-grib-3.9.2-hc3b29a1_5.conda
-  hash:
-    md5: 3d4875d97dcf973e72e7007cde152054
-    sha256: 461dfa10b3a534401ea331363d3f66105ee34a14a1553dfb7959b7f4700c81ae
-  category: main
-  optional: false
-- name: libgdal-hdf4
-  version: 3.9.2
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    hdf4: '>=4.2.15,<4.2.16.0a0'
-    libaec: '>=1.1.3,<2.0a0'
-    libgcc: '>=13'
-    libgdal-core: '>=3.9'
-    libkml: '>=1.3.0,<1.4.0a0'
-    libstdcxx: '>=13'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libgdal-hdf4-3.9.2-hd5ecb85_5.conda
-  hash:
-    md5: 40d72319e868f3bae0b05d00f0c2274a
-    sha256: 790b43059d64412cb79d2b8b3214b1f98ae3148f2b94d96a0d9a8c927ca4952e
-  category: main
-  optional: false
-- name: libgdal-hdf5
-  version: 3.9.2
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    hdf5: '>=1.14.3,<1.14.4.0a0'
-    libgcc: '>=13'
-    libgdal-core: '>=3.9'
-    libkml: '>=1.3.0,<1.4.0a0'
-    libstdcxx: '>=13'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libgdal-hdf5-3.9.2-h6283f77_5.conda
-  hash:
-    md5: 484728d716857c4f17e90b0005ada4f2
-    sha256: c0c5e3a9a5287c08c99e9bf45ca413fa6bb8ce0666ea230fcffc5b8c6895061b
-  category: main
-  optional: false
-- name: libgdal-jp2openjpeg
-  version: 3.9.2
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    libgcc: '>=13'
-    libgdal-core: '>=3.9'
-    libkml: '>=1.3.0,<1.4.0a0'
-    libstdcxx: '>=13'
-    openjpeg: '>=2.5.2,<3.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libgdal-jp2openjpeg-3.9.2-h1b2c38e_5.conda
-  hash:
-    md5: 733f525edad68406edac44c89aa6cea6
-    sha256: 5c75ab0389fbfc5c8d4ca3a7d5e1c3bb3ea14c2014975247aa1f88dd624156df
-  category: main
-  optional: false
-- name: libgdal-kea
-  version: 3.9.2
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    hdf5: '>=1.14.3,<1.14.4.0a0'
-    kealib: '>=1.5.3,<1.6.0a0'
-    libgcc: '>=13'
-    libgdal-core: '>=3.9'
-    libgdal-hdf5: 3.9.2.*
-    libkml: '>=1.3.0,<1.4.0a0'
-    libstdcxx: '>=13'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libgdal-kea-3.9.2-h1df15e4_5.conda
-  hash:
-    md5: 224aff084d467a6ec44867dcac13334d
-    sha256: 79c5f1b76b9429c1c2f97d2bd8fdf5360b83dbab7e6e1b22e292296851051784
-  category: main
-  optional: false
-- name: libgdal-netcdf
-  version: 3.9.2
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    hdf4: '>=4.2.15,<4.2.16.0a0'
-    hdf5: '>=1.14.3,<1.14.4.0a0'
-    libgcc: '>=13'
-    libgdal-core: '>=3.9'
-    libgdal-hdf4: 3.9.2.*
-    libgdal-hdf5: 3.9.2.*
-    libkml: '>=1.3.0,<1.4.0a0'
-    libnetcdf: '>=4.9.2,<4.9.3.0a0'
-    libstdcxx: '>=13'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libgdal-netcdf-3.9.2-hf2d2f32_5.conda
-  hash:
-    md5: 02b0d2140c85fd33fd127595b9f796c1
-    sha256: 2dda243ce3d281717b722b196d5011604029c98550db64b5a0ed276646b8d9c5
-  category: main
-  optional: false
-- name: libgdal-pdf
-  version: 3.9.2
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    libgcc: '>=13'
-    libgdal-core: '>=3.9'
-    libkml: '>=1.3.0,<1.4.0a0'
-    libstdcxx: '>=13'
-    poppler: ''
-  url: https://conda.anaconda.org/conda-forge/linux-64/libgdal-pdf-3.9.2-h600f43f_5.conda
-  hash:
-    md5: 4782348effecb18f9d330dcf1cfa0b9e
-    sha256: 41fd02aaac33504520b449c592a3ca1d534ccb8a8cb3bf2e10fef7c103a4da26
-  category: main
-  optional: false
-- name: libgdal-pg
-  version: 3.9.2
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    libgcc: '>=13'
-    libgdal-core: '>=3.9'
-    libkml: '>=1.3.0,<1.4.0a0'
-    libpq: '>=16.4,<17.0a0'
-    libstdcxx: '>=13'
-    postgresql: ''
-  url: https://conda.anaconda.org/conda-forge/linux-64/libgdal-pg-3.9.2-h151b34b_5.conda
-  hash:
-    md5: 95bba10c8a24274a3a374e595c2e108b
-    sha256: 1f87025d40002b4600a3456666eaa3d2ec236acb0e622813fa65eb7e35c22815
-  category: main
-  optional: false
-- name: libgdal-postgisraster
-  version: 3.9.2
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    libgcc: '>=13'
-    libgdal-core: '>=3.9'
-    libkml: '>=1.3.0,<1.4.0a0'
-    libpq: '>=16.4,<17.0a0'
-    libstdcxx: '>=13'
-    postgresql: ''
-  url: https://conda.anaconda.org/conda-forge/linux-64/libgdal-postgisraster-3.9.2-h151b34b_5.conda
-  hash:
-    md5: c9163dca620888a9df0a3ef3ad992150
-    sha256: 5efb03a1a0962e051bcfb75f409f1ecc08883ed6febdbecba4f4e54c297d43d3
-  category: main
-  optional: false
-- name: libgdal-tiledb
-  version: 3.9.2
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    libgcc: '>=13'
-    libgdal-core: '>=3.9'
-    libkml: '>=1.3.0,<1.4.0a0'
-    libstdcxx: '>=13'
-    tiledb: '>=2.26.0,<2.27.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libgdal-tiledb-3.9.2-h4a3bace_2.conda
-  hash:
-    md5: c3fac34ecba2fcf9d5d31a03b975d5a1
-    sha256: f3f2ecc68a847ab644c6ba7d9a38dcdd4996393f851ddaef401fe4d90f0ba8e9
-  category: main
-  optional: false
-- name: libgdal-xls
-  version: 3.9.2
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    freexl: '>=2.0.0,<3.0a0'
-    libgcc: '>=13'
-    libgdal-core: '>=3.9'
-    libkml: '>=1.3.0,<1.4.0a0'
-    libstdcxx: '>=13'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libgdal-xls-3.9.2-h03c987c_5.conda
-  hash:
-    md5: b84610793bd357954f0d4a5a72e1b2c4
-    sha256: 3ab079ac5b49413976704dca942d143eacd5d0d9625b5db37630a3e5296c49a5
   category: main
   optional: false
 - name: libgettextpo
@@ -6979,21 +6668,6 @@ package:
   hash:
     md5: f4cc49d7aa68316213e4b12be35308d1
     sha256: e5b14f7a01c2db4362d8591f42f82f336ed48d5e4079e4d1f65d0c2a3637ea78
-  category: main
-  optional: false
-- name: libpq
-  version: '16.4'
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    krb5: '>=1.21.3,<1.22.0a0'
-    libgcc: '>=13'
-    openssl: '>=3.3.2,<4.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libpq-16.4-h2d7952a_2.conda
-  hash:
-    md5: 76c891962472b55544b51c52bae15587
-    sha256: 5d2c8b777175b2c3afbebffe94dbce7fc07198e324201cf693c560f23c9e4be6
   category: main
   optional: false
 - name: libprotobuf
@@ -8221,36 +7895,6 @@ package:
     sha256: 9b5fdef9ebe89222baa9da2796ebe7bc02ec6c5a1f61327b651d6b92cf9a0230
   category: main
   optional: false
-- name: nspr
-  version: '4.35'
-  manager: conda
-  platform: linux-64
-  dependencies:
-    libgcc-ng: '>=12'
-    libstdcxx-ng: '>=12'
-  url: https://conda.anaconda.org/conda-forge/linux-64/nspr-4.35-h27087fc_0.conda
-  hash:
-    md5: da0ec11a6454ae19bff5b02ed881a2b1
-    sha256: 8fadeebb2b7369a4f3b2c039a980d419f65c7b18267ba0c62588f9f894396d0c
-  category: main
-  optional: false
-- name: nss
-  version: '3.105'
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    libgcc: '>=13'
-    libsqlite: '>=3.46.1,<4.0a0'
-    libstdcxx: '>=13'
-    libzlib: '>=1.3.1,<2.0a0'
-    nspr: '>=4.35,<5.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/nss-3.105-hd34e28f_0.conda
-  hash:
-    md5: 28d7602527b76052422aaf5d6fd7ad81
-    sha256: 4888112f00f46490169e60cd2455af78e53d67d6ca70eb8c4e203d6e990bcfd0
-  category: main
-  optional: false
 - name: numba
   version: 0.60.0
   manager: conda
@@ -9007,47 +8651,6 @@ package:
     sha256: 5551756cef6a53af307c1cde90f4684f4bfb0e7d52173eeb5db5d32d9c7ae511
   category: main
   optional: false
-- name: poppler
-  version: 24.08.0
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    cairo: '>=1.18.0,<2.0a0'
-    fontconfig: '>=2.14.2,<3.0a0'
-    fonts-conda-ecosystem: ''
-    freetype: '>=2.12.1,<3.0a0'
-    lcms2: '>=2.16,<3.0a0'
-    libcurl: '>=8.9.1,<9.0a0'
-    libgcc-ng: '>=13'
-    libglib: '>=2.80.3,<3.0a0'
-    libiconv: '>=1.17,<2.0a0'
-    libjpeg-turbo: '>=3.0.0,<4.0a0'
-    libpng: '>=1.6.43,<1.7.0a0'
-    libstdcxx-ng: '>=13'
-    libtiff: '>=4.6.0,<4.8.0a0'
-    libzlib: '>=1.3.1,<2.0a0'
-    nspr: '>=4.35,<5.0a0'
-    nss: '>=3.103,<4.0a0'
-    openjpeg: '>=2.5.2,<3.0a0'
-    poppler-data: ''
-  url: https://conda.anaconda.org/conda-forge/linux-64/poppler-24.08.0-h47131b8_1.conda
-  hash:
-    md5: 0854b9ff0cc10a1f6f67b0f352b8e75a
-    sha256: b32fe787525236908e21885fef8d77e8ebdbbe6694b2fb89ed799444ebda3178
-  category: main
-  optional: false
-- name: poppler-data
-  version: 0.4.12
-  manager: conda
-  platform: linux-64
-  dependencies: {}
-  url: https://conda.anaconda.org/conda-forge/noarch/poppler-data-0.4.12-hd8ed1ab_0.conda
-  hash:
-    md5: d8d7293c5b37f39b2ac32940621c6592
-    sha256: 2f227e17b3c0346112815faa605502b66c1c4511a856127f2899abf15a98a2cf
-  category: main
-  optional: false
 - name: portalocker
   version: 2.10.1
   manager: conda
@@ -9059,27 +8662,6 @@ package:
   hash:
     md5: 1d0da60e9a2f0a9e48ab64b48ce185fd
     sha256: bdcc7d5e67578ffdc83d0a6e02790f3ea7c2bad95c26b7b7659417fe33408513
-  category: main
-  optional: false
-- name: postgresql
-  version: '16.4'
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    krb5: '>=1.21.3,<1.22.0a0'
-    libgcc: '>=13'
-    libpq: '16.4'
-    libxml2: '>=2.12.7,<3.0a0'
-    libzlib: '>=1.3.1,<2.0a0'
-    openssl: '>=3.3.2,<4.0a0'
-    readline: '>=8.2,<9.0a0'
-    tzcode: ''
-    tzdata: ''
-  url: https://conda.anaconda.org/conda-forge/linux-64/postgresql-16.4-hb2eb5c0_2.conda
-  hash:
-    md5: 35090da8ada8eb6834c50efde3ead25d
-    sha256: a21b582129dc69ff44c8ca524542d2713f20c5cf4b842e806eb4173c169ea71e
   category: main
   optional: false
 - name: pqdm
@@ -9610,24 +9192,22 @@ package:
   category: main
   optional: false
 - name: pyogrio
-  version: 0.9.0
+  version: 0.10.0
   manager: conda
   platform: linux-64
   dependencies:
     __glibc: '>=2.17,<3.0.a0'
-    gdal: ''
     libgcc: '>=13'
-    libgdal: '>=3.9.2,<3.10.0a0'
     libgdal-core: '>=3.9.2,<3.10.0a0'
     libstdcxx: '>=13'
     numpy: ''
     packaging: ''
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/linux-64/pyogrio-0.9.0-py312h5aa26c2_2.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/pyogrio-0.10.0-py312he8b4914_0.conda
   hash:
-    md5: 8b4325775ed711941bbf6b8c5ad2b5e9
-    sha256: e9682d1664e09c97f536060696896f6c0e9e84914a635351d406da836140266d
+    md5: 309f7524c82d168cc055e7b136713693
+    sha256: cb0647597ae54d0007e698149f6ca519d80c389daee0f4fef149fe9902a0b31b
   category: main
   optional: false
 - name: pyopenssl
@@ -11678,19 +11258,6 @@ package:
     sha256: 9e3758b620397f56fb709f796969de436d63b7117897159619b87938e1f78739
   category: main
   optional: false
-- name: tzcode
-  version: 2024b
-  manager: conda
-  platform: linux-64
-  dependencies:
-    __glibc: '>=2.17,<3.0.a0'
-    libgcc: '>=13'
-  url: https://conda.anaconda.org/conda-forge/linux-64/tzcode-2024b-hb9d3cd8_0.conda
-  hash:
-    md5: db124840386e1f842f93372897d1b857
-    sha256: 20c72e7ba106338d51fdc29a717a54fcd52340063232e944dcd1d38fb6348a28
-  category: main
-  optional: false
 - name: tzdata
   version: 2024a
   manager: conda
@@ -11992,19 +11559,6 @@ package:
   hash:
     md5: 2cde8ed028a0fd8f35d7f9b44839d362
     sha256: 416f009d6513f73ca2c02fbb65f626c1730b534741a752e74c9b2cd7b1f57edf
-  category: main
-  optional: false
-- name: xarray-datatree
-  version: 0.0.14
-  manager: conda
-  platform: linux-64
-  dependencies:
-    python: '>=3.8'
-    xarray: '>=2022.6'
-  url: https://conda.anaconda.org/conda-forge/noarch/xarray-datatree-0.0.14-pyhd8ed1ab_0.conda
-  hash:
-    md5: d7d176a24b7dee88e07ad75930306e6a
-    sha256: 461e5c54721cf4ae0b785e3eb5fa76d6459998f29b871ab59e8d02e16fcd4a4f
   category: main
   optional: false
 - name: xarray-spatial

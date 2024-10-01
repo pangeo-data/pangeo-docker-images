@@ -13,7 +13,7 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: 118e1b123a670feeb7f6b959d0e490a93357dffe33e88ea9c25b8e86b09fef2c
+    linux-64: f5fd5ea3566182d3cf2bbf8d4817c1288f0069bd0d83809a7f9193b3f3fbb2b8
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -3054,28 +3054,6 @@ package:
   hash:
     md5: 201db6c2d9a3c5e46573ac4cb2e92f4f
     sha256: d5283b95a8d49dcd88d29b360d8b38694aaa905d968d156d72ab71d32b38facb
-  category: main
-  optional: false
-- name: geocube
-  version: 0.6.0
-  manager: conda
-  platform: linux-64
-  dependencies:
-    appdirs: ''
-    click: '>=6.0'
-    geopandas: '>=1'
-    numpy: '>=1.20,<2'
-    odc-geo: ''
-    pyproj: '>=2'
-    python: '>=3.10'
-    rasterio: '>=1.3'
-    rioxarray: '>=0.4'
-    scipy: ''
-    xarray: '>=0.17'
-  url: https://conda.anaconda.org/conda-forge/noarch/geocube-0.6.0-pyhd8ed1ab_0.conda
-  hash:
-    md5: 97e716a169bc4414e965ec9542266341
-    sha256: de205caee8da208ba2b21d4c034c339ddc5a4dc043ed3a107890ac33c68a9add
   category: main
   optional: false
 - name: geographiclib
@@ -8319,21 +8297,22 @@ package:
   category: main
   optional: false
 - name: numpy
-  version: 1.26.4
+  version: 2.0.2
   manager: conda
   platform: linux-64
   dependencies:
+    __glibc: '>=2.17,<3.0.a0'
     libblas: '>=3.9.0,<4.0a0'
     libcblas: '>=3.9.0,<4.0a0'
-    libgcc-ng: '>=12'
+    libgcc-ng: '>=13'
     liblapack: '>=3.9.0,<4.0a0'
-    libstdcxx-ng: '>=12'
+    libstdcxx-ng: '>=13'
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/linux-64/numpy-1.26.4-py312heda63a1_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/numpy-2.0.2-py312h58c1407_0.conda
   hash:
-    md5: d8285bea2a350f63fab23bf460221f3f
-    sha256: fe3459c75cf84dcef6ef14efcc4adb0ade66038ddd27cadb894f34f4797687d8
+    md5: c705a6295a3946400a0c0893dbec87bb
+    sha256: 8c54907fdc60b5f51bb505f2414e9a75d07e0c56d77651010428de91e8343843
   category: main
   optional: false
 - name: numpy_groupies
@@ -9551,24 +9530,22 @@ package:
   category: main
   optional: false
 - name: pyogrio
-  version: 0.9.0
+  version: 0.10.0
   manager: conda
   platform: linux-64
   dependencies:
     __glibc: '>=2.17,<3.0.a0'
-    gdal: ''
     libgcc: '>=13'
-    libgdal: '>=3.9.2,<3.10.0a0'
     libgdal-core: '>=3.9.2,<3.10.0a0'
     libstdcxx: '>=13'
     numpy: ''
     packaging: ''
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/linux-64/pyogrio-0.9.0-py312h5aa26c2_2.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/pyogrio-0.10.0-py312he8b4914_0.conda
   hash:
-    md5: 8b4325775ed711941bbf6b8c5ad2b5e9
-    sha256: e9682d1664e09c97f536060696896f6c0e9e84914a635351d406da836140266d
+    md5: 309f7524c82d168cc055e7b136713693
+    sha256: cb0647597ae54d0007e698149f6ca519d80c389daee0f4fef149fe9902a0b31b
   category: main
   optional: false
 - name: pyopenssl
@@ -11955,19 +11932,6 @@ package:
   hash:
     md5: 2cde8ed028a0fd8f35d7f9b44839d362
     sha256: 416f009d6513f73ca2c02fbb65f626c1730b534741a752e74c9b2cd7b1f57edf
-  category: main
-  optional: false
-- name: xarray-datatree
-  version: 0.0.14
-  manager: conda
-  platform: linux-64
-  dependencies:
-    python: '>=3.8'
-    xarray: '>=2022.6'
-  url: https://conda.anaconda.org/conda-forge/noarch/xarray-datatree-0.0.14-pyhd8ed1ab_0.conda
-  hash:
-    md5: d7d176a24b7dee88e07ad75930306e6a
-    sha256: 461e5c54721cf4ae0b785e3eb5fa76d6459998f29b871ab59e8d02e16fcd4a4f
   category: main
   optional: false
 - name: xarray-spatial
