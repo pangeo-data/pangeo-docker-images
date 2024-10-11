@@ -1,0 +1,70 @@
+# /etc/skel files should have been copied to a user's home directory, but if the
+# user's home directory is mounted for example it may not contain files initially
+# copied from /etc/skel. This can lead to terminals without colors etc.
+#
+# This script is made to be sourced from the end of /etc/bash.bashrc in order to
+# default to source files from /etc/skel as a fallback to missing files in the
+# home directory.
+#
+# ref: https://github.com/pangeo-data/pangeo-docker-images/issues/574.
+#
+
+# ~/.bash_profile, ~/.bash_login, or ~/.profile are defined, it doesn't make
+# sense to fallback to /etc/skel/.profile, so then return.
+[ -f "$HOME/.bash_profile" ] && return
+[ -f "$HOME/.bash_login" ] && return
+[ -f "$HOME/.profile" ] && return
+
+# /etc/skel/.profile directly sources ~/.bashrc if defined, so we first check if
+# it isn't, and then sources /etc/skel/.bashrc instead.
+#
+if [ ! -f "$HOME/.bashrc" ]; then
+    . /etc/skel/.bashrc
+
+    # --------------------------------------------------------------------------
+    # The section below is adjusted from an Ubuntu 22.04 /etc/skel/.bashrc file
+    # in order to tweak how PS1 was set, influencing the terminal color, prompt
+    # and title.
+    #
+    # CHANGES:
+    # - removed "#" from the line with force_color_prompt=yes
+    # - removed "@\h" from PS1's prompt section
+    # - removed "\u@\h: " from the PS1's xterm title section
+    # --------------------------------------------------------------------------
+
+    # uncomment for a colored prompt, if the terminal has the capability; turned
+    # off by default to not distract the user: the focus in a terminal window
+    # should be on the output of commands, not on the prompt
+    force_color_prompt=yes
+
+    if [ -n "$force_color_prompt" ]; then
+        if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+            # We have color support; assume it's compliant with Ecma-48
+            # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+            # a case would tend to support setf rather than setaf.)
+            color_prompt=yes
+        else
+            color_prompt=
+        fi
+    fi
+
+    if [ "$color_prompt" = yes ]; then
+        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    else
+        PS1='${debian_chroot:+($debian_chroot)}\u:\w\$ '
+    fi
+    unset color_prompt force_color_prompt
+
+    # If this is an xterm set the title to dir
+    case "$TERM" in
+    xterm*|rxvt*)
+        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\w\a\]$PS1"
+        ;;
+    *)
+        ;;
+    esac
+fi
+
+
+# Now run /etc/skel/.profile as it wasn't in the user's home directory.
+. /etc/skel/.profile
