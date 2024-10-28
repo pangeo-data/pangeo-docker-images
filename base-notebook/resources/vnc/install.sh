@@ -44,7 +44,7 @@ rm ./turbovnc_3.1_amd64.deb
 ln -s /opt/TurboVNC/bin/* /usr/local/bin/
 mamba install --quiet websockify
 cp resources/branding/desktop/wallpaper.png /opt/vre/wallpaper.png
-cp -r resources/branding/desktop/xfce-perchannel-xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml
+cp -r resources/branding/desktop/xfce-perchannel-xml /etc/xdg/xfce4/xfconf/
 # Fix missing rebind.so issue
 cd /opt && git clone --quiet https://github.com/novnc/websockify.git
 cd /opt/websockify && make && cp rebind.so /usr/local/bin

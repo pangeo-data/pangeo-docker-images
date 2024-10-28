@@ -16,7 +16,7 @@ base-notebook : base-image
 	conda-lock lock  -f environment.yml -p linux-64; \
 	conda-lock render -k explicit -p linux-64; \
 	../generate-packages-list.py conda-linux-64.lock > packages.txt; \
-	docker build -t datalabs/base-notebook:master . --progress=plain --platform linux/amd64; \
+	docker build -t datalabs/base-notebook:master . --no-cache --progress=plain --platform linux/amd64; \
 	docker run -w $(TESTDIR) -v $(PWD):$(TESTDIR) datalabs/base-notebook:master ./run_tests.sh base-notebook
 
 .PHONY: pangeo-notebook

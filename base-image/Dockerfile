@@ -194,17 +194,6 @@ ONBUILD RUN for script in $(find "resources" -type f -name "install.sh"); do \
         layer-cleanup.sh; \
     done
 
-# ONBUILD RUN echo "Checking for 'resources/install.sh'..."  && \
-#         if ls resources/install-*.sh 1> /dev/null 2>&1; then \
-#             for file in resources/**/install.sh; do \
-#                 echo "Executing $file" && \
-#                 chmod +x "$file" && \
-#                 bash "$file" && \
-#                 layer-cleanup.sh \
-#                 rm -f "$file"; \
-#             done \
-#         fi
-
 # If a postBuild file exists, run it!
 # After it's done, we try to remove any possible cruft commands there
 # leave behind under $HOME - particularly stuff that jupyterlab extensions
