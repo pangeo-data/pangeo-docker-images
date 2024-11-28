@@ -12,7 +12,7 @@ on:
       - 'update_lockfile.sh'
 
 env:
-  DOCKER_ORG: pangeo
+  DOCKER_ORG: cnes
   GITHUB_SHA: ${{ github.sha }}
   GITHUB_REF: ${{ github.ref }}
 
@@ -44,13 +44,6 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Login to Quay.io
-      uses: docker/login-action@v3
-      with:
-        registry: quay.io
-        username: ${{ secrets.QUAY_USER }}
-        password: ${{ secrets.QUAY_TOKEN }}
-
     - name: Build and push
       uses: docker/build-push-action@v6
       with:
@@ -60,15 +53,13 @@ jobs:
         tags: |
           ${{env.DOCKER_ORG}}/${{ env.IMAGE }}:master
           ${{env.DOCKER_ORG}}/${{ env.IMAGE }}:${{env.DOCKER_TAG}}
-          quay.io/${{env.DOCKER_ORG}}/${{ env.IMAGE }}:master
-          quay.io/${{env.DOCKER_ORG}}/${{ env.IMAGE }}:${{env.DOCKER_TAG}}
 
   matrix-build:
     needs: base-image
     strategy:
       fail-fast: false
       matrix:
-        IMAGE: [base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook]
+        IMAGE: [base-notebook, pangeo-notebook, pytorch-notebook]
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     steps:
@@ -102,13 +93,6 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Login to Quay.io
-      uses: docker/login-action@v3
-      with:
-        registry: quay.io
-        username: ${{ secrets.QUAY_USER }}
-        password: ${{ secrets.QUAY_TOKEN }}
-
     - name: Build and push
       uses: docker/build-push-action@v6
       with:
@@ -118,8 +102,6 @@ jobs:
         tags: |
           ${{env.DOCKER_ORG}}/${{ matrix.IMAGE }}:master
           ${{env.DOCKER_ORG}}/${{ matrix.IMAGE }}:${{env.DOCKER_TAG}}
-          quay.io/${{env.DOCKER_ORG}}/${{ matrix.IMAGE }}:master
-          quay.io/${{env.DOCKER_ORG}}/${{ matrix.IMAGE }}:${{env.DOCKER_TAG}}
 
     - name: Inspect Image
       run: |

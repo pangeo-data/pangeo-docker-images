@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        IMAGE: [base-image, base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook]
+        IMAGE: [base-image, base-notebook, pangeo-notebook, pytorch-notebook]
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     steps:
@@ -33,12 +33,12 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Login to Quay.io
-      uses: docker/login-action@v3
-      with:
-        registry: quay.io
-        username: ${{ secrets.QUAY_USER }}
-        password: ${{ secrets.QUAY_TOKEN }}
+    # - name: Login to Quay.io
+    #   uses: docker/login-action@v3
+    #   with:
+    #     registry: quay.io
+    #     username: ${{ secrets.QUAY_USER }}
+    #     password: ${{ secrets.QUAY_TOKEN }}
 
     - name: Create New DockerHub Tags
       run: |
@@ -46,8 +46,8 @@ jobs:
           -t ${DOCKER_ORG}/${{ matrix.IMAGE }}:latest \
           -t ${DOCKER_ORG}/${{ matrix.IMAGE }}:${TAG}
 
-    - name: Create New Quay.io Tags
-      run: |
-        docker buildx imagetools create quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:master \
-          -t quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:latest \
-          -t quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:${TAG}
+    # - name: Create New Quay.io Tags
+    #   run: |
+    #     docker buildx imagetools create quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:master \
+    #       -t quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:latest \
+    #       -t quay.io/${DOCKER_ORG}/${{ matrix.IMAGE }}:${TAG}

@@ -10,7 +10,7 @@ on:
     types: [opened, synchronize, reopened]
 
 env:
-  DOCKER_ORG: pangeo
+  DOCKER_ORG: cnes
   GITHUB_SHA: ${{ github.sha }}
   GITHUB_REF: ${{ github.ref }}
 
@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        IMAGE: [base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook]
+        IMAGE: [base-notebook, pangeo-notebook, pytorch-notebook]
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     services:
@@ -69,7 +69,7 @@ jobs:
         tags: localhost:5000/${{env.DOCKER_ORG}}/${{ matrix.IMAGE }}:PR
         build-args: PANGEO_BASE_IMAGE_TAG=PR
         build-contexts: |
-          pangeo/base-image:PR=docker-image://localhost:5000/pangeo/base-image:PR
+          cnes/base-image:PR=docker-image://localhost:5000/cnes/base-image:PR
 
     - name: List Conda Packages
       run: |

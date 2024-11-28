@@ -10,7 +10,7 @@ on:
 jobs:
   check-version:
     runs-on: ubuntu-latest
-    if: github.repository == 'pangeo-data/pangeo-docker-images'
+    if: github.repository == 'CNES/datalabs-docker-images'
 
     steps:
       - name: Checkout Repository
@@ -57,11 +57,11 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v7
         with:
-          committer: Pangeo Bot <pangeo-bot@users.noreply.github.com>
-          token: ${{ secrets.PANGEOBOT_TOKEN }}
+          committer: Datalabs Bot <datalabs-bot@users.noreply.github.com>
+          token: ${{ secrets.DATALABSBOT_TOKEN }}
           commit-message: "Update pangeo-notebook metapackage version to ${{ steps.latest_version.outputs.version }}"
           title: "Update pangeo-notebook metapackage version to ${{ steps.latest_version.outputs.version }}"
-          reviewers: "scottyhq"
+          reviewers: "eroan.marie"
           branch: ${{ env.PR_BRANCH }}
           body: |
             A new pangeo-metapackage version has been detected.

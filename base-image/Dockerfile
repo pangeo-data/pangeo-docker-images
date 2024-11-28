@@ -140,7 +140,7 @@ ONBUILD RUN echo "Checking for 'jupyter_notebook_config.py'..." \
         && cp jupyter_notebook_config.py /etc/jupyter \
         ; fi
 
-ONBUILD USER ${NB_USER}
+# ONBUILD USER ${NB_USER}
 
 # We want to keep our images as reproducible as possible. If a lock
 # file with exact versions of all required packages is present, we use
@@ -183,6 +183,18 @@ ONBUILD RUN echo "Checking for pip 'requirements.txt'..." \
         ; if test -f "requirements.txt" ; then \
         ${NB_PYTHON_PREFIX}/bin/pip install --no-cache -r requirements.txt \
         ; fi
+
+ONBUILD COPY resources/layer-cleanup.sh /usr/local/bin
+ONBUILD RUN chmod +x /usr/local/bin/layer-cleanup.sh
+
+ONBUILD RUN for script in $(find "resources" -type f -name "install.sh"); do \
+        chmod +x "$script"; \
+        echo "Executing $script"; \
+        bash "$script"; \
+        layer-cleanup.sh; \
+    done
+
+ONBUILD USER ${NB_USER}
 
 # If a postBuild file exists, run it!
 # After it's done, we try to remove any possible cruft commands there

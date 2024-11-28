@@ -8,7 +8,7 @@ on:
 jobs:
   DeployPangeoBot:
     runs-on: ubuntu-latest
-    if: github.repository == 'pangeo-data/pangeo-docker-images'
+    if: github.repository == 'CNES/datalabs-docker-images'
 
     steps:
       - name: Checkout Repository
@@ -17,7 +17,7 @@ jobs:
       - name: Add Condalock Comment
         uses: peter-evans/create-or-update-comment@v4
         with:
-           token: ${{ secrets.PANGEOBOT_TOKEN }}
+           token: ${{ secrets.DATALABSBOT_TOKEN }}
            issue-number: ${{github.event.number}}
            body: |
              /condalock
