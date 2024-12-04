@@ -54,7 +54,7 @@ jobs:
       uses: docker/build-push-action@v6
       with:
         context: base-image
-        platforms: linux/amd64,linux/arm64
+        platforms: linux/amd64
         tags: localhost:5000/cnes/base-image:PR
         push: true
         cache-from: type=gha
@@ -64,7 +64,7 @@ jobs:
       uses: docker/build-push-action@v6
       with:
         context: ${{ matrix.IMAGE }}
-        platforms: linux/amd64,linux/arm64
+        platforms: linux/amd64
         push: true
         tags: localhost:5000/${{env.DOCKER_ORG}}/${{ matrix.IMAGE }}:PR
         build-args: PANGEO_BASE_IMAGE_TAG=PR

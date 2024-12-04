@@ -39,9 +39,9 @@ jobs:
         run: |
           cd ${{ matrix.IMAGE }}
           if [ ${{ matrix.IMAGE }} = "base-notebook" ]; then
-            conda-lock lock -p linux-64 -p linux-aarch64 -p osx-64 -p osx-arm64
+            conda-lock lock -p linux-64
           elif [ ${{ matrix.IMAGE }} = "pangeo-notebook" ]; then
-            conda-lock lock -f environment.yml -f ../base-notebook/environment.yml -p linux-64 -p linux-aarch64 -p osx-64 -p osx-arm64
+            conda-lock lock -f environment.yml -f ../base-notebook/environment.yml -p linux-64
           else
             # Linux-64 ONLY
             conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
