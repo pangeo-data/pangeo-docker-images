@@ -1,6 +1,6 @@
-project = 'Pangeo Docker Stacks'
-copyright = '2023, Pangeo Contributors'
-author = 'Pangeo Contributors'
+project = 'Datalabs Docker Stacks'
+copyright = '2024, CNES Datalabs'
+author = 'CNES Datalabs'
 
 
 extensions = [

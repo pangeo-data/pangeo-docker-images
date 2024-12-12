@@ -6,8 +6,8 @@ You'll need at least Conda installed, and Docker if you want to build and test l
 
 ```
 # create a fork of this repo and clone it locally
-git clone https://github.com/mygithub/pangeo-docker-images
-cd pangeo-docker-images
+git clone https://github.com/mygithub/datalabs-docker-images
+cd datalabs-docker-images
 # Install conda-lock
 conda env create -f environment-condalock.yml
 git checkout -b change-pangeo-notebook
@@ -32,6 +32,6 @@ This repository uses [GitHub Actions](https://help.github.com/en/actions) to bui
 
 * Pull requests from forks trigger rebuilding all images
 
-* `pangeo/base-notebook:master` corresponds to current "staging" image in sync with master branch. Built with every commit to master. Also tagged with short GitHub short SHA `pangeo/base-notebook:2639bd3`.
+* `cnes/base-notebook:master` corresponds to current "staging" image in sync with master branch. Built with every commit to master. Also tagged with short GitHub short SHA `cnes/base-notebook:2639bd3`.
 
-* Tags pushed to GitHub manually represent "production" releases with corresponding tags on DockerHub `pangeo/pangeo-notebook:2020.03.11`. The `latest` tag also corresponds to the most recent GitHub tag.
+* Tags pushed to GitHub manually represent "production" releases with corresponding tags on DockerHub `cnes/pangeo-notebook:2020.03.11`. The `latest` tag also corresponds to the most recent GitHub tag.
