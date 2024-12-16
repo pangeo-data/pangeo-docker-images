@@ -140,7 +140,7 @@ ONBUILD RUN echo "Checking for 'jupyter_notebook_config.py'..." \
         && cp jupyter_notebook_config.py /etc/jupyter \
         ; fi
 
-# ONBUILD USER ${NB_USER}
+ONBUILD USER ${NB_USER}
 
 # We want to keep our images as reproducible as possible. If a lock
 # file with exact versions of all required packages is present, we use
@@ -186,16 +186,23 @@ ONBUILD RUN echo "Checking for pip 'requirements.txt'..." \
 
 ONBUILD USER root
 
-ONBUILD COPY resources/layer-cleanup.sh /usr/local/bin
-ONBUILD RUN chmod +x /usr/local/bin/layer-cleanup.sh
+ONBUILD RUN  echo "Copy 'layer-cleanup'..." \
+        ; [ -d binder ] && cd binder \
+        ; [ -d .binder ] && cd .binder \
+        ; pwd; ls \
+        ; cp resources/layer-cleanup.sh /usr/local/bin/ \
+        ; chmod +x /usr/local/bin/layer-cleanup.sh
 
-ONBUILD RUN for script in $(find "resources" -type f -name "install.sh"); do \
-        chmod +x "$script"; \
-        echo "Executing $script"; \
-        bash "$script"; \
-        layer-cleanup.sh; \
-        chown -R ${NB_USER}:${NB_USER} ${HOME}; \
-    done
+ONBUILD RUN echo "Executing install scripts..." \
+        ; [ -d binder ] && cd binder \
+        ; [ -d .binder ] && cd .binder \
+        ; for script in $(find "resources" -type f -name "install.sh"); do \
+                chmod +x "$script"; \
+                echo "Executing $script"; \
+                bash "$script"; \
+                layer-cleanup.sh; \
+                chown -R ${NB_USER}:${NB_USER} ${HOME}; \
+        done
 
 ONBUILD USER ${NB_USER}
 

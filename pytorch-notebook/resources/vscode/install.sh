@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Code server setup
 cp resources/vscode/start-notebook-vscode.sh /usr/local/bin/

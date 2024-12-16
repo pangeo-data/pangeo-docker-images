@@ -4,7 +4,7 @@
 echo "Testing docker image {$1}..."
 
 # Install pytest on top of existing environment
-pip install pytest 
+python -m pip install pytest
 
 pytest -v tests/test_all.py tests/test_$1.py
 

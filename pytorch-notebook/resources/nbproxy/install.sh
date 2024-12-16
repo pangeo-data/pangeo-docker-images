@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 cp -r resources/nbproxy /opt/jupyter_proxy
 
