@@ -1,3 +1,8 @@
+#!/bin/bash
+# Copyright 2024 CS GROUP - https://www.csgroup.eu
+# All rights reserved
+# This file is provided under MIT license. See LICENSE file.
+
 # Generate token for VNC Server. VNC Server uses password of 8 char max. 
 export NOVNC_TOKEN=$(echo $(cat /proc/sys/kernel/random/uuid) | cut -c 1-8)
 

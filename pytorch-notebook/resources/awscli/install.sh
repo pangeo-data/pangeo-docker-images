@@ -1,4 +1,9 @@
 #!/bin/bash
+# Copyright 2024 CS GROUP - https://www.csgroup.eu
+# Copyright 2024 CNES - https://cnes.fr
+# All rights reserved
+# This file is provided under MIT license. See LICENSE file.
+
 set -e
 
 # AWS cli
@@ -8,4 +13,3 @@ unzip -q awscliv2.zip
 ./aws/install 
 rm -rf /opt/aws /opt/awscliv2.zip 
 pip install --quiet awscli-plugin-endpoint 
-layer-cleanup.sh

@@ -1,4 +1,8 @@
 #!/bin/bash
+# Copyright 2024 CS GROUP - https://www.csgroup.eu
+# Copyright 2024 CNES - https://cnes.fr
+# All rights reserved
+# This file is provided under MIT license. See LICENSE file.
 
 # Check if at least two files are provided
 if [ "$#" -lt 2 ]; then

@@ -1,6 +1,7 @@
 #!/bin/bash
-# Copyright 2022 CS GROUP - France, http://www.c-s.fr
+# Copyright 2024 CS GROUP - https://www.csgroup.eu
 # All rights reserved
+# This file is provided under MIT license. See LICENSE file.
 
 # VSCode base extensions copy if not already set
 export PATH=/opt/code-server/bin:$PATH
