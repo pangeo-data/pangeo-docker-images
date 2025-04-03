@@ -22,7 +22,8 @@ dependencies:
  - datashader
  - descartes
  - duckdb-cli
- - earthaccess
+ # wait for zarr v3 compat - https://github.com/nsidc/earthaccess/pull/967
+ - earthaccess<0.13.0
  - eofs
  - erddapy
  - esmpy
@@ -45,7 +46,8 @@ dependencies:
  - holoviews
  - hvplot
  - intake
- - intake-esm
+ # wait for zarr v3 compat
+ - intake-esm<2025.2.3
  - intake-geopandas
  - intake-stac
  - intake-xarray
@@ -134,4 +136,4 @@ dependencies:
  - xskillscore
  - xxhash
  - xvec
- - zarr
+ - zarr>=3
