@@ -26,7 +26,8 @@ WORKDIR /home/${NB_USER}
 
 RUN mamba env create --name ${CONDA_ENV} --yes \
     cuda-version=12.8 \
-    jupyterhub-singleuser=5
+    jupyterhub-singleuser=5 \
+    jupyterlab-nvdashboard
 
 EXPOSE 8888
 CMD ["jupyter", "lab", "--no-browser", "--ip", "0.0.0.0"]
