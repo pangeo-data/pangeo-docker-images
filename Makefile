@@ -1,6 +1,6 @@
 # Makefile for convenience, (doesn't look for command outputs)
 .PHONY: all
-all: base-image base-notebook pangeo-notebook ml-notebook pytorch-notebook
+all: base-image base-notebook pangeo-notebook ml-notebook pytorch-notebook cuda-notebook
 TESTDIR=/srv/test
 
 .PHONY: base-image
@@ -43,3 +43,8 @@ pytorch-notebook : base-image
 	../generate-packages-list.py conda-linux-64.lock > packages.txt; \
 	docker build -t pangeo/pytorch-notebook:master . ; \
 	docker run -w $(TESTDIR) -v $(PWD):$(TESTDIR) pangeo/pytorch-notebook:master ./run_tests.sh pytorch-notebook
+
+.PHONY: cuda-notebook
+cuda-notebook :
+	cd cuda-notebook ; \
+	docker build -t pangeo/cuda-notebook:master --progress=plain --platform linux/amd64 .
