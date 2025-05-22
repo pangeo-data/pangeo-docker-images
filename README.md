@@ -63,3 +63,7 @@ The primary use of these Docker images is running on Pangeo Cloud deployments wi
 * There used to be a `pangeo/forge` image, built for use with [pangeo-forge](https://pangeo-forge.org/). It is
   no longer actively maintained or used, but you can still use the [historical tags](https://quay.io/repository/pangeo/forge?tab=tags)
   if you wish.
+* Note that users of zarr-python are advised to avoid using image tags `2025.01.10`
+  and `2025.01.24` due to a bug in `zarr-python>=3.0.0,<=3.0.7` that may result in
+  potential data loss, see more details in
+  https://github.com/pangeo-data/pangeo-docker-images/issues/606
