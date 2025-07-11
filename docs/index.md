@@ -13,6 +13,7 @@ Curated sets of docker images for doing earth data analysis!
 howto/launch.md
 howto/custom-image.md
 howto/conda-env.md
+howto/determining-packages.md
 contributing.md
 ```
 
