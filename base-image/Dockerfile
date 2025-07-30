@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # Dockerfile for base image of all pangeo images
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 # build file for pangeo images
 
 LABEL org.opencontainers.image.source=https://github.com/pangeo-data/pangeo-docker-images
