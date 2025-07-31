@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # Dockerfile for base image of all pangeo images
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 # build file for pangeo images
 
 LABEL org.opencontainers.image.source=https://github.com/pangeo-data/pangeo-docker-images
@@ -39,10 +39,12 @@ ENV PATH=${NB_PYTHON_PREFIX}/bin:${CONDA_DIR}/bin:${PATH}
 ENV DASK_ROOT_CONFIG=${CONDA_DIR}/etc
 
 RUN echo "Creating ${NB_USER} user..." \
-    # Create a group for the user to be part of, with gid same as uid
-    && groupadd --gid ${NB_UID} ${NB_USER}  \
-    # Create non-root user, with given gid, uid and create $HOME
-    && useradd --create-home --gid ${NB_UID} --no-log-init --uid ${NB_UID} ${NB_USER} \
+    # Change user name from ubuntu to jovyan
+    && usermod --login ${NB_USER} ubuntu \
+    # Change group name from ubuntu to jovyan
+    && groupmod --new-name ${NB_USER} ubuntu \
+    # Set home directory of jovyan user
+    && usermod --home /home/${NB_USER} --move-home ${NB_USER} \
     # Make sure that /srv is owned by non-root user, so we can install things there
     && chown -R ${NB_USER}:${NB_USER} /srv
 
