@@ -22,7 +22,8 @@ dependencies:
  - datashader
  - descartes
  - duckdb-cli
- - earthaccess
+ # wait for zarr v3 compat - https://github.com/nsidc/earthaccess/pull/967
+ - earthaccess<0.13.0
  - eofs
  - erddapy
  - esmpy
@@ -45,7 +46,8 @@ dependencies:
  - holoviews
  - hvplot
  - intake
- - intake-esm
+ # wait for zarr v3 compat - https://github.com/intake/intake-esm/issues/727
+ - intake-esm<2025.2.3
  - intake-geopandas
  - intake-stac
  - intake-xarray
@@ -78,6 +80,7 @@ dependencies:
  - numcodecs
  - numpy
  - numpy_groupies
+ - obstore
  - odc-stac
  - openssh
  - pandas
@@ -87,6 +90,7 @@ dependencies:
  - param
  - planetary-computer
  - pop-tools
+ - pot
  - pyarrow
  - pycamhd
  - pydap
@@ -135,4 +139,4 @@ dependencies:
  - xskillscore
  - xxhash
  - xvec
- - zarr
+ - zarr>=3.0.8
