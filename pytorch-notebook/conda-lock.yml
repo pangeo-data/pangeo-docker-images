@@ -13,7 +13,7 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: 7e30ca9d78714ea8104858d2e8a1b627d2622dc4897ec4b19829a13c6462064c
+    linux-64: 449229127552785d951c2880b79af6d8cdea263304102549b743dfe4a25bb9ec
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -1333,7 +1333,7 @@ package:
   category: main
   optional: false
 - name: c-blosc2
-  version: 2.19.1
+  version: 2.20.0
   manager: conda
   platform: linux-64
   dependencies:
@@ -1341,12 +1341,12 @@ package:
     libgcc: '>=14'
     libstdcxx: '>=14'
     lz4-c: '>=1.10.0,<1.11.0a0'
-    zlib-ng: '>=2.2.4,<2.3.0a0'
+    zlib-ng: '>=2.2.5,<2.3.0a0'
     zstd: '>=1.5.7,<1.6.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/c-blosc2-2.19.1-h4cfbee9_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/c-blosc2-2.20.0-h4cfbee9_0.conda
   hash:
-    md5: 041ee44c15d1efdc84740510796425df
-    sha256: ebd0cc82efa5d5dd386f546b75db357d990b91718e4d7788740f4fadc5dfd5c9
+    md5: fbe4713a96621b35be501c712bdd91d1
+    sha256: 09b13bc6ba77784bed9d3974b13812ce7053b2f27dddfd6eee900ced37b6d621
   category: main
   optional: false
 - name: ca-certificates
@@ -4299,7 +4299,7 @@ package:
     blosc: '>=1.21.6,<2.0a0'
     brunsli: '>=0.1,<1.0a0'
     bzip2: '>=1.0.8,<2.0a0'
-    c-blosc2: '>=2.19.1,<2.20.0a0'
+    c-blosc2: '>=2.20.0,<2.21.0a0'
     charls: '>=2.4.2,<2.5.0a0'
     giflib: '>=5.2.2,<5.3.0a0'
     jxrlib: '>=1.1,<1.2.0a0'
@@ -4328,12 +4328,12 @@ package:
     python_abi: 3.12.*
     snappy: '>=1.2.2,<1.3.0a0'
     zfp: '>=1.0.1,<2.0a0'
-    zlib-ng: '>=2.2.4,<2.3.0a0'
+    zlib-ng: '>=2.2.5,<2.3.0a0'
     zstd: '>=1.5.7,<1.6.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/imagecodecs-2025.8.2-py312heeb16e9_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/imagecodecs-2025.8.2-py312h76e1a71_1.conda
   hash:
-    md5: c2762c3dab409b948ab0f028fe2bdd0c
-    sha256: 087769bb54dbfa4fed17c02af9b657b0523c1f81850811856a9e36204d4cec9b
+    md5: c69fd474794f978083dc7da00e3bb73c
+    sha256: fc9bd8aa075a0f0795a096364636a770a2e38bf7f325abd6b3d69e904e9ae159
   category: main
   optional: false
 - name: imageio
@@ -6373,6 +6373,59 @@ package:
     sha256: 2fe12ad5944893fb7293814d68bb773902a87357b6027445b8042b659a43592c
   category: main
   optional: false
+- name: libgdal-hdf4
+  version: 3.10.3
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+    hdf4: '>=4.2.15,<4.2.16.0a0'
+    libaec: '>=1.1.4,<2.0a0'
+    libgcc: '>=14'
+    libgdal-core: 3.10.3
+    libstdcxx: '>=14'
+  url: https://conda.anaconda.org/conda-forge/linux-64/libgdal-hdf4-3.10.3-ha810028_12.conda
+  hash:
+    md5: 26d075ec21839e36ec5423fab70efcc4
+    sha256: f5f00248441ef669546636bc2a4126b4eb5be40c3d851ef7d6d0dfaa76c997dd
+  category: main
+  optional: false
+- name: libgdal-hdf5
+  version: 3.10.3
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+    hdf5: '>=1.14.6,<1.14.7.0a0'
+    libgcc: '>=14'
+    libgdal-core: 3.10.3
+    libstdcxx: '>=14'
+  url: https://conda.anaconda.org/conda-forge/linux-64/libgdal-hdf5-3.10.3-h966a9c2_12.conda
+  hash:
+    md5: 100cfab59aa67f0d6bf5ee53c58f54c5
+    sha256: b908f5345694a83556bc3e2d214f034c1b70a7f680512f5f36357bf6cd6af5b6
+  category: main
+  optional: false
+- name: libgdal-netcdf
+  version: 3.10.3
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+    hdf4: '>=4.2.15,<4.2.16.0a0'
+    hdf5: '>=1.14.6,<1.14.7.0a0'
+    libgcc: '>=14'
+    libgdal-core: 3.10.3
+    libgdal-hdf4: 3.10.3.*
+    libgdal-hdf5: 3.10.3.*
+    libnetcdf: '>=4.9.2,<4.9.3.0a0'
+    libstdcxx: '>=14'
+  url: https://conda.anaconda.org/conda-forge/linux-64/libgdal-netcdf-3.10.3-h3888ec4_12.conda
+  hash:
+    md5: 8888edba7b9742b2d347a8257168388b
+    sha256: 03d120ef2f8d659aa1133904cab93aced7ae3f59df3fcbd9502ce88aa3642ab7
+  category: main
+  optional: false
 - name: libgettextpo
   version: 0.25.1
   manager: conda
@@ -7677,21 +7730,18 @@ package:
   category: main
   optional: false
 - name: libxgboost
-  version: 3.0.3
+  version: 3.0.4
   manager: conda
   platform: linux-64
   dependencies:
-    __cuda: ''
     __glibc: '>=2.17,<3.0.a0'
     _openmp_mutex: '>=4.5'
-    cuda-version: '>=12,<13.0a0'
     libgcc: '>=14'
     libstdcxx: '>=14'
-    nccl: '>=2.27.7.1,<3.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libxgboost-3.0.3-cuda129_h54c741a_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/libxgboost-3.0.4-cpu_h2ebb00f_0.conda
   hash:
-    md5: 522635c3d4d1666ed5e00f8bc1812619
-    sha256: ef5ab72484f172147dbf3a1019a5369f1a0b162dab262647b9206e3835696296
+    md5: 111a58c45b9b9b3441f54c75f33c5a8e
+    sha256: 43ef700a2a704d77d25f0b35d4ec93e8b5da07a774d9c797a3161b5d844b16cb
   category: main
   optional: false
 - name: libxkbcommon
@@ -9833,20 +9883,19 @@ package:
   category: main
   optional: false
 - name: py-xgboost
-  version: 3.0.3
+  version: 3.0.4
   manager: conda
   platform: linux-64
   dependencies:
-    __cuda: ''
-    libxgboost: '>=3.0.3,<3.0.4.0a0'
+    libxgboost: '>=3.0.4,<3.0.5.0a0'
     numpy: ''
     python: '>=3.10'
     scikit-learn: ''
     scipy: ''
-  url: https://conda.anaconda.org/conda-forge/noarch/py-xgboost-3.0.3-cuda129_pyha75543c_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/py-xgboost-3.0.4-cpu_pyhe781eb1_0.conda
   hash:
-    md5: 6dc7369d0cc923f6d951bfe764418e2d
-    sha256: 4f536c235f83aaea39343f18c5104a2423a3bb86821d25b67a8ef0ecc80c6259
+    md5: e567ca7bed4f534453420fbe94bd61fe
+    sha256: f589508f957734416dd5ae252e01ae9ee50ef89d171ac903150feec98559ccee
   category: main
   optional: false
 - name: py2vega
@@ -12908,17 +12957,16 @@ package:
   category: main
   optional: false
 - name: xgboost
-  version: 3.0.3
+  version: 3.0.4
   manager: conda
   platform: linux-64
   dependencies:
-    __cuda: ''
-    py-xgboost: 3.0.3
+    py-xgboost: 3.0.4
     python: '>=3.10'
-  url: https://conda.anaconda.org/conda-forge/noarch/xgboost-3.0.3-cuda129_pyh5c66634_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/xgboost-3.0.4-cpu_pyhb39878e_0.conda
   hash:
-    md5: 7179cf2a180196d131f799d6f7107577
-    sha256: abf5c446540d9d75e9b76c661a6e13f7be2b012d2b327e9cb9a7293823514f30
+    md5: 00d0b030570269458c06b358abc3f984
+    sha256: 476051931648fa853bf56405c4e4ab47a4f6747ad7ba869c130cd6b64e00c96c
   category: main
   optional: false
 - name: xgcm
