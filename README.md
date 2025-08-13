@@ -67,3 +67,5 @@ The primary use of these Docker images is running on Pangeo Cloud deployments wi
   and `2025.01.24` due to a bug in `zarr-python>=3.0.0,<=3.0.7` that may result in
   potential data loss, see more details in
   https://github.com/pangeo-data/pangeo-docker-images/issues/606
+* Since `2025.07.31`, the docker images are using Ubuntu-24.04 (Noble Numbat) instead of
+  Ubuntu 22.04 (Jammy Jellyfish) as the base image.
