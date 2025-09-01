@@ -32,6 +32,8 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v5
+      with:
+        persist-credentials: false
 
     # https://github.com/actions/runner-images/issues/2840#issuecomment-790492173
     - name: Free up disk space

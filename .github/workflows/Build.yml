@@ -24,6 +24,8 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v5
+      with:
+        persist-credentials: false
 
     - name: Set Job Environment Variables
       run: |
@@ -74,6 +76,8 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v5
+      with:
+          persist-credentials: false
 
     - name: Set Job Environment Variables
       run: |

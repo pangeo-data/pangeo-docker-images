@@ -29,6 +29,7 @@ jobs:
           # These lines are critical, otherwise Pangeo-bot pushes changes directly to master from PRs!
           repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
           ref: ${{ github.event.client_payload.pull_request.head.ref }}
+          persist-credentials: false
 
       - name: Install Conda environment with Micromamba
         uses: mamba-org/setup-micromamba@v2
@@ -72,6 +73,7 @@ jobs:
           # These lines are critical, otherwise Pangeo-bot pushes changes directly to master from PRs!
           repository: ${{ github.event.client_payload.pull_request.head.repo.full_name }}
           ref: ${{ github.event.client_payload.pull_request.head.ref }}
+          persist-credentials: true
 
       # Download all artifacts from previous matrix job
       - uses: actions/download-artifact@v5
