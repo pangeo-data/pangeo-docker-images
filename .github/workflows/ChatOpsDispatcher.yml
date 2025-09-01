@@ -1,8 +1,13 @@
 # https://github.com/peter-evans/slash-command-dispatch
 name: ChatOps Dispatcher
+
 on:
   issue_comment:
     types: [created]
+
+permissions:
+  issues: write
+
 jobs:
   slashCommandDispatch:
     runs-on: ubuntu-latest
