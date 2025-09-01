@@ -1,9 +1,12 @@
 # Respond to every Pull Request with Pangeo Bot!
 name: PullRequest
+
 on:
   pull_request_target:
     types: [opened, reopened]
-    paths: '**/environment.yml'
+    paths: "**/environment.yml"
+
+permissions: {}
 
 jobs:
   DeployPangeoBot:
@@ -12,7 +15,9 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Add Condalock Comment
         uses: peter-evans/create-or-update-comment@v4
