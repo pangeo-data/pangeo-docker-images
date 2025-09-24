@@ -7,6 +7,8 @@ on:
     # Run once per day at midnight
     - cron: "0 0 * * *"
 
+permissions: {}
+
 jobs:
   check-version:
     runs-on: ubuntu-latest
@@ -14,7 +16,9 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: true
 
       - name: Get Latest pangeo-notebook Metapackage Version
         id: latest_version
