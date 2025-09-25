@@ -6,22 +6,20 @@ on:
     types: [created]
 
 permissions:
-  issues: write
+  contents: read
 
 jobs:
   slashCommandDispatch:
+    permissions:
+      pull-requests: write # for peter-evans/slash-command-dispatch to create PR reaction
+    if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
     steps:
       - name: Slash Command Dispatch
-        uses: peter-evans/slash-command-dispatch@v4
+        uses: peter-evans/slash-command-dispatch@13bc09769d122a64f75aa5037256f6f2d78be8c4 # v4.0.0
         with:
-          token: ${{ secrets.PANGEOBOT_TOKEN }}
-          reaction-token: ${{ secrets.GITHUB_TOKEN }}
-          config: >
-            [
-              {
-                "command": "condalock",
-                "permission": "none",
-                "issue_type": "pull-request"
-              }
-            ]
+          token: ${{ github.token }}
+          commands: |
+            condalock
+          permission: none
+          issue-type: pull-request
