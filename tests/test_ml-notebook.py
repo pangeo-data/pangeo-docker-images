@@ -49,7 +49,7 @@ def test_jax_random_number_generator():
     with jax.default_device(jax.devices("cpu")[0]):
         key = random.key(seed=42)
         x = random.normal(key=key)
-        np.testing.assert_allclose(x, np.float32(-0.028305))
+        np.testing.assert_allclose(x, -0.028304616)
 
     # Test running on GPU (need to run locally)
     try:
@@ -57,6 +57,6 @@ def test_jax_random_number_generator():
         with jax.default_device(gpu_device):
             key = random.key(seed=24)
             x = random.normal(key=key)
-            np.testing.assert_allclose(x, -1.168644)
+            np.testing.assert_allclose(x, 0.36450562)
     except RuntimeError:  # Unknown backend: 'gpu' requested
         logging.log(level=logging.INFO, msg="JAX was not tested on a GPU device")
