@@ -1,24 +1,40 @@
 # Add Binder Link to PR for testing pangeo-notebook image
-name: BinderPR
-
-on:
-  pull_request_target:
-    types: [opened]
+# https://mybinder.readthedocs.io/en/latest/howto/gh-actions-badges.html#example-2-comment-with-a-binder-badge-in-response-to-a-comment
+name: Chatops Binder
+on: [issue_comment] # issues and PRs are equivalent in terms of comments for the GitHub API
 
 permissions: {}
 
 jobs:
-  add-binder-links:
+  trigger-chatops:
+    # Make sure the comment is on a PR, and contains the command "/binder"
+    if: (github.event.issue.pull_request != null) && contains(github.event.comment.body, '/binder')
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
     steps:
-    - name: Add BinderHub Links
-      uses: peter-evans/create-or-update-comment@v4
-      env:
-        PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
-        PR_HEAD_USERREPO: ${{ github.event.pull_request.head.repo.full_name }}
-      with:
-         token: ${{ secrets.GITHUB_TOKEN }}
-         issue-number: ${{github.event.number}}
-         reactions: rocket
-         body: |
-          [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/${{env.PR_HEAD_USERREPO}}/${{env.PR_HEAD_REF}}) :point_left: Try on Mybinder.org!
+      # Use the GitHub API to:
+      #  (1) Get the branch name of the PR that has been commented on with "/binder"
+      #  (2) make a comment on the PR with the binder badge
+      - name: comment on PR with Binder link
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            // Get the branch name
+            github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.issue.number
+            }).then( (pr) => {
+
+              // use the branch name to make a comment on the PR with a Binder badge
+              var BRANCH_NAME = pr.data.head.ref
+              github.rest.issues.createComment({
+                issue_number: context.payload.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/${context.repo.owner}/${context.repo.repo}/${BRANCH_NAME}) :point_left: Launch a binder notebook on this branch`
+              })
+            })
