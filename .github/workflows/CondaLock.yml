@@ -77,7 +77,7 @@ jobs:
           persist-credentials: true
 
       # Download all artifacts from previous matrix job
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v7
 
       - name: Commit condalock files to PR
         run: |
