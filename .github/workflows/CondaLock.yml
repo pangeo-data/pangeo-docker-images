@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           token: ${{ secrets.PANGEOBOT_TOKEN }}
           # These lines are critical, otherwise Pangeo-bot pushes changes directly to master from PRs!
@@ -68,7 +68,7 @@ jobs:
       pull-requests: write # for peter-evans/create-or-update-comment to create PR reaction
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           token: ${{ secrets.PANGEOBOT_TOKEN }}
           # These lines are critical, otherwise Pangeo-bot pushes changes directly to master from PRs!
