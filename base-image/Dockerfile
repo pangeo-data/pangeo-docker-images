@@ -186,6 +186,28 @@ ONBUILD RUN echo "Checking for pip 'requirements.txt'..." \
         ${NB_PYTHON_PREFIX}/bin/pip install --no-cache -r requirements.txt \
         ; fi
 
+ONBUILD USER root
+
+ONBUILD RUN  echo "Copy 'layer-cleanup'..." \
+        ; [ -d binder ] && cd binder \
+        ; [ -d .binder ] && cd .binder \
+        ; pwd; ls \
+        ; cp resources/layer-cleanup.sh /usr/local/bin/ \
+        ; chmod +x /usr/local/bin/layer-cleanup.sh
+
+ONBUILD RUN echo "Executing install scripts..." \
+        ; [ -d binder ] && cd binder \
+        ; [ -d .binder ] && cd .binder \
+        ; for script in $(find "resources" -type f -name "install.sh"); do \
+                chmod +x "$script"; \
+                echo "Executing $script"; \
+                bash "$script"; \
+                layer-cleanup.sh; \
+                chown -R ${NB_USER}:${NB_USER} ${HOME}; \
+        done
+
+ONBUILD USER ${NB_USER}
+
 # If a postBuild file exists, run it!
 # After it's done, we try to remove any possible cruft commands there
 # leave behind under $HOME - particularly stuff that jupyterlab extensions
