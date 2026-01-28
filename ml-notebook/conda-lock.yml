@@ -13,7 +13,7 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: 49a8d121a67c47c88db5633ea63f76f2eb5e95fb0ac70469a10bb08435be7e8f
+    linux-64: b167af54f0e99dd3c504859a7d65a9fddd87b0a2c583347088e94abd07e7a3e7
   channels:
   - url: conda-forge
     used_env_vars: []
@@ -4474,25 +4474,30 @@ package:
   category: main
   optional: false
 - name: intake-esm
-  version: 2023.11.10
+  version: 2025.12.12
   manager: conda
   platform: linux-64
   dependencies:
-    dask: '>=2022.02.0'
+    dask: '>=2024.12'
+    dask-core: '>=2024.12'
     fastprogress: '>=1.0.0'
-    fsspec: '>=2022.11.0'
-    intake: '>=0.6.6'
+    fsspec: '>=2024.12'
+    intake: '>=2.0.0'
+    itables: ''
+    kerchunk: '>=0.2.9'
     netcdf4: '>=1.5.5'
     pandas: '>=2.1.0'
+    polars: '>=1.24.0,<1.33.0'
     pydantic: '>=2.0'
-    python: '>=3.9'
+    pydap: '!=3.5.5'
+    python: '>=3.11'
     requests: '>=2.24.0'
-    xarray: '>=2022.06'
-    zarr: '>=2.12'
-  url: https://conda.anaconda.org/conda-forge/noarch/intake-esm-2023.11.10-pyhd8ed1ab_0.conda
+    xarray: '>=2024.10'
+    zarr: '!=3.0.*,>=2.12'
+  url: https://conda.anaconda.org/conda-forge/noarch/intake-esm-2025.12.12-pyhd8ed1ab_0.conda
   hash:
-    md5: e0c73b7dc6419a243c5fe104ec241a48
-    sha256: 671857e0d7d385053a9b4bb7f5bce44105356fd1bee7ba2f0f7ea3d6165e82b1
+    md5: 51f07f9ce314c7cf35417371408ea78f
+    sha256: 1bca0522f380e6baa0458b4583e6fbbe1c28eda8ffdd56ea5690a692b491b996
   category: main
   optional: false
 - name: intake-geopandas
@@ -4781,6 +4786,18 @@ package:
   hash:
     md5: 0b0154421989637d424ccf0f104be51a
     sha256: 08e838d29c134a7684bca0468401d26840f41c92267c4126d7b43a6b533b0aed
+  category: main
+  optional: false
+- name: itables
+  version: 2.6.2
+  manager: conda
+  platform: linux-64
+  dependencies:
+    python: '>=3.10'
+  url: https://conda.anaconda.org/conda-forge/noarch/itables-2.6.2-pyh0398c0e_0.conda
+  hash:
+    md5: db8ef90c9c8bd18b61ccdb3afb5ca181
+    sha256: a531469820487a72971196aff77aa17b5a7fe9782767318e7cd2c842d1fd2619
   category: main
   optional: false
 - name: itsdangerous
@@ -9295,17 +9312,17 @@ package:
   category: main
   optional: false
 - name: openssl
-  version: 3.6.0
+  version: 3.6.1
   manager: conda
   platform: linux-64
   dependencies:
     __glibc: '>=2.17,<3.0.a0'
     ca-certificates: ''
     libgcc: '>=14'
-  url: https://conda.anaconda.org/conda-forge/linux-64/openssl-3.6.0-h26f9b46_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/openssl-3.6.1-h35e630c_1.conda
   hash:
-    md5: 9ee58d5c534af06558933af3c845a780
-    sha256: a47271202f4518a484956968335b2521409c8173e123ab381e775c358c67fe6d
+    md5: f61eb8cd60ff9057122a3d338b99c00f
+    sha256: 44c877f8af015332a5d12f5ff0fb20ca32f896526a7d0cdb30c769df1144fb5c
   category: main
   optional: false
 - name: opt_einsum
@@ -9470,7 +9487,7 @@ package:
   category: main
   optional: false
 - name: panel
-  version: 1.8.6
+  version: 1.8.7
   manager: conda
   platform: linux-64
   dependencies:
@@ -9489,10 +9506,10 @@ package:
     requests: ''
     tqdm: ''
     typing_extensions: ''
-  url: https://conda.anaconda.org/conda-forge/noarch/panel-1.8.6-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/panel-1.8.7-pyhd8ed1ab_0.conda
   hash:
-    md5: 1754f4b5fd1eee272ff808822bf3f995
-    sha256: 943a73fdfd0d39090ba95cd949c8ece81754fa96d5ba895ebb6bf5aa84ee478c
+    md5: fc81d1df6c38e4edd32d6df20b6d8c1b
+    sha256: 61cb89ca0ab559079365e88555c79e7cd8dc3ca3ba00058be32ad4f4c3048ad9
   category: main
   optional: false
 - name: pangeo-dask
@@ -9798,6 +9815,35 @@ package:
   hash:
     md5: d7585b6550ad04c8c5e21097ada2888e
     sha256: e14aafa63efa0528ca99ba568eaf506eb55a0371d12e6250aaaa61718d2eb62e
+  category: main
+  optional: false
+- name: polars
+  version: 1.32.3
+  manager: conda
+  platform: linux-64
+  dependencies:
+    polars-default: ==1.32.3
+  url: https://conda.anaconda.org/conda-forge/linux-64/polars-1.32.3-default_h3512890_0.conda
+  hash:
+    md5: 43ff217be270dde3228f423f2d95c995
+    sha256: ced51411db31a8b403ef33c35dda78dd64bc169ba725c3ccf54ec3c6124bb381
+  category: main
+  optional: false
+- name: polars-default
+  version: 1.32.3
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+    _python_abi3_support: 1.*
+    cpython: '>=3.9'
+    libgcc: '>=14'
+    libstdcxx: '>=14'
+    python: ''
+  url: https://conda.anaconda.org/conda-forge/linux-64/polars-default-1.32.3-py39hf521cc8_0.conda
+  hash:
+    md5: 396b65e7b176bb0345f164d30451f718
+    sha256: c3de83d052bf06e8df0d46928fe79b7d7e90885a9f1366b05b852db20e80dafa
   category: main
   optional: false
 - name: pooch
@@ -10583,7 +10629,7 @@ package:
   category: main
   optional: false
 - name: pyspectral
-  version: 0.13.6
+  version: 0.14.0
   manager: conda
   platform: linux-64
   dependencies:
@@ -10598,10 +10644,10 @@ package:
     scipy: '>=1.6.0'
     setuptools: ''
     tqdm: ''
-  url: https://conda.anaconda.org/conda-forge/noarch/pyspectral-0.13.6-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/pyspectral-0.14.0-pyhd8ed1ab_0.conda
   hash:
-    md5: 5d0b2cc9464aba0cc1059c3e5992e27a
-    sha256: 10e968ce4f14ec8a8112752b8013bc320edd04e15ede51cb802428a9105303c3
+    md5: 4f6628c68fef6e334aee9cc06ebceb3b
+    sha256: 33356bf78d9c1f4ae53a8c2b6f08b5406e4d79701fc558981ab4ca4cffe0fc30
   category: main
   optional: false
 - name: pystac
@@ -11656,15 +11702,15 @@ package:
   category: main
   optional: false
 - name: setuptools
-  version: 80.10.1
+  version: 80.10.2
   manager: conda
   platform: linux-64
   dependencies:
     python: '>=3.10'
-  url: https://conda.anaconda.org/conda-forge/noarch/setuptools-80.10.1-pyh332efcf_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/setuptools-80.10.2-pyh332efcf_0.conda
   hash:
-    md5: cb72cedd94dd923c6a9405a3d3b1c018
-    sha256: 89d5bb48047e7e27aa52a3a71d6ebf386e5ee4bdbd7ca91d653df9977eca8253
+    md5: 7b446fcbb6779ee479debb4fd7453e6c
+    sha256: f5fcb7854d2b7639a5b1aca41dd0f2d5a69a60bbc313e7f192e2dc385ca52f86
   category: main
   optional: false
 - name: shaderc
