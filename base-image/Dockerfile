@@ -82,6 +82,13 @@ RUN echo "Installing Miniforge..." \
     # quite a bit unfortunately - see https://github.com/2i2c-org/infrastructure/issues/2047
     && find ${CONDA_DIR} -follow -type f -name '*.a' -delete
 
+# Default to using /etc/skel/.profile and /etc/skel/.bashrc if not in the user's
+# home directory.
+USER root
+RUN echo ". /etc/bash.bashrc-skel-appendix" >> /etc/bash.bashrc
+COPY bash.bashrc-skel-appendix /etc/bash.bashrc-skel-appendix
+USER ${NB_USER}
+
 EXPOSE 8888
 ENTRYPOINT ["/srv/start"]
 #CMD ["jupyter", "notebook", "--ip", "0.0.0.0"]
