@@ -62,7 +62,7 @@ jobs:
   # Each job will commit files, so we know it succeeds based on commits
   commit-lockfiles:
     needs: condalock
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     permissions:
       contents: write # for Git to git push
       pull-requests: write # for peter-evans/create-or-update-comment to create PR reaction
