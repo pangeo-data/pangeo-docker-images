@@ -39,16 +39,18 @@ jobs:
       - name: Set Environment Variables
         run: |
           CALVER="$( date -u '+%Y.%m.%d' )"
-          PR_BRANCH="upgrade-pangeo-metapackage-${{ steps.latest_version.outputs.version }}"
+          PR_BRANCH="upgrade-pangeo-metapackage-${STEPS_LATEST_VERSION_OUTPUTS_VERSION}"
           echo "CALVER=${CALVER}" >> $GITHUB_ENV
           echo "PR_BRANCH=${PR_BRANCH}" >> $GITHUB_ENV
+        env:
+          STEPS_LATEST_VERSION_OUTPUTS_VERSION: ${{ steps.latest_version.outputs.version }}
 
       - name: Check if PR Already Exists
         id: check_branch
         run: |
           # https://github.com/actions/checkout#fetch-all-branches
           git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
-          if git show-ref --quiet refs/remotes/origin/${{env.PR_BRANCH}}; then
+          if git show-ref --quiet refs/remotes/origin/${PR_BRANCH}; then
             RESULT=True
           else
             RESULT=False
