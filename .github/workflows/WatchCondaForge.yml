@@ -22,7 +22,7 @@ jobs:
 
       - name: Get Latest pangeo-notebook Metapackage Version
         id: latest_version
-        uses: jacobtomlinson/gha-anaconda-package-version@0.1.4
+        uses: jacobtomlinson/gha-anaconda-package-version@f5d2c85fa7353b97ce642c233499724caa82328d # 0.1.4
         with:
           org: "conda-forge"
           package: "pangeo-notebook"
@@ -30,7 +30,7 @@ jobs:
 
       - name: Find and Replace pangeo-notebook
         id: find_replace
-        uses: jacobtomlinson/gha-find-replace@3.0.5
+        uses: jacobtomlinson/gha-find-replace@f1069b438f125e5395d84d1c6fd3b559a7880cb5 # 3.0.5
         with:
           include: "base-notebook/environment.yml"
           find: "pangeo-notebook=.*"
@@ -61,7 +61,7 @@ jobs:
       - name: Create Pull Request
         if: steps.check_branch.outputs.exists == 'False' && steps.find_replace.outputs.modifiedFiles > 0
         id: cpr
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0 # v8.1.0
         with:
           committer: Pangeo Bot <pangeo-bot@users.noreply.github.com>
           token: ${{ secrets.PANGEOBOT_TOKEN }}
