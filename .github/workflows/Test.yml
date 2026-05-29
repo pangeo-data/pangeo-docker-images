@@ -66,7 +66,7 @@ jobs:
       uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
       with:
         context: base-image
-        platforms:
+        platforms: ${{ matrix.platforms }}
         tags: localhost:5000/pangeo/base-image:PR
         push: true
         cache-from: type=gha
