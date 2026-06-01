@@ -21,15 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - IMAGE: base-notebook
-            platforms: linux/amd64,linux/arm64
-          - IMAGE: pangeo-notebook
-            platforms: linux/amd64,linux/arm64
-          - IMAGE: ml-notebook
-            platforms: linux/amd64
-          - IMAGE: pytorch-notebook
-            platforms: linux/amd64
+        IMAGE: [base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook]
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     services:
@@ -66,7 +58,7 @@ jobs:
       uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
       with:
         context: base-image
-        platforms: ${{ matrix.platforms }}
+        platforms: linux/amd64,linux/arm64
         tags: localhost:5000/pangeo/base-image:PR
         push: true
         cache-from: type=gha
@@ -76,7 +68,7 @@ jobs:
       uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
       with:
         context: ${{ matrix.IMAGE }}
-        platforms: ${{ matrix.platforms }}
+        platforms: linux/amd64,linux/arm64
         push: true
         tags: localhost:5000/${{env.DOCKER_ORG}}/${{ matrix.IMAGE }}:PR
         build-args: PANGEO_BASE_IMAGE_TAG=PR
