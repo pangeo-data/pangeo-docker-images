@@ -1,4 +1,5 @@
 # syntax=docker/dockerfile:1
+# check=error=true
 # Dockerfile for base image of all pangeo images
 FROM ubuntu:24.04
 # build file for pangeo images
