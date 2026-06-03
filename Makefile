@@ -38,8 +38,8 @@ ml-notebook : base-image
 .PHONY: pytorch-notebook
 pytorch-notebook : base-image
 	cd pytorch-notebook ; \
-	conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64; \
+	conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64 -p linux-aarch64; \
 	conda-lock render -k explicit -p linux-64; \
 	../generate-packages-list.py conda-linux-64.lock > packages.txt; \
-	docker build -t pangeo/pytorch-notebook:master . ; \
+	docker build -t pangeo/pytorch-notebook:master . --progress=plain --platform linux/amd64,linux/arm64 ; \
 	docker run -w $(TESTDIR) -v $(PWD):$(TESTDIR) pangeo/pytorch-notebook:master ./run_tests.sh pytorch-notebook
