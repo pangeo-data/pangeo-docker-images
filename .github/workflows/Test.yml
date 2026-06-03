@@ -21,7 +21,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        IMAGE: [base-notebook, pangeo-notebook, ml-notebook, pytorch-notebook]
+        include:
+          - IMAGE: base-notebook
+            platforms: linux/amd64,linux/arm64
+          - IMAGE: pangeo-notebook
+            platforms: linux/amd64,linux/arm64
+          - IMAGE: ml-notebook
+            platforms: linux/amd64
+          - IMAGE: pytorch-notebook
+            platforms: linux/amd64,linux/arm64
     name: ${{ matrix.IMAGE }}
     runs-on: ubuntu-latest
     services:
@@ -33,7 +41,7 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v6
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         persist-credentials: false
 
@@ -47,28 +55,28 @@ jobs:
         df -h
 
     - name: Set up QEMU
-      uses: docker/setup-qemu-action@v3
+      uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4.0.0
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
       with:
         driver-opts: network=host
 
     - name: Build base-image
-      uses: docker/build-push-action@v6
+      uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
       with:
         context: base-image
-        platforms: linux/amd64,linux/arm64
+        platforms: ${{ matrix.platforms }}
         tags: localhost:5000/pangeo/base-image:PR
         push: true
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
     - name: Build Only
-      uses: docker/build-push-action@v6
+      uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
       with:
         context: ${{ matrix.IMAGE }}
-        platforms: linux/amd64,linux/arm64
+        platforms: ${{ matrix.platforms }}
         push: true
         tags: localhost:5000/${{env.DOCKER_ORG}}/${{ matrix.IMAGE }}:PR
         build-args: PANGEO_BASE_IMAGE_TAG=PR

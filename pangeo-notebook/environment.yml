@@ -44,7 +44,7 @@ dependencies:
  - h5py
  - holoviews
  - hvplot
- - icechunk
+ - icechunk>=2
  - intake
  - intake-esm
  - intake-geopandas
@@ -79,12 +79,12 @@ dependencies:
  - netcdf4
  - numbagg
  - numcodecs
- - numpy
+ - numpy>=2.0.0
  - numpy_groupies
  - obstore
  - odc-stac>=0.4.0
  - openssh
- - pandas
+ - pandas<3  # wait for bqplot support
  - panel
  # wait for zarr v3 compat - https://github.com/OceanParcels/Parcels/issues/1819
  #- parcels
@@ -141,4 +141,4 @@ dependencies:
  - xskillscore
  - xxhash
  - xvec
- - zarr>=3.0.8
+ - zarr>=3.1.6
