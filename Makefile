@@ -29,7 +29,7 @@ pangeo-notebook : base-image
 .PHONY: ml-notebook
 ml-notebook : base-image
 	cd ml-notebook ; \
-	conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64; \
+	conda-lock lock -f ../base-notebook/environment.yml -f ../pangeo-notebook/environment.yml -f environment.yml -p linux-64; \
 	conda-lock render -k explicit -p linux-64; \
 	../generate-packages-list.py conda-linux-64.lock > packages.txt; \
 	docker build -t pangeo/ml-notebook:master . ; \

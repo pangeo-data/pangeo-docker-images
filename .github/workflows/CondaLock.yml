@@ -50,7 +50,7 @@ jobs:
             conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64 -p linux-aarch64
           else
             # linux-64 ONLY
-            conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
+            conda-lock lock -f ../base-notebook/environment.yml -f ../pangeo-notebook/environment.yml -f environment.yml -p linux-64
           fi
           # Keep this format around for easy `conda install` w/o conda-lock or micromamba
           conda-lock render -k explicit -p linux-64
