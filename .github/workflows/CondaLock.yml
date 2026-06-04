@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           token: ${{ secrets.PANGEOBOT_TOKEN }}
           # These lines are critical, otherwise Pangeo-bot pushes changes directly to master from PRs!
@@ -32,7 +32,7 @@ jobs:
           persist-credentials: false
 
       - name: Install Conda environment with Micromamba
-        uses: mamba-org/setup-micromamba@v2
+        uses: mamba-org/setup-micromamba@d7c9bd84e824b79d2af72a2d4196c7f4300d3476 # v3.0.0
         with:
           cache-environment: true
           environment-file: environment-condalock.yml
@@ -45,16 +45,19 @@ jobs:
             conda-lock lock -p linux-64 -p linux-aarch64 -p osx-64 -p osx-arm64
           elif [ ${{ matrix.IMAGE }} = "pangeo-notebook" ]; then
             conda-lock lock -f environment.yml -f ../base-notebook/environment.yml -p linux-64 -p linux-aarch64 -p osx-64 -p osx-arm64
+          elif [ ${{ matrix.IMAGE }} = "pytorch-notebook" ]; then
+            # linux-64 and linux-aarch64 ONLY
+            conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64 -p linux-aarch64
           else
-            # Linux-64 ONLY
-            conda-lock lock -f environment.yml -f ../pangeo-notebook/environment.yml -f ../base-notebook/environment.yml -p linux-64
+            # linux-64 ONLY
+            conda-lock lock -f ../base-notebook/environment.yml -f ../pangeo-notebook/environment.yml -f environment.yml -p linux-64
           fi
           # Keep this format around for easy `conda install` w/o conda-lock or micromamba
           conda-lock render -k explicit -p linux-64
           ../generate-packages-list.py conda-linux-64.lock > packages.txt
 
       - name: Upload lockfiles
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: ${{ matrix.image }}
           path: ${{ matrix.image }}
@@ -62,13 +65,13 @@ jobs:
   # Each job will commit files, so we know it succeeds based on commits
   commit-lockfiles:
     needs: condalock
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     permissions:
       contents: write # for Git to git push
       pull-requests: write # for peter-evans/create-or-update-comment to create PR reaction
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           token: ${{ secrets.PANGEOBOT_TOKEN }}
           # These lines are critical, otherwise Pangeo-bot pushes changes directly to master from PRs!
@@ -77,7 +80,7 @@ jobs:
           persist-credentials: true
 
       # Download all artifacts from previous matrix job
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
 
       - name: Commit condalock files to PR
         run: |

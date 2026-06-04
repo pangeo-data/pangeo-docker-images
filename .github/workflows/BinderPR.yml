@@ -9,7 +9,7 @@ jobs:
   trigger-chatops:
     # Make sure the comment is on a PR, and contains the command "/binder"
     if: (github.event.issue.pull_request != null) && contains(github.event.comment.body, '/binder')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     permissions:
       pull-requests: write
 
