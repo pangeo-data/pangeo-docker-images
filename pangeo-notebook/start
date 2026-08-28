@@ -7,6 +7,17 @@ if ! [[ -z "${PANGEO_SCRATCH_PREFIX}" ]] && ! [[ -z "${JUPYTERHUB_USER}" ]]; the
     export PANGEO_SCRATCH="${PANGEO_SCRATCH_PREFIX}/${JUPYTERHUB_USER}/"
 fi
 
+echo "[INFO] Executing up startup scripts"
+for file in /usr/local/bin/*
+do
+  if [[ $file == *"start-notebook-"* ]]
+  then
+    echo "[INFO] Executing $file"
+    source "$file"
+  fi
+done
+echo "[INFO] Executing up startup scripts - Finished"
+
 # ==== ONLY EDIT WITHIN THIS BLOCK =====
 
 exec "$@"
