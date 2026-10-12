@@ -5,11 +5,11 @@ channels:
  - conda-forge
  - nodefaults
 dependencies:
- - cuda-version>=13.0
+ - cuda-version>=12.8
  - flax>=0.10.2
  - jax
- - jaxlib>=0.10.2=cuda13*
+ - jaxlib>=0.10.2=cuda12*
  - jupyterlab-nvdashboard
  - keras-cv
  - python=3.12 # https://github.com/conda-forge/tensorflow-feedstock/pull/409
- - tensorflow>=2.21.0=cuda13*
+ - tensorflow~=2.19.1=cuda12* # https://github.com/pangeo-data/pangeo-docker-images/pull/668#issuecomment-6092384145
