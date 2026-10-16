@@ -4,7 +4,7 @@ channels:
  - nodefaults
 dependencies:
  - adlfs
- - argopy<1.4.0  # wait for xarray >2025.9.0 compat
+ - argopy>=1.5.0
  - awscli
  - black
  - boto3
@@ -42,6 +42,7 @@ dependencies:
  - gsw
  - h5netcdf
  - h5py
+ - hdf5>=2
  - holoviews
  - hvplot
  - icechunk>=2
@@ -84,10 +85,9 @@ dependencies:
  - obstore
  - odc-stac>=0.4.0
  - openssh
- - pandas<3  # wait for bqplot support
+ - pandas<3  # remove pin if dropping stackstac, https://github.com/pangeo-data/pangeo-docker-images/pull/650#discussion_r3157259585
  - panel
- # wait for zarr v3 compat - https://github.com/OceanParcels/Parcels/issues/1819
- #- parcels
+ - parcels>=4.0.0
  - param
  - planetary-computer
  - pop-tools
